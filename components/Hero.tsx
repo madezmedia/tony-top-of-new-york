@@ -61,6 +61,9 @@ export const Hero: React.FC = () => {
             className="h-32 md:h-48 w-auto object-contain mx-auto"
             style={{ filter: 'drop-shadow(0 0 40px rgba(255,23,68,0.4))' }}
           />
+          <h2 className="font-display text-2xl md:text-3xl tracking-[0.3em] text-neutral-text mt-4 uppercase">
+            Top of New York
+          </h2>
         </motion.div>
 
         <motion.p
