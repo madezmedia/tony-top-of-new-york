@@ -39,9 +39,9 @@ export const ANIMATION_PRESETS = {
   glowPulse: {
     animate: {
       textShadow: [
-        '0 0 20px rgba(50, 184, 198, 0.3)',
-        '0 0 30px rgba(50, 184, 198, 0.6)',
-        '0 0 20px rgba(50, 184, 198, 0.3)',
+        '0 0 20px rgba(255, 23, 68, 0.3)',
+        '0 0 30px rgba(255, 23, 68, 0.6)',
+        '0 0 20px rgba(255, 23, 68, 0.3)',
       ],
     },
     transition: {

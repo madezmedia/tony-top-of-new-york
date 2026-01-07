@@ -59,7 +59,7 @@ export const Hero: React.FC = () => {
             src={buildImageUrl('brand', 'tony-logo', 'hero')}
             alt="T.O.N.Y."
             className="h-32 md:h-48 w-auto object-contain mx-auto"
-            style={{ filter: 'drop-shadow(0 0 40px rgba(50,184,198,0.4))' }}
+            style={{ filter: 'drop-shadow(0 0 40px rgba(255,23,68,0.4))' }}
           />
         </motion.div>
 
