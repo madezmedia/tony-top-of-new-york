@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { Overview } from './components/Overview';
+import { AboutSeries } from './components/AboutSeries';
 import { Cast } from './components/Cast';
 import { Episodes } from './components/Episodes';
 import { News } from './components/News';
@@ -15,7 +15,7 @@ function App() {
       <Navbar />
       <main>
         <Hero />
-        <Overview />
+        <AboutSeries />
         <Cast />
         <Episodes />
         <News />
