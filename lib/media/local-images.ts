@@ -6,6 +6,7 @@ export const LOCAL_IMAGES: Record<string, string> = {
   'promotional/hero-background': 'hero-background.jpeg',
   'promotional/story-scene': 'story-scene.jpeg',
   'cast/michael-steven-paul': 'michael-steven-paul.jpeg',
+  'cast/shana-bookman': 'shana-bookman.jpeg',
   'brand/tony-logo': 'tony-logo.jpg',
   // Add more local images as they are added to public/images/
 };

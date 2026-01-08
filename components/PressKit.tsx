@@ -88,17 +88,17 @@ export const PressKit: React.FC = () => {
           The Story
         </h3>
         <p className="text-neutral-textSecondary text-lg leading-relaxed mb-6">
-          T.O.N.Y. follows Detective Tony Rossi as he navigates the treacherous waters of New York City's criminal underworld.
-          In a city where loyalty is currency and betrayal is inevitable, one man's quest for justice threatens to expose
-          the corruption that runs deeper than anyone imagined.
+          In the unforgiving streets of the Bronx, power is earned, loyalty is tested, and survival comes at a cost.
+          T.O.N.Y. (Top Of New York) delivers a raw, unfiltered crime saga that exposes the power struggles between
+          street organizations and law enforcement—told from the inside by someone who lived it.
         </p>
         <div className="bg-primary-main/10 border-l-4 border-primary-main p-4 rounded-r-lg">
           <p className="font-bold text-white mb-2">Why This Story Now</p>
           <p className="text-neutral-textSecondary">
-            In an era of anti-heroes and moral ambiguity, T.O.N.Y. delivers a raw, unflinching look at the cost of
-            pursuing justice in a system designed to protect the powerful. Creator Michael Steven-Paul draws from
-            real stories of New York's streets to craft a narrative that resonates with today's conversations about
-            policing, power, and the thin line between right and wrong.
+            T.O.N.Y. fills a void in television—a flagship Bronx crime drama that doesn't romanticize or sanitize
+            the streets. Creator Michael Steven-Paul draws from his own experiences to craft characters so authentic
+            that audiences will recognize pieces of people they know, or once knew. This is truth without filters,
+            without compromise.
           </p>
         </div>
       </motion.div>

@@ -18,18 +18,18 @@ const STATS = [
 const THEMES = [
   {
     icon: '🔱',
-    title: 'Corruption',
-    description: 'In a city where power flows through badge and gun, the line between protector and predator blurs with every sunrise.',
+    title: 'Power',
+    description: 'In the Bronx, power is earned not given. Every move has consequences, and the streets keep score.',
   },
   {
     icon: '🩸',
     title: 'Family',
-    description: 'Blood ties bind tighter than handcuffs. When duty calls and family bleeds, which oath do you honor?',
+    description: 'Blood ties versus street loyalty. The Cortez dynasty and Beaumont empire collide where family means everything—and costs even more.',
   },
   {
     icon: '⚖️',
-    title: 'Redemption',
-    description: 'Every saint has a past, every sinner has a future. In the shadows of the NYPD, second chances come at a deadly price.',
+    title: 'Survival',
+    description: 'When everyone has an agenda, trust is a currency few can afford. In these streets, your silence is your survival.',
   },
 ];
 
@@ -70,10 +70,10 @@ export const AboutSeries: React.FC = () => {
             About the Series
           </span>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-neutral-text mb-6">
-            Where Justice Meets Its Shadow
+            Power Earned. Loyalty Tested.
           </h2>
           <p className="text-neutral-textSecondary text-lg max-w-2xl mx-auto">
-            A gritty crime drama that explores the dark underbelly of New York's finest
+            A raw, unfiltered crime saga from the streets of the Bronx
           </p>
         </motion.div>
 
@@ -109,17 +109,17 @@ export const AboutSeries: React.FC = () => {
             </h3>
             <div className="space-y-4 text-neutral-textSecondary leading-relaxed">
               <p>
-                Detective Tony Rossi has spent 20 years climbing the ranks of the NYPD,
-                building a reputation as an incorruptible force in a department riddled with
-                shadows. But when his partner is murdered and the evidence points to the
-                highest levels of the department, Tony must choose between the brotherhood
-                he's sworn to protect and the truth that could destroy everything.
+                In the unforgiving streets of the Bronx, Michael "El Bastardo" Cortez navigates
+                the treacherous collision between street life and law enforcement. As a key player
+                caught between the Cortez family legacy and the Beaumont empire, he must protect
+                his own from the demons of his past while power struggles threaten to destroy
+                everything he's built.
               </p>
               <p>
-                Set against the backdrop of modern-day New York City, T.O.N.Y. weaves together
-                the personal and the political, the intimate and the explosive, creating a
-                portrait of a city where the line between hero and villain is drawn in shades
-                of gray.
+                T.O.N.Y. exposes the raw power dynamics between street organizations and law
+                enforcement—told from the inside by someone who lived it. Where loyalty is
+                currency, betrayal is inevitable, and survival comes at a cost no one can
+                predict.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 mt-8">
@@ -148,9 +148,9 @@ export const AboutSeries: React.FC = () => {
               {/* Quote Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-neutral-bg via-neutral-bg/50 to-transparent flex items-end p-6">
                 <blockquote className="text-neutral-text italic text-lg">
-                  "In this city, the badge is just the beginning of the story."
+                  "In these streets, your word is your bond and your silence is your survival."
                   <cite className="block text-primary-main text-sm mt-2 not-italic font-bold">
-                    — Det. Tony Rossi
+                    — Michael Cortez
                   </cite>
                 </blockquote>
               </div>
@@ -200,10 +200,10 @@ export const AboutSeries: React.FC = () => {
                 Creator's Vision
               </span>
               <blockquote className="text-neutral-text text-lg md:text-xl italic leading-relaxed mb-4">
-                "I wanted to create a show that doesn't shy away from the moral complexity
-                of modern policing. T.O.N.Y. isn't about good cops versus bad cops—it's about
-                human beings trapped in an impossible system, making choices that define who
-                they are and who they'll become."
+                "My connection to T.O.N.Y. is deeply personal. The characters, dialogue, and
+                situations are rooted in my real experiences in the streets. This series
+                brings truth to light—without filters, without compromise. A gritty, organic,
+                pure New York-based adrenaline rush."
               </blockquote>
               <cite className="text-neutral-textSecondary not-italic">
                 <span className="font-bold text-neutral-text">Michael Steven-Paul</span>

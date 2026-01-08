@@ -19,10 +19,10 @@ export const Overview: React.FC = () => {
             Power. Loyalty. Betrayal.
           </h3>
           <p className="text-neutral-textSecondary text-lg leading-relaxed mb-6">
-            "Top of New York" follows Detective Tony Rossi as he uncovers a conspiracy that reaches from the gritty streets of the Bronx to the penthouses of Manhattan.
+            In the unforgiving streets of the Bronx, Michael "El Bastardo" Cortez navigates the treacherous collision between street life and law enforcement—where power is earned, not given, and every move has consequences.
           </p>
           <p className="text-neutral-textSecondary text-lg leading-relaxed">
-            When his partner is found dead under mysterious circumstances, Rossi must decide who to trust in a department riddled with moles. The closer he gets to the truth, the more dangerous the city becomes.
+            Caught between the Cortez family legacy and the Beaumont empire, Michael must protect his own from the demons of his past while the balance of power shifts with every alliance made and broken.
           </p>
         </motion.div>
 

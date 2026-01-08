@@ -72,7 +72,7 @@ export const Hero: React.FC = () => {
           animate="whileInView"
           className="text-neutral-textSecondary text-lg md:text-2xl max-w-2xl mb-10 leading-relaxed font-light"
         >
-          In a city that never sleeps, the line between justice and corruption is written in blood.
+          In the unforgiving streets of the Bronx, power is earned, loyalty is tested, and survival comes at a cost.
         </motion.p>
 
         <motion.div 
