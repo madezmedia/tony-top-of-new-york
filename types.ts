@@ -6,6 +6,38 @@ export interface CastMember {
   imageUrl: string;
 }
 
+// Enhanced Cast Types for Full Production Cast
+export type CastGroup =
+  | 'main'
+  | 'beaumont-family'
+  | 'cortez-family'
+  | 'law-enforcement'
+  | 'street'
+  | 'community';
+
+export interface EnhancedCastMember {
+  id: string;
+  characterName: string;
+  alias?: string;
+  actorName: string;
+  group: CastGroup;
+  order: number;
+  bio?: string;
+  imageUrl?: string;
+  isFeatured?: boolean;
+  socialLinks?: {
+    instagram?: string;
+    twitter?: string;
+    website?: string;
+  };
+}
+
+export interface CastGroupInfo {
+  id: CastGroup;
+  label: string;
+  description?: string;
+}
+
 export interface Episode {
   id: string;
   number: number;
