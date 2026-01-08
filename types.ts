@@ -47,6 +47,8 @@ export interface Episode {
   airDate: string;
   duration: string;
   thumbnailUrl: string;
+  slug: string;
+  isFree?: boolean;
 }
 
 export interface NewsItem {
