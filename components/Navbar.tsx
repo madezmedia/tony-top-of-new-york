@@ -45,9 +45,11 @@ export const Navbar: React.FC = () => {
                 {link.label}
               </a>
             ))}
-            <Button variant="primary" className="!px-6 !py-2 !text-xs">
-              Watch Now
-            </Button>
+            <a href="/watch">
+              <Button variant="primary" className="!px-6 !py-2 !text-xs">
+                Watch Now
+              </Button>
+            </a>
           </div>
 
           {/* Mobile Toggle */}
@@ -79,9 +81,11 @@ export const Navbar: React.FC = () => {
                 {link.label}
               </a>
             ))}
-            <Button variant="primary" onClick={() => setIsMobileMenuOpen(false)}>
-              Watch Now <Play size={16} fill="currentColor" />
-            </Button>
+            <a href="/watch" onClick={() => setIsMobileMenuOpen(false)}>
+              <Button variant="primary">
+                Watch Now <Play size={16} fill="currentColor" />
+              </Button>
+            </a>
           </motion.div>
         )}
       </AnimatePresence>

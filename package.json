@@ -11,14 +11,22 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.964.0",
     "@aws-sdk/s3-request-presigner": "^3.964.0",
+    "@mux/mux-player-react": "^3.10.2",
+    "@supabase/supabase-js": "^2.90.1",
     "cloudinary": "^2.8.0",
     "framer-motion": "^12.24.7",
+    "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react-dom": "^19.2.3",
+    "square": "^43.2.1"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.14.0",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vercel/node": "^5.5.16",
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
