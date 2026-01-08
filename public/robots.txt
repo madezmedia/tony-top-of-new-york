@@ -1,0 +1,8 @@
+# T.O.N.Y. - Top of New York
+# https://tonyseries.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://tonyseries.com/sitemap.xml
