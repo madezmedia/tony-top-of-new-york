@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Play, ChevronRight } from 'lucide-react';
 import { Section } from './ui/Section';
 import { Button } from './ui/Button';
 import { StreamingPlatforms } from './about/StreamingPlatforms';
+import { FullSynopsisModal } from './FullSynopsisModal';
 import { ANIMATION_PRESETS } from '../utils/animations';
 import { buildImageUrl } from '../lib/media';
 
@@ -212,6 +213,7 @@ export const AboutSeries: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const themesRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
+  const [isSynopsisOpen, setIsSynopsisOpen] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -301,7 +303,7 @@ export const AboutSeries: React.FC = () => {
               <Button variant="primary">
                 <Play size={18} fill="currentColor" /> Watch Trailer
               </Button>
-              <Button variant="outline">
+              <Button variant="outline" onClick={() => setIsSynopsisOpen(true)}>
                 Full Synopsis <ChevronRight size={18} />
               </Button>
             </div>
@@ -418,6 +420,12 @@ export const AboutSeries: React.FC = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Full Synopsis Modal */}
+      <FullSynopsisModal
+        isOpen={isSynopsisOpen}
+        onClose={() => setIsSynopsisOpen(false)}
+      />
     </Section>
   );
 };
