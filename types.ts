@@ -25,6 +25,7 @@ export interface EnhancedCastMember {
   bio?: string;
   imageUrl?: string;
   isFeatured?: boolean;
+  traits?: string[];
   socialLinks?: {
     instagram?: string;
     twitter?: string;

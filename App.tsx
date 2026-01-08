@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AboutSeries } from './components/AboutSeries';
-import { Cast } from './components/Cast';
+import { Players } from './components/Players';
 import { Episodes } from './components/Episodes';
 import { News } from './components/News';
 import { PressKit } from './components/PressKit';
@@ -16,7 +16,7 @@ function App() {
       <main>
         <Hero />
         <AboutSeries />
-        <Cast />
+        <Players />
         <Episodes />
         <News />
         <PressKit />

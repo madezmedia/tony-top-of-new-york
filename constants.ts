@@ -297,6 +297,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     isFeatured: true,
     bio: 'The creator and lead of the series. Michael Cortez navigates the corrupt underbelly of NYC while trying to keep his family safe from the demons of his past.',
     imageUrl: buildImageUrl('cast', 'michael-steven-paul', 'cast'),
+    traits: ['Mastermind', 'Ruthless', 'Family Man'],
   },
   {
     id: 'pheonix-beaumont',
@@ -307,6 +308,8 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     order: 2,
     isFeatured: true,
     imageUrl: buildImageUrl('cast', 'michelle-white', 'cast'),
+    traits: ['Queen Pin', 'Strategic', 'Fearless'],
+    bio: 'The matriarch of the Beaumont empire. Miss B runs her operations with an iron fist and a velvet glove.',
   },
   {
     id: 'rina',
@@ -317,6 +320,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     isFeatured: true,
     bio: 'Caught in the crossfire, Rina holds the secrets that could bring the entire syndicate down. Her survival depends on who she trusts.',
     imageUrl: buildImageUrl('cast', 'shana-bookman', 'cast'),
+    traits: ['Survivor', 'Secret Keeper', 'Unpredictable'],
   },
   {
     id: 'billy-black',
@@ -327,6 +331,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     isFeatured: true,
     bio: 'A complex antagonist who rules the streets with a code of honor. His rivalry with Michael is personal, deep-rooted in their shared history in the Bronx.',
     imageUrl: buildImageUrl('cast', 'britton-carter', 'cast'),
+    traits: ['Street King', 'Loyal', 'Dangerous'],
   },
   {
     id: 'enrique-cortez',
@@ -336,6 +341,8 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     order: 5,
     isFeatured: true,
     imageUrl: buildImageUrl('cast', 'raymond-broadwater', 'cast'),
+    traits: ['Patriarch', 'Old School', 'Respected'],
+    bio: 'The head of the Cortez family. His word is law, and his legacy is built on decades of power.',
   },
   {
     id: 'marisol-cortez',
@@ -345,6 +352,8 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     order: 6,
     isFeatured: true,
     imageUrl: buildImageUrl('cast', 'lynell-payano', 'cast'),
+    traits: ['Matriarch', 'Protector', 'Fierce'],
+    bio: 'The heart of the Cortez family. She holds them together through every storm.',
   },
   {
     id: 'selina-cortez',
@@ -352,7 +361,10 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Leslie Pena',
     group: 'main',
     order: 7,
+    isFeatured: true,
     imageUrl: buildImageUrl('cast', 'leslie-pena', 'cast'),
+    traits: ['Ambitious', 'Cunning', 'Rising Star'],
+    bio: 'The youngest Cortez with the most to prove. She\'s ready to carve her own path.',
   },
 
   // === THE BEAUMONT FAMILY ===
