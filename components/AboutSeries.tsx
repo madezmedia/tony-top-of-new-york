@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { Play, ChevronRight } from 'lucide-react';
+import { Play, ChevronRight, Zap, Heart, Shield } from 'lucide-react';
 import { Section } from './ui/Section';
 import { Button } from './ui/Button';
 import { StreamingPlatforms } from './about/StreamingPlatforms';
@@ -10,17 +10,17 @@ import { buildImageUrl } from '../lib/media';
 
 const THEMES = [
   {
-    icon: '🔱',
+    icon: <Zap size={28} strokeWidth={1.5} />,
     title: 'Power',
     description: 'In the Bronx, power is earned not given. Every move has consequences, and the streets keep score.',
   },
   {
-    icon: '🩸',
+    icon: <Heart size={28} strokeWidth={1.5} />,
     title: 'Family',
     description: 'Blood ties versus street loyalty. The Cortez dynasty and Beaumont empire collide where family means everything—and costs even more.',
   },
   {
-    icon: '⚖️',
+    icon: <Shield size={28} strokeWidth={1.5} />,
     title: 'Survival',
     description: 'When everyone has an agenda, trust is a currency few can afford. In these streets, your silence is your survival.',
   },
@@ -149,21 +149,27 @@ export const AboutSeries: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="mb-20"
+          className="mb-20 relative"
         >
-          <h3 className="font-display text-2xl md:text-3xl font-bold text-neutral-text mb-8 text-center">
-            Core Themes
-          </h3>
-          <motion.div
-            variants={ANIMATION_PRESETS.containerVariants}
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            className="grid md:grid-cols-3 gap-6"
-          >
-            {THEMES.map((theme) => (
-              <ThemeCard key={theme.title} {...theme} />
-            ))}
-          </motion.div>
+          {/* Background Overlay */}
+          <div className="absolute inset-0 -mx-4 md:-mx-8 px-4 md:px-8 py-12 -my-12 bg-gradient-to-b from-primary-main/5 via-primary-main/10 to-primary-main/5 rounded-3xl" />
+          <div className="absolute inset-0 -mx-4 md:-mx-8 px-4 md:px-8 py-12 -my-12 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-main/10 via-transparent to-transparent rounded-3xl" />
+
+          <div className="relative z-10">
+            <h3 className="font-display text-2xl md:text-3xl font-bold text-neutral-text mb-8 text-center">
+              Core Themes
+            </h3>
+            <motion.div
+              variants={ANIMATION_PRESETS.containerVariants}
+              initial="hidden"
+              animate={isInView ? 'visible' : 'hidden'}
+              className="grid md:grid-cols-3 gap-6"
+            >
+              {THEMES.map((theme) => (
+                <ThemeCard key={theme.title} {...theme} />
+              ))}
+            </motion.div>
+          </div>
         </motion.div>
 
         {/* Creator's Vision */}
@@ -171,28 +177,34 @@ export const AboutSeries: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="bg-neutral-surface/40 backdrop-blur border border-neutral-border rounded-2xl p-8 md:p-12"
+          className="bg-neutral-surface/40 backdrop-blur border border-neutral-border rounded-2xl overflow-hidden"
         >
-          <div className="flex flex-col md:flex-row gap-8 items-center">
-            {/* Creator Image Placeholder */}
-            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-primary-main/30 to-secondary-main/30 flex items-center justify-center shrink-0">
-              <span className="text-4xl">🎬</span>
+          <div className="grid md:grid-cols-[300px_1fr] gap-0">
+            {/* Creator Portrait */}
+            <div className="relative h-64 md:h-auto">
+              <img
+                src={buildImageUrl('cast', 'michael-steven-paul', 'cast')}
+                alt="Michael Steven-Paul"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-neutral-surface/80 hidden md:block" />
+              <div className="absolute inset-0 bg-gradient-to-t from-neutral-surface/80 to-transparent md:hidden" />
             </div>
 
-            <div>
-              <span className="text-primary-main font-bold tracking-widest uppercase text-xs mb-2 block">
+            {/* Quote Content */}
+            <div className="p-8 md:p-12 flex flex-col justify-center">
+              <span className="text-primary-main font-bold tracking-widest uppercase text-xs mb-4 block">
                 Creator's Vision
               </span>
-              <blockquote className="text-neutral-text text-lg md:text-xl italic leading-relaxed mb-4">
+              <blockquote className="text-neutral-text text-lg md:text-xl italic leading-relaxed mb-6">
                 "My connection to T.O.N.Y. is deeply personal. The characters, dialogue, and
                 situations are rooted in my real experiences in the streets. This series
                 brings truth to light—without filters, without compromise. A gritty, organic,
                 pure New York-based adrenaline rush."
               </blockquote>
               <cite className="text-neutral-textSecondary not-italic">
-                <span className="font-bold text-neutral-text">Michael Steven-Paul</span>
-                <span className="mx-2">•</span>
-                Creator & Executive Producer
+                <span className="font-bold text-neutral-text text-lg">Michael Steven-Paul</span>
+                <span className="block text-sm mt-1">Creator & Executive Producer</span>
               </cite>
             </div>
           </div>
