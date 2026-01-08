@@ -50,4 +50,30 @@ export const ANIMATION_PRESETS = {
       repeat: Infinity,
     },
   },
+  // Bento grid animations for Core Themes section
+  bentoCardVariants: {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.7, ease: 'easeOut' },
+    },
+  },
+  glowingOrbPulse: {
+    animate: {
+      scale: [1, 1.2, 1],
+      opacity: [0.2, 0.4, 0.2],
+    },
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: 'easeInOut',
+    },
+  },
+  accentLineReveal: {
+    initial: { width: 0 },
+    whileInView: { width: '100%' },
+    viewport: { once: true },
+    transition: { duration: 1, delay: 0.5, ease: 'easeOut' },
+  },
 };
