@@ -3,12 +3,14 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Play, Info } from 'lucide-react';
 import { Button } from './ui/Button';
 import { TrailerModal } from './TrailerModal';
+import { AboutSeriesModal } from './AboutSeriesModal';
 import { ANIMATION_PRESETS } from '../utils/animations';
 import { buildImageUrl } from '../lib/media';
 
 export const Hero: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 1000], [0, 400]);
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
@@ -88,7 +90,7 @@ export const Hero: React.FC = () => {
           >
             <Play size={18} fill="currentColor" /> Watch Trailer
           </Button>
-          <Button variant="outline" className="w-full md:w-auto">
+          <Button variant="outline" className="w-full md:w-auto" onClick={() => setIsAboutOpen(true)}>
             <Info size={18} /> About Series
           </Button>
         </motion.div>
@@ -107,6 +109,12 @@ export const Hero: React.FC = () => {
       <TrailerModal
         isOpen={isTrailerOpen}
         onClose={() => setIsTrailerOpen(false)}
+      />
+
+      {/* About Series Modal */}
+      <AboutSeriesModal
+        isOpen={isAboutOpen}
+        onClose={() => setIsAboutOpen(false)}
       />
     </section>
   );
