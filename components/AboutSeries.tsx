@@ -3,17 +3,10 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Play, ChevronRight } from 'lucide-react';
 import { Section } from './ui/Section';
 import { Button } from './ui/Button';
-import { StatBadge } from './about/StatBadge';
+import { StreamingPlatforms } from './about/StreamingPlatforms';
 import { ThemeCard } from './about/ThemeCard';
 import { ANIMATION_PRESETS } from '../utils/animations';
 import { buildImageUrl } from '../lib/media';
-
-const STATS = [
-  { icon: '🏆', label: 'Award Nominations', value: '12+' },
-  { icon: '⭐', label: 'IMDb Rating', value: '8.7' },
-  { icon: '👁️', label: 'Pilot Views', value: '2.5M+' },
-  { icon: '🎬', label: 'Episodes', value: '10' },
-];
 
 const THEMES = [
   {
@@ -77,23 +70,14 @@ export const AboutSeries: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Stats Row */}
+        {/* Streaming Platforms */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20"
+          className="mb-20"
         >
-          {STATS.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-            >
-              <StatBadge {...stat} />
-            </motion.div>
-          ))}
+          <StreamingPlatforms />
         </motion.div>
 
         {/* Main Story Section - Two Column */}
