@@ -6,7 +6,8 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Cast', href: '#cast' },
   { label: 'Episodes', href: '#episodes' },
   { label: 'News', href: '#news' },
-  { label: 'Press Kit', href: '#presskit' },
+  // Press Kit hidden until assets are ready - restore by setting VITE_ENABLE_PRESS_KIT=true
+  // { label: 'Press Kit', href: '#presskit' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -61,7 +62,8 @@ export const EPISODES: Episode[] = [
     number: 1,
     title: 'Concrete Jungle',
     slug: 's1e1-concrete-jungle',
-    isFree: true,
+    isFree: false, // Paid - full season purchase required
+    status: 'available', // Episode 1 is available now
     description: 'Michael Cortez returns to the Bronx after years away, only to find the streets he once knew have new kings—and old debts waiting to be collected.',
     airDate: 'Oct 12, 2023',
     duration: '48m',
@@ -73,8 +75,10 @@ export const EPISODES: Episode[] = [
     title: 'Shadows of the Empire',
     slug: 's1e2-shadows-of-the-empire',
     isFree: false,
+    status: 'in-production', // In production
+    releaseDate: 'Spring 2026', // Expected release
     description: 'Billy Black makes his move for territory while Miss B summons Michael to discuss the future of the Beaumont empire. Trust is a luxury no one can afford.',
-    airDate: 'Oct 19, 2023',
+    airDate: 'TBA',
     duration: '52m',
     thumbnailUrl: buildImageUrl('episodes', 's01e02-shadows-of-the-empire', 'card'),
   },
@@ -84,8 +88,10 @@ export const EPISODES: Episode[] = [
     title: 'Bridge and Tunnel',
     slug: 's1e3-bridge-and-tunnel',
     isFree: false,
+    status: 'in-production', // In production
+    releaseDate: 'Spring 2026', // Expected release
     description: 'As law enforcement closes in, alliances are tested. Michael must choose between protecting the Cortez family legacy and his own survival.',
-    airDate: 'Oct 26, 2023',
+    airDate: 'TBA',
     duration: '50m',
     thumbnailUrl: buildImageUrl('episodes', 's01e03-bridge-and-tunnel', 'card'),
   },

@@ -49,6 +49,8 @@ export interface Episode {
   thumbnailUrl: string;
   slug: string;
   isFree?: boolean;
+  status?: 'available' | 'coming-soon' | 'in-production';
+  releaseDate?: string;
 }
 
 export interface NewsItem {

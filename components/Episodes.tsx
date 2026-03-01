@@ -6,7 +6,7 @@ import { Button } from './ui/Button';
 import { EPISODES } from '../constants';
 import { ANIMATION_PRESETS } from '../utils/animations';
 
-const FILM_PRICE_CENTS = 999;
+const FILM_PRICE_CENTS = 499;
 
 export const Episodes: React.FC = () => {
   const priceDisplay = `$${(FILM_PRICE_CENTS / 100).toFixed(2)}`;
@@ -48,14 +48,20 @@ export const Episodes: React.FC = () => {
             </div>
             <div>
               <h4 className="text-xl md:text-2xl font-display font-bold text-white mb-2">
-                Season 1 Now Available
+                Episode 1 Available Now • Own the Full Season for {priceDisplay}
               </h4>
               <div className="flex flex-wrap gap-4 text-sm text-neutral-textSecondary">
                 <span className="flex items-center gap-1.5">
-                  <Play size={14} className="text-primary-main" /> Stream all 10 episodes
+                  <Play size={14} className="text-primary-main" /> Watch Episode 1 now
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Calendar size={14} className="text-primary-main" /> Episodes 2 & 3 in production
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Download size={14} className="text-primary-main" /> Download in 4K
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Tv size={14} className="text-primary-main" /> Future episodes included
                 </span>
               </div>
             </div>
@@ -76,12 +82,8 @@ export const Episodes: React.FC = () => {
 
       {/* Episode Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {EPISODES.map((ep, index) => (
-          <a
-            href={ep.isFree ? `/watch/${ep.slug}` : '/watch'}
-            key={ep.id}
-            className="block"
-          >
+        {EPISODES.map((ep, index) => {
+          const CardContent = (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -96,10 +98,19 @@ export const Episodes: React.FC = () => {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
 
-                {/* Overlay - different for free vs locked */}
-                {ep.isFree ? (
+                {/* Overlay - different for available vs in-production vs locked */}
+                {ep.status === 'available' ? (
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                     <PlayCircle size={48} className="text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
+                  </div>
+                ) : ep.status === 'in-production' || ep.status === 'coming-soon' ? (
+                  <div className="absolute inset-0 bg-black/75 flex items-center justify-center">
+                    <div className="text-center px-4">
+                      <Calendar size={32} className="text-white/60 mx-auto mb-2" />
+                      {ep.releaseDate && (
+                        <p className="text-white/90 text-sm font-medium tracking-wide">{ep.releaseDate}</p>
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <div className="absolute inset-0 bg-black/60 group-hover:bg-black/50 transition-colors flex items-center justify-center">
@@ -111,13 +122,25 @@ export const Episodes: React.FC = () => {
 
                 {/* Badge */}
                 <div className="absolute top-3 left-3">
-                  {ep.isFree ? (
+                  {ep.status === 'available' && !ep.isFree ? (
                     <span className="bg-green-600 text-white text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wide">
-                      Free Preview
+                      Available Now
+                    </span>
+                  ) : ep.status === 'available' && ep.isFree ? (
+                    <span className="bg-green-600 text-white text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wide">
+                      Available • Free
+                    </span>
+                  ) : ep.status === 'in-production' ? (
+                    <span className="bg-orange-600 text-white text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wide">
+                      In Production
+                    </span>
+                  ) : ep.status === 'coming-soon' ? (
+                    <span className="bg-primary-main text-white text-xs font-bold px-2.5 py-1 rounded uppercase tracking-wide">
+                      Coming Soon
                     </span>
                   ) : (
                     <span className="bg-neutral-bg/90 backdrop-blur-sm text-white text-xs font-medium px-2.5 py-1 rounded flex items-center gap-1.5">
-                      <Lock size={10} /> Purchase to Watch
+                      <Lock size={10} /> ${(FILM_PRICE_CENTS / 100).toFixed(2)} to unlock
                     </span>
                   )}
                 </div>
@@ -142,9 +165,17 @@ export const Episodes: React.FC = () => {
 
               {/* Hover CTA hint */}
               <div className="mt-3 flex items-center gap-2 text-sm font-medium text-primary-main opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {ep.isFree ? (
+                {ep.status === 'available' && ep.isFree ? (
                   <>
                     <Play size={14} fill="currentColor" /> Watch Free
+                  </>
+                ) : ep.status === 'available' && !ep.isFree ? (
+                  <>
+                    <Lock size={14} /> Unlock for {priceDisplay}
+                  </>
+                ) : ep.status === 'in-production' || ep.status === 'coming-soon' ? (
+                  <>
+                    <Calendar size={14} /> {ep.releaseDate || 'Coming Soon'}
                   </>
                 ) : (
                   <>
@@ -153,8 +184,28 @@ export const Episodes: React.FC = () => {
                 )}
               </div>
             </motion.div>
-          </a>
-        ))}
+          );
+
+          // If in production or coming soon, don't make it clickable
+          if (ep.status === 'in-production' || ep.status === 'coming-soon') {
+            return (
+              <div key={ep.id} className="opacity-80 cursor-not-allowed">
+                {CardContent}
+              </div>
+            );
+          }
+
+          // Available or locked episodes are clickable
+          return (
+            <a
+              href={ep.isFree ? `/watch/${ep.slug}` : '/watch'}
+              key={ep.id}
+              className="block"
+            >
+              {CardContent}
+            </a>
+          );
+        })}
       </div>
     </Section>
   );

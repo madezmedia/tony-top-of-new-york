@@ -26,9 +26,12 @@ function useRoute() {
 function App() {
   const path = useRoute();
 
+  // Feature toggles via environment variables
+  const ENABLE_PRESS_KIT = process.env.VITE_ENABLE_PRESS_KIT === 'true';
+
   // Handle /watch and /watch/:slug routes
   if (path.startsWith('/watch')) {
-    const slug = path.split('/')[2] || 'tony-top-of-new-york';
+    const slug = path.split('/')[2] || 's1e1-concrete-jungle';
     return <WatchPage slug={slug} />;
   }
 
@@ -65,7 +68,7 @@ function App() {
         <Players />
         <Episodes />
         <News />
-        <PressKit />
+        {ENABLE_PRESS_KIT && <PressKit />}
         <Contact />
       </main>
       <Footer />

@@ -53,7 +53,7 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'tony-top-of-new-yo
             id: 'default',
             slug,
             title: 'T.O.N.Y. - Top of New York',
-            priceCents: 999,
+            priceCents: 499,
             trailerUrl: 'https://www.youtube.com/embed/F1wtn1g_SZI',
           });
           setLoading(false);
@@ -73,7 +73,7 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'tony-top-of-new-yo
           id: 'default',
           slug,
           title: 'T.O.N.Y. - Top of New York',
-          priceCents: 999,
+          priceCents: 499,
           trailerUrl: 'https://www.youtube.com/embed/F1wtn1g_SZI',
         });
       } finally {
