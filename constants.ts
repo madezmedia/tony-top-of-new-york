@@ -54,6 +54,13 @@ export const CAST_MEMBERS: CastMember[] = [
     bio: 'The patriarch of the Cortez family. Enrique\'s legacy looms large over Michael, and the weight of family expectation is as heavy as any threat from the streets.',
     imageUrl: buildImageUrl('cast', 'raymond-broadwater', 'cast'),
   },
+  {
+    id: '7',
+    name: 'Jennifer Askew',
+    role: 'Diamond',
+    bio: 'Caught in the crossfire of the Bronx streets, Diamond shines bright amidst the chaos, navigating the gritty underworld with razor-sharp ambition.',
+    imageUrl: buildImageUrl('cast', 'jennifer-askew', 'cast'),
+  },
 ];
 
 export const EPISODES: Episode[] = [
@@ -319,7 +326,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     group: 'main',
     order: 2,
     isFeatured: true,
-    imageUrl: buildImageUrl('cast', 'michelle-white', 'cast'),
+    imageUrl: buildImageUrl('cast', 'IMG_0534_mle0qw', 'cast', { useCloudinary: true }),
     traits: ['Queen Pin', 'Strategic', 'Fearless'],
     bio: 'The matriarch of the Beaumont empire. Miss B runs her operations with an iron fist and a velvet glove.',
   },
@@ -367,17 +374,6 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     traits: ['Matriarch', 'Protector', 'Fierce'],
     bio: 'The heart of the Cortez family. She holds them together through every storm.',
   },
-  {
-    id: 'selina-cortez',
-    characterName: 'SELINA CORTEZ',
-    actorName: 'Leslie Pena',
-    group: 'main',
-    order: 7,
-    isFeatured: true,
-    imageUrl: buildImageUrl('cast', 'leslie-pena', 'cast'),
-    traits: ['Ambitious', 'Cunning', 'Rising Star'],
-    bio: 'The youngest Cortez with the most to prove. She\'s ready to carve her own path.',
-  },
 
   // === THE BEAUMONT FAMILY ===
   {
@@ -386,6 +382,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tatiana Honesty',
     group: 'beaumont-family',
     order: 1,
+    imageUrl: buildImageUrl('cast', 'IMG_0680_hpltyw', 'cast', { useCloudinary: true }),
   },
   {
     id: 'brandi-beaumont',
@@ -393,6 +390,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Bilae Harding',
     group: 'beaumont-family',
     order: 2,
+    imageUrl: buildImageUrl('cast', 'IMG_0731_dpyrai', 'cast', { useCloudinary: true }),
   },
   {
     id: 'maxx-beaumont',
@@ -400,6 +398,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Dwight Williams',
     group: 'beaumont-family',
     order: 3,
+    imageUrl: buildImageUrl('cast', 'IMG_0685_nbmhae', 'cast', { useCloudinary: true }),
   },
 
   // === THE CORTEZ FAMILY ===
@@ -409,6 +408,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Kimani Sanders',
     group: 'cortez-family',
     order: 1,
+    imageUrl: buildImageUrl('cast', 'IMG_0753_h1rx5x', 'cast', { useCloudinary: true }),
   },
   {
     id: 'ricardo-alvarez',
@@ -417,6 +417,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'John Garcia',
     group: 'cortez-family',
     order: 2,
+    imageUrl: buildImageUrl('cast', 'IMG_0687_pnjsyl', 'cast', { useCloudinary: true }),
   },
   {
     id: 'domingo',
@@ -425,6 +426,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Giodarni Vargas',
     group: 'cortez-family',
     order: 3,
+    imageUrl: buildImageUrl('cast', 'IMG_0741_fd4xdo', 'cast', { useCloudinary: true }),
   },
 
   // === LAW ENFORCEMENT & LEGAL ===
@@ -434,6 +436,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Liana Battise',
     group: 'law-enforcement',
     order: 1,
+    imageUrl: buildImageUrl('cast', 'IMG_0688_jpmgr1', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-chase',
@@ -441,6 +444,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Gilly Delgado',
     group: 'law-enforcement',
     order: 2,
+    imageUrl: buildImageUrl('cast', 'IMG_0739_ejbox0', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-barnes',
@@ -448,6 +452,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Lezette Newland',
     group: 'law-enforcement',
     order: 3,
+    imageUrl: buildImageUrl('cast', 'IMG_0758_umitdt', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-waters',
@@ -455,6 +460,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Corrina Lynch',
     group: 'law-enforcement',
     order: 4,
+    imageUrl: buildImageUrl('cast', 'IMG_0539_ixv1h1', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-kazaan',
@@ -462,6 +468,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Fallon Shaya',
     group: 'law-enforcement',
     order: 5,
+    imageUrl: buildImageUrl('cast', 'IMG_0763_aezs0t', 'cast', { useCloudinary: true }),
   },
   {
     id: 'levie-maxxi',
@@ -469,6 +476,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Anthony Weston Jr.',
     group: 'law-enforcement',
     order: 6,
+    imageUrl: buildImageUrl('cast', 'IMG_0774_t18co4', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-cage',
@@ -476,6 +484,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Leroy Blocker',
     group: 'law-enforcement',
     order: 7,
+    imageUrl: buildImageUrl('cast', 'IMG_2221_fql8n8', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-branson',
@@ -483,6 +492,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Alonzo Ward',
     group: 'law-enforcement',
     order: 8,
+    imageUrl: buildImageUrl('cast', 'IMG_0572_wznnbd', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-jefferies',
@@ -490,6 +500,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Ginette Jean',
     group: 'law-enforcement',
     order: 9,
+    imageUrl: buildImageUrl('cast', 'IMG_0582_d1wfei', 'cast', { useCloudinary: true }),
   },
   {
     id: 'detective-cordell',
@@ -497,6 +508,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Sid Savage',
     group: 'law-enforcement',
     order: 10,
+    imageUrl: buildImageUrl('cast', 'IMG_2215_y8sgco', 'cast', { useCloudinary: true }),
   },
   {
     id: 'da-laurent',
@@ -504,6 +516,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tracey Harris',
     group: 'law-enforcement',
     order: 11,
+    imageUrl: buildImageUrl('cast', 'IMG_0583_caml1j', 'cast', { useCloudinary: true }),
   },
   {
     id: 'da-crocket',
@@ -511,6 +524,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tahira Robinson',
     group: 'law-enforcement',
     order: 12,
+    imageUrl: buildImageUrl('cast', 'IMG_2213_m6kurj', 'cast', { useCloudinary: true }),
   },
   {
     id: 'ada-dorsey',
@@ -570,6 +584,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Yogi Garland',
     group: 'street',
     order: 1,
+    imageUrl: buildImageUrl('cast', 'IMG_2219_tkvihj', 'cast', { useCloudinary: true }),
   },
   {
     id: 'marvin-bishop',
@@ -577,6 +592,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Craig De Lano Cobb',
     group: 'street',
     order: 2,
+    imageUrl: buildImageUrl('cast', 'IMG_2222_i5mbkl', 'cast', { useCloudinary: true }),
   },
   {
     id: 'kat-calloway',
@@ -584,6 +600,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'ElMeleek Ekko Seven',
     group: 'street',
     order: 3,
+    imageUrl: buildImageUrl('cast', 'IMG_2220_xjsapa', 'cast', { useCloudinary: true }),
   },
   {
     id: 'shaborn',
@@ -591,6 +608,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tone Murk',
     group: 'street',
     order: 4,
+    imageUrl: buildImageUrl('cast', 'IMG_2221_fmwokj', 'cast', { useCloudinary: true }),
   },
   {
     id: 'stixx',
@@ -685,6 +703,17 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Money Pot',
     group: 'street',
     order: 17,
+  },
+  {
+    id: 'jennifer-askew',
+    characterName: 'DIAMOND',
+    alias: 'DIAMOND',
+    actorName: 'Jennifer Askew',
+    group: 'street',
+    order: 18,
+    bio: 'Caught in the crossfire of the Bronx streets, Diamond shines bright amidst the chaos, navigating the gritty underworld with razor-sharp ambition.',
+    imageUrl: buildImageUrl('cast', 'jennifer-askew', 'cast'),
+    traits: ['Ambitious', 'Fearless', 'Loyal'],
   },
 
   // === COMMUNITY & FAITH ===

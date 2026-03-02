@@ -12,7 +12,7 @@ export const Episodes: React.FC = () => {
   const priceDisplay = `$${(FILM_PRICE_CENTS / 100).toFixed(2)}`;
 
   return (
-    <Section id="episodes">
+    <Section id="episodes" className="bg-black/95 relative border-y border-primary-main/10 shadow-[inset_0_0_100px_rgba(0,0,0,1)]">
       {/* Header */}
       <motion.div
         variants={ANIMATION_PRESETS.slideUp}
@@ -39,7 +39,7 @@ export const Episodes: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.1, duration: 0.5 }}
-        className="mb-10 bg-gradient-to-r from-primary-main/20 via-primary-main/10 to-transparent border border-primary-main/30 rounded-xl p-6 md:p-8"
+        className="mb-10 bg-gradient-to-r from-primary-main/20 via-primary-main/5 to-black border border-primary-main/30 rounded-sm p-6 md:p-8 shadow-[0_0_30px_rgba(230,16,37,0.15)]"
       >
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-start gap-4">
@@ -52,13 +52,13 @@ export const Episodes: React.FC = () => {
               </h4>
               <div className="flex flex-wrap gap-4 text-sm text-neutral-textSecondary">
                 <span className="flex items-center gap-1.5">
-                  <Play size={14} className="text-primary-main" /> Watch Episode 1 now
+                  <Play size={14} className="text-primary-main" /> Direct Stream Powered by Mux
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Calendar size={14} className="text-primary-main" /> Episodes 2 & 3 in production
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Download size={14} className="text-primary-main" /> Download in 4K
+                  <Download size={14} className="text-primary-main" /> Uncensored 4K Access
                 </span>
                 <span className="flex items-center gap-1.5">
                   <Tv size={14} className="text-primary-main" /> Future episodes included
@@ -89,9 +89,10 @@ export const Episodes: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ y: -5, scale: 1.02 }}
               className="group cursor-pointer"
             >
-              <div className="relative aspect-video rounded-lg overflow-hidden mb-4 border border-neutral-border group-hover:border-primary-main/50 transition-colors">
+              <div className="relative aspect-video rounded-sm overflow-hidden mb-4 border border-primary-main/20 group-hover:border-primary-main/60 group-hover:shadow-[0_0_20px_rgba(230,16,37,0.3)] transition-all duration-300">
                 <img
                   src={ep.thumbnailUrl}
                   alt={ep.title}

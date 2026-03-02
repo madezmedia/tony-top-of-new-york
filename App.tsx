@@ -60,7 +60,9 @@ function App() {
 
   // Default: Home page
   return (
-    <div className="min-h-screen bg-neutral-bg text-neutral-text font-sans antialiased selection:bg-primary-main/30">
+    <div className="min-h-screen bg-neutral-bg text-neutral-text font-sans antialiased selection:bg-primary-main/30 relative">
+      <div className="film-grain animate-noise"></div>
+      <div className="vignette"></div>
       <Navbar />
       <main>
         <Hero />

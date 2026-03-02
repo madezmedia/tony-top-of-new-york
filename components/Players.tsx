@@ -12,9 +12,9 @@ import { GroupPreview } from './players/GroupPreview';
 import { CastList } from './cast/CastList';
 
 export const Players: React.FC = () => {
-  const featuredCast = ENHANCED_CAST.filter((member) => member.isFeatured);
+  const displayCast = ENHANCED_CAST.filter((member) => member.imageUrl);
   const [activePlayer, setActivePlayer] = useState<EnhancedCastMember>(
-    featuredCast[0]
+    displayCast[0]
   );
   const [selectedMember, setSelectedMember] = useState<EnhancedCastMember | null>(null);
 
@@ -27,7 +27,7 @@ export const Players: React.FC = () => {
   };
 
   return (
-    <Section id="cast" className="bg-neutral-surface/30">
+    <Section id="cast" className="bg-neutral-bg relative border-y border-primary-main/10 shadow-[inset_0_0_100px_rgba(0,0,0,1)]">
       {/* Section Header */}
       <motion.div
         variants={ANIMATION_PRESETS.slideUp}
@@ -68,7 +68,7 @@ export const Players: React.FC = () => {
           Select a Player
         </h3>
         <PlayerGrid
-          players={featuredCast}
+          players={displayCast}
           activePlayerId={activePlayer.id}
           onSelectPlayer={setActivePlayer}
         />
@@ -147,7 +147,7 @@ export const Players: React.FC = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ type: 'spring', duration: 0.5 }}
-              className="relative w-full max-w-5xl bg-neutral-surface border border-neutral-border rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row max-h-[90vh]"
+              className="relative w-full max-w-5xl bg-black border border-primary-main/40 rounded-sm overflow-hidden shadow-[0_0_50px_rgba(230,16,37,0.3)] flex flex-col md:flex-row max-h-[90vh]"
             >
               {/* Close Button */}
               <button

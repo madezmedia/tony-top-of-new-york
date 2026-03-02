@@ -17,9 +17,8 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navbarClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-    isScrolled ? 'bg-neutral-bg/90 backdrop-blur-md py-4 shadow-lg border-b border-neutral-border/30' : 'bg-transparent py-6'
-  }`;
+  const navbarClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-neutral-bg/95 backdrop-blur-xl py-4 shadow-[0_4px_30px_rgba(5,3,3,0.9)] border-b border-primary-main/20' : 'bg-gradient-to-b from-black/90 via-black/50 to-transparent py-8'
+    }`;
 
   return (
     <>
@@ -40,9 +39,10 @@ export const Navbar: React.FC = () => {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium text-neutral-text hover:text-primary-main transition-colors tracking-wide uppercase"
+                className="text-sm font-bold text-neutral-text hover:text-primary-main hover:drop-shadow-[0_0_8px_rgba(230,16,37,0.8)] transition-all tracking-[0.1em] uppercase relative group"
               >
                 {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-main transition-all duration-300 group-hover:w-full shadow-[0_0_8px_rgba(230,16,37,0.8)]"></span>
               </a>
             ))}
             <a href="/watch">
@@ -76,9 +76,10 @@ export const Navbar: React.FC = () => {
                 key={link.label}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="text-2xl font-display font-bold text-white hover:text-primary-main"
+                className="text-2xl font-display font-bold text-white hover:text-primary-main hover:drop-shadow-[0_0_15px_rgba(230,16,37,0.8)] transition-all uppercase tracking-widest relative group"
               >
                 {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-main transition-all duration-300 group-hover:w-full shadow-[0_0_8px_rgba(230,16,37,0.8)]"></span>
               </a>
             ))}
             <a href="/watch" onClick={() => setIsMobileMenuOpen(false)}>

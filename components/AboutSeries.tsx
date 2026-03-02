@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Play, ChevronRight } from 'lucide-react';
 import { Section } from './ui/Section';
 import { Button } from './ui/Button';
-import { StreamingPlatforms } from './about/StreamingPlatforms';
 import { FullSynopsisModal } from './FullSynopsisModal';
 import { ANIMATION_PRESETS } from '../utils/animations';
 import { buildImageUrl } from '../lib/media';
@@ -128,7 +127,7 @@ const BentoThemeCard: React.FC<BentoThemeCardProps> = ({
     transition={{ duration: 0.7, delay }}
     className={`${colSpan} group relative overflow-hidden`}
   >
-    <div className={`relative bg-neutral-surface/40 backdrop-blur-xl border border-primary-main/20 rounded-3xl p-8 md:p-12 h-full ${minHeight} hover:border-primary-main/60 transition-all duration-500`}>
+    <div className={`relative bg-black/80 backdrop-blur-md border border-primary-main/30 rounded-xl p-8 md:p-12 h-full ${minHeight} hover:border-primary-main group-hover:shadow-[0_0_30px_rgba(230,16,37,0.2)] transition-all duration-500`}>
       {/* Grid Background Pattern (for Power card) */}
       {hasGrid && (
         <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -263,15 +262,7 @@ export const AboutSeries: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Streaming Platforms */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-20"
-        >
-          <StreamingPlatforms />
-        </motion.div>
+        {/* Streaming Platforms removed - now direct to Mux */}
 
         {/* Main Story Section - Two Column */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
@@ -316,7 +307,7 @@ export const AboutSeries: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="relative group"
           >
-            <div className="relative overflow-hidden rounded-xl border border-neutral-border">
+            <div className="relative overflow-hidden rounded-sm border border-primary-main/30 shadow-[0_0_20px_rgba(230,16,37,0.1)] group-hover:shadow-[0_0_30px_rgba(230,16,37,0.3)] transition-all duration-500">
               <img
                 src={buildImageUrl('promotional', 'hero-background', 'hero')}
                 alt="T.O.N.Y. Scene"
@@ -387,7 +378,7 @@ export const AboutSeries: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="bg-neutral-surface/40 backdrop-blur border border-neutral-border rounded-2xl overflow-hidden"
+          className="bg-black/80 backdrop-blur-md border border-primary-main/30 rounded-xl overflow-hidden group hover:shadow-[0_0_40px_rgba(230,16,37,0.15)] transition-all duration-500"
         >
           <div className="grid md:grid-cols-[300px_1fr] gap-0">
             {/* Creator Portrait */}

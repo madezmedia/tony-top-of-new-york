@@ -28,13 +28,12 @@ export const PlayerGrid: React.FC<PlayerGridProps> = ({
             role="option"
             aria-selected={isActive}
             onClick={() => onSelectPlayer(player)}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, skewX: -2 }}
             whileTap={{ scale: 0.98 }}
-            className={`relative aspect-square rounded-lg overflow-hidden cursor-pointer transition-all duration-300 ${
-              isActive
+            className={`relative aspect-square rounded-sm overflow-hidden cursor-pointer transition-all duration-300 ${isActive
                 ? 'ring-2 ring-primary-main ring-offset-2 ring-offset-neutral-bg scale-105'
                 : 'opacity-70 hover:opacity-100 grayscale-[30%] hover:grayscale-0'
-            }`}
+              }`}
           >
             <img
               src={player.imageUrl}
@@ -50,7 +49,7 @@ export const PlayerGrid: React.FC<PlayerGridProps> = ({
             {isActive && (
               <motion.div
                 layoutId="activePlayerIndicator"
-                className="absolute inset-0 border-2 border-primary-main rounded-lg"
+                className="absolute inset-0 border-2 border-primary-main rounded-sm"
                 initial={false}
                 transition={{ type: 'spring', stiffness: 500, damping: 30 }}
               />
