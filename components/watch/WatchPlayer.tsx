@@ -129,7 +129,7 @@ export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title }) => {
             width: '100%',
             height: '100%',
             '--media-object-fit': 'contain',
-          } as React.CSSProperties}
+          } as React.CSSProperties & Record<string, string>}
         />
       </div>
 
