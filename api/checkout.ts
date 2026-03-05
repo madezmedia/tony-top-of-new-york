@@ -108,7 +108,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await supabase.from('pending_orders').insert({
       user_id: user.id,
       film_id: film.id,
-      square_payment_link_id: response.result.paymentLink?.id,
+      square_order_id: response.result.paymentLink?.orderId,
       created_at: new Date().toISOString(),
     });
 
