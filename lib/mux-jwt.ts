@@ -7,6 +7,7 @@ export interface MuxSigningOptions {
 }
 
 const MIN_EXPIRY_SECONDS = 4 * 60 * 60; // 4 hours
+const THUMBNAIL_STORYBOARD_EXPIRY_SECONDS = 24 * 60 * 60; // 24 hours
 
 function getPrivateKey(base64: string): string {
   return Buffer.from(base64, 'base64').toString('utf8');
@@ -47,7 +48,7 @@ export function generateThumbnailToken(
     sub: playbackId,
     aud: 't',
     kid: options.signingKeyId,
-    exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+    exp: Math.floor(Date.now() / 1000) + THUMBNAIL_STORYBOARD_EXPIRY_SECONDS,
   };
 
   if (options.restrictionId) {
@@ -68,8 +69,12 @@ export function generateStoryboardToken(
     sub: playbackId,
     aud: 's',
     kid: options.signingKeyId,
-    exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+    exp: Math.floor(Date.now() / 1000) + THUMBNAIL_STORYBOARD_EXPIRY_SECONDS,
   };
+
+  if (options.restrictionId) {
+    claims.playback_restriction_id = options.restrictionId;
+  }
 
   return jwt.sign(claims, getPrivateKey(options.privateKeyBase64), {
     algorithm: 'RS256',
