@@ -11,10 +11,10 @@ const supabase = createClient(
 
 // Initialize S3 client
 const s3Client = new S3Client({
-  region: process.env.VITE_AWS_REGION || 'us-east-1',
+  region: process.env.AWS_REGION || 'us-east-1',
   credentials: {
-    accessKeyId: process.env.VITE_AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.VITE_AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -81,7 +81,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Generate presigned URL (valid for 1 hour)
     const command = new GetObjectCommand({
-      Bucket: process.env.VITE_S3_BUCKET!,
+      Bucket: process.env.S3_BUCKET!,
       Key: s3Key,
       ResponseContentDisposition: `attachment; filename="${film.title}-${quality}.mp4"`,
     });
