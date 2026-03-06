@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="HomeScene" extends="Scene">
+  <script type="text/brightscript" uri="pkg:/components/HomeScene.brs" />
+
+  <children>
+    <!-- Background -->
+    <Rectangle
+      id="background"
+      width="1920"
+      height="1080"
+      color="#020B13"
+    />
+
+    <!-- T.O.N.Y. Logo / Title -->
+    <Label
+      id="showTitle"
+      text="T.O.N.Y. | TOP OF NEW YORK"
+      font="font:LargeBoldSystemFont"
+      color="#DAAB2D"
+      translation="[80, 60]"
+    />
+
+    <Label
+      id="showTagline"
+      text="A Bronx Crime Saga"
+      font="font:SmallSystemFont"
+      color="#AAAAAA"
+      translation="[80, 110]"
+    />
+
+    <!-- Episode Grid -->
+    <RowList
+      id="episodeGrid"
+      translation="[80, 180]"
+      itemSize="[400, 280]"
+      itemSpacing="[20, 0]"
+      numRows="1"
+      rowLabelOffset="[0, -40]"
+    />
+
+    <!-- Loading indicator -->
+    <BusySpinner
+      id="loadingSpinner"
+      translation="[930, 480]"
+      visible="true"
+    />
+  </children>
+</component>
