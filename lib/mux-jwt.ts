@@ -13,7 +13,7 @@ function getPrivateKey(base64: string): string {
   return Buffer.from(base64, 'base64').toString('utf8');
 }
 
-function computeExpiry(episodeDurationSeconds: number): number {
+export function computeExpiry(episodeDurationSeconds: number): number {
   const durationExpiry = episodeDurationSeconds + 300; // +5 min buffer
   return Math.floor(Date.now() / 1000) + Math.max(MIN_EXPIRY_SECONDS, durationExpiry);
 }

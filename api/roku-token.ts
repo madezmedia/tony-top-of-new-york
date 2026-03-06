@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-import { generateVideoToken, generateThumbnailToken } from '../lib/mux-jwt';
+import { generateVideoToken, generateThumbnailToken, computeExpiry } from '../lib/mux-jwt';
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL!,
@@ -40,16 +40,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const videoToken = generateVideoToken(playbackId, duration, signingOptions);
     const thumbnailToken = generateThumbnailToken(playbackId, signingOptions);
-    const exp = Math.floor(Date.now() / 1000) + Math.max(4 * 3600, duration + 300);
+    const expiresAt = computeExpiry(duration || 0);
 
-    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.setHeader('Cache-Control', 'private, no-store');
 
     return res.status(200).json({
       playbackId,
       token: videoToken,
       thumbnailToken,
       streamUrl: `https://stream.mux.com/${playbackId}.m3u8?token=${videoToken}`,
-      expiresAt: exp,
+      expiresAt,
     });
   } catch (err) {
     console.error('Error generating Roku token:', err);

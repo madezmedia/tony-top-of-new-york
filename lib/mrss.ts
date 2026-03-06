@@ -27,7 +27,7 @@ function escapeXml(str: string): string {
 export function buildMrssItem(film: FilmForMrss, vastTagUrl: string): string {
   const playbackId = film.mux_public_playback_id;
   const streamUrl = `https://stream.mux.com/${playbackId}.m3u8`;
-  const thumbnailUrl = `https://image.mux.com/${playbackId}/thumbnail.jpg?width=1920&amp;height=1080`;
+  const thumbnailUrl = escapeXml(`https://image.mux.com/${playbackId}/thumbnail.jpg?width=1920&height=1080`);
   const duration = film.duration_seconds ?? 0;
   const rating = (film.content_rating ?? 'TV-MA').toLowerCase();
   const pubDate = film.air_date
