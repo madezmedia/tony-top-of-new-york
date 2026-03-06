@@ -4,59 +4,61 @@ sub init()
   m.errorLabel = m.top.findNode("errorLabel")
 
   m.videoPlayer.observeField("state", "onVideoStateChange")
-  m.videoPlayer.observeField("position", "onPositionChange")
 end sub
 
 sub onEpisodeIdChange()
   episodeId = m.top.episodeId
   if episodeId <> "" then
-    loadAndPlayEpisode(episodeId)
+    startTokenFetch(episodeId)
   end if
 end sub
 
-sub loadAndPlayEpisode(episodeId as string)
+sub startTokenFetch(episodeId as string)
   m.loadingSpinner.visible = true
   m.errorLabel.visible = false
 
-  ' Step 1: Fetch signed JWT from /api/roku-token
-  tokenUrl = "https://tony-top-of-new-york.vercel.app/api/roku-token?episodeId=" + episodeId
-  request = CreateObject("roUrlTransfer")
-  request.setUrl(tokenUrl)
-  request.setCertificatesFile("common:/certs/ca-bundle.crt")
+  m.tokenTask = CreateObject("roSGNode", "TokenFetchTask")
+  m.tokenTask.observeField("tokenData", "onTokenFetched")
+  m.tokenTask.observeField("error", "onTokenError")
+  m.tokenTask.episodeId = episodeId
+  m.tokenTask.control = "RUN"
+end sub
 
-  tokenResponse = request.GetToString()
+sub onTokenFetched()
+  tokenData = m.tokenTask.tokenData
+  if tokenData = invalid then return
 
-  if tokenResponse = ""
-    showError("Failed to load episode. Please try again.")
-    return
-  end if
-
-  tokenData = ParseJson(tokenResponse)
-  if tokenData = invalid or tokenData.streamUrl = invalid
-    showError("Episode not available.")
-    return
-  end if
-
-  ' Step 2: Build content node with signed stream URL
   content = CreateObject("roSGNode", "ContentNode")
-  content.url = tokenData.streamUrl  ' Already includes ?token=JWT
+  content.url = tokenData.streamUrl
   content.title = m.top.episodeTitle
   content.streamFormat = "hls"
 
-  ' Step 3: Set up VAST pre-roll via roAdManager
-  ' (Roku handles ad insertion before playback starts)
-  content.adBreaks = [
-    {
-      offset: 0,
-      ads: [{
-        adServer: "https://tony-top-of-new-york.vercel.app/api/vast-tag"
-      }]
-    }
-  ]
-
   m.videoPlayer.content = content
+
+  ' VAST pre-roll via Roku Advertising Framework (RAF)
+  ' RAF handles ad insertion before and during playback.
+  ' Requires "Library Roku_Ads.brs" at top of this file.
+  ' Full integration: https://developer.roku.com/docs/developer-program/advertising/roku-advertising-framework.md
+  '
+  ' Minimal RAF pre-roll:
+  '   Library "Roku_Ads.brs"
+  '   adIface = Roku_Ads()
+  '   adIface.setAdUrl("https://tony-top-of-new-york.vercel.app/api/vast-tag")
+  '   adIface.showAds(adIface.getAds())
+  '   ' After ads complete → set video content and play
+  '
+  ' NOTE: RAF requires a separate RAF integration step. The Video node
+  ' is loaded and plays without ads until RAF is fully integrated.
+
   m.videoPlayer.control = "play"
   m.loadingSpinner.visible = false
+
+  ' Store expiresAt for token refresh check
+  m.tokenExpiresAt = tokenData.expiresAt
+end sub
+
+sub onTokenError()
+  showError(m.tokenTask.error)
 end sub
 
 sub onVideoStateChange()
@@ -69,17 +71,12 @@ sub onVideoStateChange()
   end if
 end sub
 
-sub onPositionChange()
-  ' Token refresh: if within 10 minutes of expiry, fetch a new token
-  ' Simplified: refresh every 3.5 hours
-  position = m.videoPlayer.position
-  if position > 0 and Int(position) mod 12600 = 0  ' 3.5 * 3600
-    loadAndPlayEpisode(m.top.episodeId)
-  end if
-end sub
-
 sub showError(message as string)
   m.loadingSpinner.visible = false
   m.errorLabel.text = message
   m.errorLabel.visible = true
 end sub
+
+function playContent(args as object) as void
+  m.top.getScene().callFunc("playEpisode", {id: args.contentId, title: ""})
+end function
