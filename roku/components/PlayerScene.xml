@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="PlayerScene" extends="Scene">
+  <script type="text/brightscript" uri="pkg:/components/PlayerScene.brs" />
+
+  <interface>
+    <field id="episodeId" type="string" onChange="onEpisodeIdChange" />
+    <field id="episodeTitle" type="string" />
+  </interface>
+
+  <children>
+    <Rectangle
+      id="background"
+      width="1920"
+      height="1080"
+      color="#000000"
+    />
+
+    <Video
+      id="videoPlayer"
+      width="1920"
+      height="1080"
+      translation="[0, 0]"
+    />
+
+    <BusySpinner
+      id="loadingSpinner"
+      translation="[930, 480]"
+      visible="true"
+    />
+
+    <Label
+      id="errorLabel"
+      text=""
+      color="#FF4444"
+      font="font:MediumSystemFont"
+      translation="[80, 500]"
+      visible="false"
+    />
+  </children>
+</component>
