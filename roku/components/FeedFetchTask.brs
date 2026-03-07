@@ -1,28 +1,27 @@
 sub init()
-  m.top.functionName = "fetchToken"
+  m.top.functionName = "fetchFeed"
 end sub
 
-sub fetchToken()
-  episodeId = m.top.episodeId
-  url = "https://tony-top-of-new-york.vercel.app/api/roku-token?episodeId=" + episodeId
-
+sub fetchFeed()
+  url = "https://tony-top-of-new-york.vercel.app/api/roku-feed"
+  
   request = CreateObject("roUrlTransfer")
   request.setUrl(url)
   request.setCertificatesFile("common:/certs/ca-bundle.crt")
   request.InitClientCertificates()
-
+  
   response = request.GetToString()
-
+  
   if response = ""
     m.top.error = "Network error"
     return
   end if
-
+  
   parsed = ParseJson(response)
-  if parsed = invalid or parsed.streamUrl = invalid
-    m.top.error = "Episode not available"
+  if parsed = invalid or parsed.episodes = invalid
+    m.top.error = "Invalid feed data"
     return
   end if
-
-  m.top.tokenData = parsed
+  
+  m.top.feedData = parsed
 end sub

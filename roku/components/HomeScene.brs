@@ -10,20 +10,22 @@ end sub
 sub fetchEpisodes()
   m.loadingSpinner.visible = true
 
-  ' Fetch episode list from JSON API
-  request = CreateObject("roUrlTransfer")
-  request.setUrl("https://tony-top-of-new-york.vercel.app/api/roku-feed")
-  request.setCertificatesFile("common:/certs/ca-bundle.crt")
-  request.addHeader("Content-Type", "application/json")
+  m.feedTask = CreateObject("roSGNode", "FeedFetchTask")
+  m.feedTask.observeField("feedData", "onFeedFetched")
+  m.feedTask.observeField("error", "onFeedError")
+  m.feedTask.control = "RUN"
+end sub
 
-  response = request.GetToString()
-  if response <> ""
-    parsed = ParseJson(response)
-    if parsed <> invalid and parsed.episodes <> invalid
-      buildEpisodeGrid(parsed.episodes)
-    end if
+sub onFeedFetched()
+  parsed = m.feedTask.feedData
+  if parsed <> invalid and parsed.episodes <> invalid
+    buildEpisodeGrid(parsed.episodes)
   end if
+  m.loadingSpinner.visible = false
+end sub
 
+sub onFeedError()
+  print "Error fetching feed: " + m.feedTask.error
   m.loadingSpinner.visible = false
 end sub
 

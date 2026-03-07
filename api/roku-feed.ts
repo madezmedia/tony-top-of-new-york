@@ -10,7 +10,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const { data: films, error } = await supabase
     .from('films')
     .select(
-      'slug, title, description, mux_public_playback_id, duration_seconds, season_number, episode_number, air_date, content_rating'
+      'slug, title, mux_public_playback_id, duration_seconds, season_number, episode_number, air_date, content_rating'
     )
     .eq('is_fast_available', true)
     .not('mux_public_playback_id', 'is', null)
@@ -25,7 +25,7 @@ export default async function handler(_req: VercelRequest, res: VercelResponse) 
   const episodes = (films ?? []).map(f => ({
     id: f.slug,
     title: f.title,
-    description: f.description ?? '',
+    description: `Season ${f.season_number ?? 1}, Episode ${f.episode_number ?? 1}`,
     releaseDate: f.air_date ?? '',
     runtime: f.duration_seconds ?? 0,
     rating: f.content_rating ?? 'TV-MA',
