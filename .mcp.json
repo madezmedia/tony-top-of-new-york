@@ -5,8 +5,12 @@
       "url": "https://mcp.supabase.com/mcp?project_ref=lsmeowfjstnwjsvqawqd"
     },
     "mux": {
-      "type": "sse",
-      "url": "https://mcp.mux.com?client=claude"
+      "command": "npx",
+      "args": ["-y", "@mux/mcp@latest"],
+      "env": {
+        "MUX_TOKEN_ID": "PASTE_YOUR_MUX_TOKEN_ID_HERE",
+        "MUX_TOKEN_SECRET": "PASTE_YOUR_MUX_TOKEN_SECRET_HERE"
+      }
     }
   }
 }
