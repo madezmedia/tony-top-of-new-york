@@ -6,11 +6,6 @@ sub Main(args as dynamic)
   scene = screen.CreateScene("HomeScene")
   screen.show()
 
-  ' Pass deep link args if any
-  if args.contentId <> invalid and args.mediaType <> invalid
-    scene.callFunc("playContent", {contentId: args.contentId, mediaType: args.mediaType})
-  end if
-
   while true
     msg = wait(0, m.port)
     msgType = type(msg)

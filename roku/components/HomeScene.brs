@@ -1,7 +1,6 @@
 ' ===========================================================
 ' HomeScene.brs — MINIMAL T.O.N.Y. Roku Player
-' No grids, no feeds, no focus chains.
-' Just: Press OK → Play video
+' Press OK → Play video. Press Back → Stop.
 ' ===========================================================
 
 sub init()
@@ -17,7 +16,8 @@ sub init()
 
   m.videoPlayer.observeField("state", "onVideoState")
 
-  ' The Scene itself handles all key events — no grid focus needed
+  ' *** CRITICAL: Scene MUST have focus to receive remote key events ***
+  m.top.setFocus(true)
   m.statusLabel.text = "Ready"
 end sub
 
@@ -25,7 +25,6 @@ function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
   if key = "OK" and not m.isPlaying
-    ' PLAY THE VIDEO
     m.isPlaying = true
     m.playPrompt.visible = false
     m.spinner.visible = true
@@ -44,13 +43,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
   end if
 
   if key = "back" and m.isPlaying
-    ' STOP AND RETURN TO HOME
     m.videoPlayer.control = "stop"
     m.videoPlayer.visible = false
     m.isPlaying = false
     m.playPrompt.visible = true
     m.spinner.visible = false
     m.statusLabel.text = "Ready"
+    m.top.setFocus(true)
     return true
   end if
 
@@ -71,5 +70,6 @@ sub onVideoState()
     m.videoPlayer.visible = false
     m.isPlaying = false
     m.playPrompt.visible = true
+    m.top.setFocus(true)
   end if
 end sub
