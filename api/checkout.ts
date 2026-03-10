@@ -68,10 +68,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'You already own this film' });
     }
 
-    // Create Square payment link (v43+ API)
+    // Create Square payment link (v43+ API: checkout.paymentLinks.create)
     const idempotencyKey = randomUUID();
 
-    const response = await squareClient.checkout.createPaymentLink({
+    const response = await squareClient.checkout.paymentLinks.create({
       idempotencyKey,
       quickPay: {
         name: `T.O.N.Y. - ${film.title}`,
