@@ -5,7 +5,7 @@
       "url": "https://mcp.supabase.com/mcp?project_ref=lsmeowfjstnwjsvqawqd"
     },
     "mux": {
-      "type": "http",
+      "type": "sse",
       "url": "https://mcp.mux.com?client=claude"
     }
   }
