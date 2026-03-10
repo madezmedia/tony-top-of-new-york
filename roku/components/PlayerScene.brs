@@ -4,6 +4,10 @@ sub init()
   m.errorLabel = m.top.findNode("errorLabel")
 
   m.videoPlayer.observeField("state", "onVideoStateChange")
+
+  ' Initialize Mux Analytics Task
+  m.mux = m.top.CreateNode("MuxTask")
+  m.mux.setField("video", m.videoPlayer)
 end sub
 
 sub onEpisodeIdChange()
@@ -25,6 +29,8 @@ sub playPublicVideo(url as string)
   content.url = url
   content.title = m.top.episodeTitle
   content.streamFormat = "hls"
+
+  setupMuxAnalytics(m.top.episodeTitle)
 
   m.videoPlayer.content = content
   m.videoPlayer.control = "play"
@@ -51,6 +57,8 @@ sub onTokenFetched()
   content.url = tokenData.streamUrl
   content.title = m.top.episodeTitle
   content.streamFormat = "hls"
+
+  setupMuxAnalytics(m.top.episodeTitle)
 
   m.videoPlayer.content = content
   m.videoPlayer.control = "play"
@@ -84,6 +92,20 @@ end sub
 function playContent(args as object) as void
   m.top.getScene().callFunc("playEpisode", {id: args.contentId, title: ""})
 end function
+
+sub setupMuxAnalytics(videoTitle as string)
+  muxConfig = {
+    ' NOTE: In a real app, inject this via token or build process
+    ' We configure an arbitrary key here to allow the task to run without crashing,
+    ' You must replace it with your MUX_ENV_KEY
+    env_key: "bftb17q0qg5j34bhe6f88iudf", 
+    player_name: "T.O.N.Y. Roku App",
+    video_id: m.top.episodeId,
+    video_title: videoTitle
+  }
+  m.mux.setField("config", muxConfig)
+  m.mux.control = "RUN"
+end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   handled = false
