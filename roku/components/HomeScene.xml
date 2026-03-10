@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="HomeScene" extends="Scene" initialFocus="episodeGrid">
+<component name="HomeScene" extends="Scene">
   <script type="text/brightscript" uri="pkg:/components/HomeScene.brs" />
 
   <children>
@@ -11,8 +11,7 @@
       color="#020B13"
     />
 
-    <!-- ===== HERO SECTION ===== -->
-    <!-- Hero thumbnail background (faded) -->
+    <!-- Hero thumbnail background -->
     <Poster
       id="heroImage"
       width="1920"
@@ -20,23 +19,9 @@
       translation="[0, 0]"
     />
 
-    <!-- Gradient overlay on hero for text readability -->
-    <Rectangle
-      id="heroGradientTop"
-      width="1920"
-      height="120"
-      color="#020B13"
-      opacity="0.8"
-      translation="[0, 0]"
-    />
-    <Rectangle
-      id="heroGradientBottom"
-      width="1920"
-      height="200"
-      color="#020B13"
-      opacity="0.9"
-      translation="[0, 380]"
-    />
+    <!-- Gradient overlays -->
+    <Rectangle width="1920" height="120" color="#020B13" opacity="0.8" translation="[0, 0]" />
+    <Rectangle width="1920" height="200" color="#020B13" opacity="0.9" translation="[0, 380]" />
 
     <!-- App logo in top-right corner -->
     <Poster
@@ -47,112 +32,38 @@
       translation="[1780, 20]"
     />
 
-    <!-- T.O.N.Y. Logo / Title -->
-    <Label
-      id="showTitle"
-      text="T.O.N.Y."
-      font="font:LargeBoldSystemFont"
-      color="#DAAB2D"
-      translation="[80, 30]"
-    />
-    <Label
-      id="showSubtitle"
-      text="TOP OF NEW YORK"
-      font="font:MediumBoldSystemFont"
-      color="#FFFFFF"
-      translation="[80, 80]"
-    />
-
-    <!-- Gold divider -->
-    <Rectangle
-      id="divider"
-      width="120"
-      height="3"
-      color="#DAAB2D"
-      translation="[80, 125]"
-    />
+    <!-- T.O.N.Y. Branding -->
+    <Label id="showTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[80, 30]" />
+    <Label id="showSubtitle" text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[80, 80]" />
+    <Rectangle width="120" height="3" color="#DAAB2D" translation="[80, 125]" />
 
     <!-- Hero episode info -->
-    <Label
-      id="heroEpisodeTitle"
-      text=""
-      font="font:MediumBoldSystemFont"
-      color="#FFFFFF"
-      width="900"
-      translation="[80, 150]"
-    />
-    <Label
-      id="heroEpisodeMeta"
-      text=""
-      font="font:SmallSystemFont"
-      color="#DAAB2D"
-      translation="[80, 195]"
-    />
-    <Label
-      id="heroEpisodeDesc"
-      text=""
-      font="font:SmallSystemFont"
-      color="#AAAAAA"
-      width="800"
-      maxLines="3"
-      wrap="true"
-      translation="[80, 230]"
-    />
+    <Label id="heroEpisodeTitle" text="" font="font:MediumBoldSystemFont" color="#FFFFFF" width="900" translation="[80, 150]" />
+    <Label id="heroEpisodeMeta" text="" font="font:SmallSystemFont" color="#DAAB2D" translation="[80, 195]" />
+    <Label id="heroEpisodeDesc" text="" font="font:SmallSystemFont" color="#AAAAAA" width="800" maxLines="3" wrap="true" translation="[80, 230]" />
+    <Label id="playPrompt" text="▶  Press OK to Play" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[80, 320]" visible="false" />
 
-    <!-- Play prompt -->
-    <Label
-      id="playPrompt"
-      text="▶  Press OK to Play"
-      font="font:SmallBoldSystemFont"
-      color="#DAAB2D"
-      translation="[80, 320]"
-      visible="false"
-    />
+    <!-- EPISODES section label -->
+    <Label id="gridTitle" text="EPISODES" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[80, 540]" />
+    <Rectangle width="1760" height="1" color="#333333" translation="[80, 570]" />
 
-    <!-- ===== EPISODE GRID SECTION ===== -->
-    <Label
-      id="gridTitle"
-      text="EPISODES"
-      font="font:SmallBoldSystemFont"
-      color="#DAAB2D"
-      translation="[80, 540]"
-    />
-
-    <!-- Gold line under section title -->
-    <Rectangle
-      id="gridDivider"
-      width="1760"
-      height="1"
-      color="#333333"
-      translation="[80, 570]"
-    />
-
-    <!-- Episode Grid -->
-    <PosterGrid
+    <!-- Episode Grid — MarkupGrid handles focus better than PosterGrid -->
+    <MarkupGrid
       id="episodeGrid"
       translation="[80, 590]"
-      basePosterSize="[320, 180]"
-      caption1NumLines="1"
-      caption2NumLines="1"
+      itemSize="[320, 230]"
+      itemSpacing="[20, 20]"
       numColumns="5"
       numRows="2"
-      itemSpacing="[20, 30]"
+      drawFocusFeedback="true"
+      vertFocusAnimationStyle="fixedFocusWrap"
+      focusBitmapBlendColor="#DAAB2D"
     />
 
     <!-- Loading indicator -->
-    <BusySpinner
-      id="loadingSpinner"
-      translation="[930, 480]"
-      visible="true"
-    />
+    <BusySpinner id="loadingSpinner" translation="[930, 480]" visible="true" />
 
     <!-- Status label -->
-    <Label
-      id="statusLabel"
-      text="Loading..."
-      font="font:SmallSystemFont"
-      color="#666666"
-      translation="[80, 1030]"
-    />
+    <Label id="statusLabel" text="Loading..." font="font:SmallSystemFont" color="#666666" translation="[80, 1030]" />
   </children>
 </component>

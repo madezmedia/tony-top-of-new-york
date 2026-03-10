@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Simple item renderer for the MarkupGrid -->
+<component name="EpisodeItem" extends="Group">
+  <interface>
+    <field id="itemContent" type="node" onChange="onContentChange" />
+  </interface>
+
+  <script type="text/brightscript">
+    <![CDATA[
+      sub init()
+        m.poster = m.top.findNode("poster")
+        m.label = m.top.findNode("label")
+      end sub
+
+      sub onContentChange()
+        content = m.top.itemContent
+        if content <> invalid then
+          m.poster.uri = content.hdPosterUrl
+          m.label.text = content.title
+        end if
+      end sub
+    ]]>
+  </script>
+
+  <children>
+    <Poster
+      id="poster"
+      width="320"
+      height="180"
+      translation="[0, 0]"
+    />
+    <Label
+      id="label"
+      text=""
+      font="font:SmallSystemFont"
+      color="#FFFFFF"
+      width="320"
+      translation="[0, 185]"
+      maxLines="1"
+    />
+  </children>
+</component>

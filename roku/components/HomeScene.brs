@@ -15,6 +15,9 @@ sub init()
   m.heroEpisodeDesc = m.top.findNode("heroEpisodeDesc")
   m.playPrompt = m.top.findNode("playPrompt")
 
+  ' Tell MarkupGrid which component renders each item
+  m.episodeGrid.itemComponentName = "EpisodeItem"
+
   m.episodeGrid.observeField("itemFocused", "onEpisodeFocused")
   m.episodeGrid.observeField("itemSelected", "onEpisodeSelected")
 
@@ -24,9 +27,6 @@ sub init()
 
   m.statusLabel.text = "Fetching episodes..."
   fetchEpisodes()
-
-  ' Give initial focus to grid so remote works
-  m.episodeGrid.setFocus(true)
 end sub
 
 sub fetchEpisodes()
@@ -41,7 +41,7 @@ end sub
 sub onFeedFetched()
   parsed = m.feedTask.feedData
   if parsed <> invalid and parsed.episodes <> invalid and parsed.episodes.count() > 0
-    m.statusLabel.text = str(parsed.episodes.count()).trim() + " episodes loaded"
+    m.statusLabel.text = str(parsed.episodes.count()).trim() + " episodes"
     buildEpisodeGrid(parsed.episodes)
   else
     m.statusLabel.text = "Feed empty — using fallback"
@@ -79,17 +79,14 @@ sub buildEpisodeGrid(episodes as object)
     item = contentNode.createChild("ContentNode")
     item.title = ep.title
 
-    ' Use smaller thumbnail for grid posters
     if ep.thumbnail <> invalid then
       gridThumb = ep.thumbnail
-      ' Replace dimensions for grid-sized poster
       gridThumb = gridThumb.replace("width=1920", "width=320")
       gridThumb = gridThumb.replace("height=1080", "height=180")
       item.hdPosterUrl = gridThumb
       item.sdPosterUrl = gridThumb
     end if
 
-    ' Build metadata for hero display
     epMeta = {
       id: ep.id,
       title: ep.title,
@@ -110,6 +107,9 @@ sub buildEpisodeGrid(episodes as object)
   end for
 
   m.episodeGrid.content = contentNode
+
+  ' *** CRITICAL: set focus AFTER content is loaded ***
+  ' This is the fix — focus must happen after the grid has data
   m.episodeGrid.setFocus(true)
 
   ' Show first episode in hero
@@ -117,10 +117,9 @@ sub buildEpisodeGrid(episodes as object)
     updateHero(0)
   end if
 
-  m.statusLabel.text = "Ready"
+  m.statusLabel.text = "Select an episode"
 end sub
 
-' Update hero banner when user scrolls through grid
 sub onEpisodeFocused()
   focusedIndex = m.episodeGrid.itemFocused
   if focusedIndex >= 0 and focusedIndex < m.episodeData.count()
@@ -131,7 +130,6 @@ end sub
 sub updateHero(index as integer)
   ep = m.episodeData[index]
 
-  ' Set hero background image (full size)
   if ep.thumbnail <> "" then
     m.heroImage.uri = ep.thumbnail
   end if
@@ -154,7 +152,6 @@ end sub
 sub playEpisode(args as object)
   m.playerGroup = CreateObject("roSGNode", "PlayerScene")
 
-  ' Attach first, then set fields
   m.top.appendChild(m.playerGroup)
   m.playerGroup.visible = true
 
@@ -172,7 +169,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
       m.top.removeChild(m.playerGroup)
       m.playerGroup = invalid
       m.episodeGrid.setFocus(true)
-      m.statusLabel.text = "Ready"
+      m.statusLabel.text = "Select an episode"
       return true
     end if
   end if
