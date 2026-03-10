@@ -68,10 +68,9 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
           setHasAccess(data.hasAccess);
           setFilm(data.film);
         } catch (err: any) {
-          // If entitlement check fails (e.g. film not in DB yet),
-          // still allow access since the film is public
-          console.warn('Entitlement check failed, granting public access:', err.message);
-          setHasAccess(true);
+          // Entitlement check failed — deny access, show paywall
+          console.warn('Entitlement check failed:', err.message);
+          setHasAccess(false);
           setFilm({
             id: 'default',
             slug,
