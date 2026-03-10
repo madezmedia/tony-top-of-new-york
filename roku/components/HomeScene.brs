@@ -1,6 +1,7 @@
 ' ===========================================================
 ' HomeScene.brs — T.O.N.Y. Roku App Home Screen
 ' Hero banner + Episode grid + Public Mux playback
+' Full focus chain debugging included
 ' ===========================================================
 
 sub init()
@@ -15,18 +16,28 @@ sub init()
   m.heroEpisodeDesc = m.top.findNode("heroEpisodeDesc")
   m.playPrompt = m.top.findNode("playPrompt")
 
-  ' Tell MarkupGrid which component renders each item
-  m.episodeGrid.itemComponentName = "EpisodeItem"
-
   m.episodeGrid.observeField("itemFocused", "onEpisodeFocused")
   m.episodeGrid.observeField("itemSelected", "onEpisodeSelected")
+
+  ' Track focus changes for debugging
+  m.top.observeField("focusedChild", "onSceneFocusChanged")
 
   ' Store episode metadata for lookup
   m.episodeData = []
   m.playerGroup = invalid
 
+  print "[TONY] init() — starting feed fetch"
   m.statusLabel.text = "Fetching episodes..."
   fetchEpisodes()
+end sub
+
+sub onSceneFocusChanged()
+  child = m.top.focusedChild
+  if child <> invalid
+    print "[TONY] Scene focused child: " + child.id
+  else
+    print "[TONY] Scene focused child: NONE"
+  end if
 end sub
 
 sub fetchEpisodes()
@@ -41,9 +52,11 @@ end sub
 sub onFeedFetched()
   parsed = m.feedTask.feedData
   if parsed <> invalid and parsed.episodes <> invalid and parsed.episodes.count() > 0
+    print "[TONY] Feed loaded: " + str(parsed.episodes.count()).trim() + " episodes"
     m.statusLabel.text = str(parsed.episodes.count()).trim() + " episodes"
     buildEpisodeGrid(parsed.episodes)
   else
+    print "[TONY] Feed empty or invalid — using fallback"
     m.statusLabel.text = "Feed empty — using fallback"
     useFallbackEpisode()
   end if
@@ -51,6 +64,7 @@ sub onFeedFetched()
 end sub
 
 sub onFeedError()
+  print "[TONY] Feed error: " + m.feedTask.error
   m.statusLabel.text = "Feed error — using fallback"
   useFallbackEpisode()
   m.loadingSpinner.visible = false
@@ -108,9 +122,14 @@ sub buildEpisodeGrid(episodes as object)
 
   m.episodeGrid.content = contentNode
 
-  ' *** CRITICAL: set focus AFTER content is loaded ***
-  ' This is the fix — focus must happen after the grid has data
+  print "[TONY] Grid content set: " + str(contentNode.getChildCount()).trim() + " items"
+
+  ' *** CRITICAL: Focus the Scene first, then the grid ***
+  m.top.setFocus(true)
   m.episodeGrid.setFocus(true)
+
+  print "[TONY] Grid isInFocusChain: " + str(m.episodeGrid.isInFocusChain())
+  print "[TONY] Grid hasFocus: " + str(m.episodeGrid.hasFocus())
 
   ' Show first episode in hero
   if m.episodeData.count() > 0
@@ -122,6 +141,7 @@ end sub
 
 sub onEpisodeFocused()
   focusedIndex = m.episodeGrid.itemFocused
+  print "[TONY] Episode focused: " + str(focusedIndex).trim()
   if focusedIndex >= 0 and focusedIndex < m.episodeData.count()
     updateHero(focusedIndex)
   end if
@@ -142,6 +162,7 @@ end sub
 
 sub onEpisodeSelected()
   selectedIndex = m.episodeGrid.itemSelected
+  print "[TONY] Episode SELECTED via grid event: " + str(selectedIndex).trim()
   if selectedIndex >= 0 and selectedIndex < m.episodeData.count()
     epData = m.episodeData[selectedIndex]
     m.statusLabel.text = "Playing: " + epData.title
@@ -150,8 +171,9 @@ sub onEpisodeSelected()
 end sub
 
 sub playEpisode(args as object)
-  m.playerGroup = CreateObject("roSGNode", "PlayerScene")
+  print "[TONY] playEpisode — id: " + args.id + " | streamUrl: " + args.streamUrl
 
+  m.playerGroup = CreateObject("roSGNode", "PlayerScene")
   m.top.appendChild(m.playerGroup)
   m.playerGroup.visible = true
 
@@ -163,10 +185,13 @@ sub playEpisode(args as object)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
+  print "[TONY] onKeyEvent — key: " + key + " press: " + str(press)
+
   if not press then return false
 
   if key = "back"
     if m.playerGroup <> invalid and m.playerGroup.visible
+      print "[TONY] Closing player, returning to grid"
       m.playerGroup.visible = false
       m.top.removeChild(m.playerGroup)
       m.playerGroup = invalid
@@ -176,16 +201,18 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
   end if
 
-  ' Handle OK/Select — play the focused episode
+  ' Catch OK at Scene level as fallback
   if key = "OK"
+    print "[TONY] OK pressed at Scene level"
     if m.playerGroup = invalid or not m.playerGroup.visible
-      ' Determine which episode is focused
       focusedIndex = m.episodeGrid.itemFocused
+      print "[TONY] itemFocused index: " + str(focusedIndex).trim()
       if focusedIndex < 0 or focusedIndex >= m.episodeData.count()
         focusedIndex = 0
       end if
       if m.episodeData.count() > 0
         epData = m.episodeData[focusedIndex]
+        print "[TONY] Playing from Scene handler: " + epData.title
         m.statusLabel.text = "Playing: " + epData.title
         playEpisode(epData)
         return true

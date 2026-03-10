@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Simple item renderer for the MarkupGrid -->
 <component name="EpisodeItem" extends="Group">
   <script type="text/brightscript">
     <![CDATA[
@@ -20,6 +19,7 @@
 
   <interface>
     <field id="itemContent" type="node" onChange="onContentChange" />
+    <field id="focusPercent" type="float" value="0" />
   </interface>
 
   <children>

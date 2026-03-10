@@ -24,13 +24,7 @@
     <Rectangle width="1920" height="200" color="#020B13" opacity="0.9" translation="[0, 380]" />
 
     <!-- App logo in top-right corner -->
-    <Poster
-      id="appLogo"
-      uri="pkg:/images/icon-hd.png"
-      width="90"
-      height="90"
-      translation="[1780, 20]"
-    />
+    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="90" height="90" translation="[1780, 20]" />
 
     <!-- T.O.N.Y. Branding -->
     <Label id="showTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[80, 30]" />
@@ -43,11 +37,11 @@
     <Label id="heroEpisodeDesc" text="" font="font:SmallSystemFont" color="#AAAAAA" width="800" maxLines="3" wrap="true" translation="[80, 230]" />
     <Label id="playPrompt" text="▶  Press OK to Play" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[80, 320]" visible="false" />
 
-    <!-- EPISODES section label -->
+    <!-- EPISODES section -->
     <Label id="gridTitle" text="EPISODES" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[80, 540]" />
     <Rectangle width="1760" height="1" color="#333333" translation="[80, 570]" />
 
-    <!-- Episode Grid — MarkupGrid handles focus better than PosterGrid -->
+    <!-- Episode Grid with focusable explicitly set -->
     <MarkupGrid
       id="episodeGrid"
       translation="[80, 590]"
@@ -58,6 +52,8 @@
       drawFocusFeedback="true"
       vertFocusAnimationStyle="fixedFocusWrap"
       focusBitmapBlendColor="#DAAB2D"
+      focusable="true"
+      itemComponentName="EpisodeItem"
     />
 
     <!-- Loading indicator -->
