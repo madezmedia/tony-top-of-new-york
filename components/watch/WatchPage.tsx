@@ -6,7 +6,7 @@ import { PaywallGate } from './PaywallGate';
 import { api, auth } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 
-// Public Mux playback ID — no tokens or auth required
+// Public Mux playback ID for the film
 const PUBLIC_PLAYBACK_ID = 'GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko';
 
 interface WatchPageProps {
@@ -22,18 +22,12 @@ interface FilmData {
 }
 
 export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasAccess, setHasAccess] = useState(false);
+  const [film, setFilm] = useState<FilmData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
-  const film: FilmData = {
-    id: 'episode-one',
-    slug: slug,
-    title: 'T.O.N.Y. - Top of New York',
-    priceCents: 0, // Free for public stream
-    trailerUrl: 'https://www.youtube.com/embed/F1wtn1g_SZI',
-  };
 
   useEffect(() => {
     // Check URL for success parameter
@@ -45,20 +39,93 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
   }, []);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { session } = await auth.getSession();
-      setIsLoggedIn(!!session);
-    };
-    checkAuth();
+    const checkAccess = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
+        // Check if user is logged in
+        const { session } = await auth.getSession();
+        setIsLoggedIn(!!session);
+
+        if (!session) {
+          // Not logged in - show paywall with default film info
+          setHasAccess(false);
+          setFilm({
+            id: 'default',
+            slug,
+            title: 'T.O.N.Y. - Top of New York',
+            priceCents: 499,
+            trailerUrl: 'https://www.youtube.com/embed/F1wtn1g_SZI',
+          });
+          setLoading(false);
+          return;
+        }
+
+        // Logged in — check entitlement
+        try {
+          const data = await api.checkEntitlement(slug);
+          setHasAccess(data.hasAccess);
+          setFilm(data.film);
+        } catch (err: any) {
+          // If entitlement check fails (e.g. film not in DB yet),
+          // still allow access since the film is public
+          console.warn('Entitlement check failed, granting public access:', err.message);
+          setHasAccess(true);
+          setFilm({
+            id: 'default',
+            slug,
+            title: 'T.O.N.Y. - Top of New York',
+            priceCents: 499,
+            trailerUrl: 'https://www.youtube.com/embed/F1wtn1g_SZI',
+          });
+        }
+      } catch (err: any) {
+        console.error('Error checking access:', err);
+        setError(err.message || 'Failed to check access');
+        // Still show paywall on error
+        setHasAccess(false);
+        setFilm({
+          id: 'default',
+          slug,
+          title: 'T.O.N.Y. - Top of New York',
+          priceCents: 499,
+          trailerUrl: 'https://www.youtube.com/embed/F1wtn1g_SZI',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAccess();
+
+    // Subscribe to auth changes
     const { data: { subscription } } = auth.onAuthStateChange((event, session) => {
       setIsLoggedIn(!!session);
+      if (event === 'SIGNED_IN') {
+        checkAccess();
+      }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [slug]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-neutral-bg flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <Loader2 className="w-12 h-12 text-primary-main animate-spin mx-auto mb-4" />
+          <p className="text-neutral-textSecondary">Loading...</p>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-neutral-bg">
@@ -127,7 +194,7 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
           <div className="container mx-auto px-4 py-3 flex items-center justify-center gap-2">
             <CheckCircle className="w-5 h-5 text-green-500" />
             <span className="text-green-400">
-              Welcome to T.O.N.Y. — enjoy the stream!
+              Purchase successful! You now have full access.
             </span>
             <button
               onClick={() => setShowSuccessMessage(false)}
@@ -139,20 +206,49 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
         </motion.div>
       )}
 
-      {/* Main Content — Always show the player for public content */}
+      {/* Main Content */}
       <main className="container mx-auto px-4 py-8 md:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-5xl mx-auto"
-        >
-          <WatchPlayer
-            slug={film.slug}
-            title={film.title}
-            playbackId={PUBLIC_PLAYBACK_ID}
-          />
-        </motion.div>
+        {error && !film && (
+          <div className="flex flex-col items-center justify-center py-12">
+            <AlertCircle className="w-12 h-12 text-primary-main mb-4" />
+            <h2 className="text-xl font-bold text-neutral-text mb-2">
+              Something went wrong
+            </h2>
+            <p className="text-neutral-textSecondary mb-6">{error}</p>
+            <Button variant="outline" onClick={() => window.location.reload()}>
+              Try Again
+            </Button>
+          </div>
+        )}
+
+        {film && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-5xl mx-auto"
+          >
+            {hasAccess ? (
+              <WatchPlayer
+                slug={film.slug}
+                title={film.title}
+                playbackId={PUBLIC_PLAYBACK_ID}
+              />
+            ) : (
+              <PaywallGate
+                slug={film.slug}
+                title={film.title}
+                tagline="In the unforgiving streets of the Bronx, power is earned, loyalty is tested, and survival comes at a cost."
+                priceCents={film.priceCents}
+                trailerUrl={film.trailerUrl}
+                onPurchaseComplete={() => {
+                  setShowSuccessMessage(true);
+                  setHasAccess(true);
+                }}
+              />
+            )}
+          </motion.div>
+        )}
       </main>
 
       {/* Footer */}
