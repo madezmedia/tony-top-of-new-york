@@ -3,63 +3,58 @@
   <script type="text/brightscript" uri="pkg:/components/HomeScene.brs" />
 
   <children>
-    <!-- Background -->
-    <Rectangle
-      id="background"
-      width="1920"
-      height="1080"
-      color="#020B13"
-    />
+    <!-- Full black background -->
+    <Rectangle width="1920" height="1080" color="#020B13" />
 
-    <!-- Hero thumbnail background -->
+    <!-- Hero poster — full width -->
     <Poster
-      id="heroImage"
+      id="heroPoster"
       width="1920"
-      height="540"
+      height="800"
+      uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1920&amp;height=800"
       translation="[0, 0]"
     />
 
-    <!-- Gradient overlays -->
-    <Rectangle width="1920" height="120" color="#020B13" opacity="0.8" translation="[0, 0]" />
-    <Rectangle width="1920" height="200" color="#020B13" opacity="0.9" translation="[0, 380]" />
+    <!-- Dark gradient at bottom of poster -->
+    <Rectangle width="1920" height="300" color="#020B13" opacity="0.85" translation="[0, 550]" />
 
-    <!-- App logo in top-right corner -->
-    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="90" height="90" translation="[1780, 20]" />
+    <!-- App logo -->
+    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="90" height="90" translation="[1780, 30]" />
 
-    <!-- T.O.N.Y. Branding -->
-    <Label id="showTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[80, 30]" />
-    <Label id="showSubtitle" text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[80, 80]" />
-    <Rectangle width="120" height="3" color="#DAAB2D" translation="[80, 125]" />
+    <!-- Title -->
+    <Label text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[80, 620]" />
+    <Label text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[80, 670]" />
 
-    <!-- Hero episode info -->
-    <Label id="heroEpisodeTitle" text="" font="font:MediumBoldSystemFont" color="#FFFFFF" width="900" translation="[80, 150]" />
-    <Label id="heroEpisodeMeta" text="" font="font:SmallSystemFont" color="#DAAB2D" translation="[80, 195]" />
-    <Label id="heroEpisodeDesc" text="" font="font:SmallSystemFont" color="#AAAAAA" width="800" maxLines="3" wrap="true" translation="[80, 230]" />
-    <Label id="playPrompt" text="▶  Press OK to Play" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[80, 320]" visible="false" />
+    <!-- Gold divider -->
+    <Rectangle width="120" height="3" color="#DAAB2D" translation="[80, 715]" />
 
-    <!-- EPISODES section -->
-    <Label id="gridTitle" text="EPISODES" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[80, 540]" />
-    <Rectangle width="1760" height="1" color="#333333" translation="[80, 570]" />
+    <!-- Episode info -->
+    <Label text="Season 1, Episode 1  •  TV-MA" font="font:SmallSystemFont" color="#DAAB2D" translation="[80, 735]" />
+    <Label text="A Bronx Crime Saga" font="font:SmallSystemFont" color="#AAAAAA" translation="[80, 765]" />
 
-    <!-- Episode Grid with focusable explicitly set -->
-    <MarkupGrid
-      id="episodeGrid"
-      translation="[80, 590]"
-      itemSize="[320, 230]"
-      itemSpacing="[20, 20]"
-      numColumns="5"
-      numRows="2"
-      drawFocusFeedback="true"
-      vertFocusAnimationStyle="fixedFocusWrap"
-      focusBitmapBlendColor="#DAAB2D"
-      focusable="true"
-      itemComponentName="EpisodeItem"
+    <!-- BIG play prompt -->
+    <Label
+      id="playPrompt"
+      text="▶  PRESS OK TO PLAY"
+      font="font:LargeBoldSystemFont"
+      color="#DAAB2D"
+      translation="[680, 900]"
     />
 
-    <!-- Loading indicator -->
-    <BusySpinner id="loadingSpinner" translation="[930, 480]" visible="true" />
+    <!-- Status -->
+    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#666666" translation="[80, 1040]" />
 
-    <!-- Status label -->
-    <Label id="statusLabel" text="Loading..." font="font:SmallSystemFont" color="#666666" translation="[80, 1030]" />
+    <!-- Video player (hidden until playing) -->
+    <Video
+      id="videoPlayer"
+      width="1920"
+      height="1080"
+      translation="[0, 0]"
+      visible="false"
+      enableUI="true"
+    />
+
+    <!-- Buffering spinner (hidden) -->
+    <BusySpinner id="spinner" translation="[930, 480]" visible="false" />
   </children>
 </component>
