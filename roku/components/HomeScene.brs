@@ -62,12 +62,15 @@ end sub
 
 sub playEpisode(args as object)
   playerScene = CreateObject("roSGNode", "PlayerScene")
-  playerScene.id = args.id
   playerScene.episodeTitle = args.title
-  playerScene.streamUrl = args.streamUrl
+  if args.streamUrl <> invalid then
+    playerScene.streamUrl = args.streamUrl
+  end if
+  playerScene.episodeId = args.id
 
   m.top.appendChild(playerScene)
   playerScene.visible = true
+  playerScene.setFocus(true)
 end sub
 
 function playContent(args as object) as void

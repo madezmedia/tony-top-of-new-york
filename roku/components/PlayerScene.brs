@@ -28,6 +28,7 @@ sub playPublicVideo(url as string)
 
   m.videoPlayer.content = content
   m.videoPlayer.control = "play"
+  m.videoPlayer.setFocus(true)
   m.loadingSpinner.visible = false
 end sub
 
@@ -53,6 +54,7 @@ sub onTokenFetched()
 
   m.videoPlayer.content = content
   m.videoPlayer.control = "play"
+  m.videoPlayer.setFocus(true)
   m.loadingSpinner.visible = false
 
   ' Store expiresAt for token refresh check
@@ -81,4 +83,17 @@ end sub
 
 function playContent(args as object) as void
   m.top.getScene().callFunc("playEpisode", {id: args.contentId, title: ""})
+end function
+
+function onKeyEvent(key as string, press as boolean) as boolean
+  handled = false
+  if press then
+    if key = "back" then
+      m.videoPlayer.control = "stop"
+      m.top.visible = false
+      m.top.getParent().setFocus(true)
+      handled = true
+    end if
+  end if
+  return handled
 end function
