@@ -1,47 +1,47 @@
+' ===========================================================
+' PlayerScene.brs — T.O.N.Y. Roku Video Player
+' Plays public Mux HLS streams directly, no token needed.
+' ===========================================================
+
 sub init()
   m.videoPlayer = m.top.findNode("videoPlayer")
   m.loadingSpinner = m.top.findNode("loadingSpinner")
   m.errorLabel = m.top.findNode("errorLabel")
+  m.titleOverlay = m.top.findNode("titleOverlay")
 
   m.videoPlayer.observeField("state", "onVideoStateChange")
-
-  ' Initialize Mux Analytics Task
-  m.mux = m.top.CreateNode("MuxTask")
-  m.mux.setField("video", m.videoPlayer)
 end sub
 
+' This fires when episodeId is set (it must be set LAST after streamUrl)
 sub onEpisodeIdChange()
   episodeId = m.top.episodeId
   streamUrl = m.top.streamUrl
-  print "[TONY] onEpisodeIdChange — episodeId: " + episodeId + " | streamUrl: " + streamUrl
-  if episodeId <> "" AND streamUrl <> "" then
-    print "[TONY] Playing public video directly"
-    playPublicVideo(streamUrl)
-  else if episodeId <> "" then
-    print "[TONY] No public URL, falling back to token fetch"
-    startTokenFetch(episodeId)
+  title = m.top.episodeTitle
+
+  if episodeId = "" then return
+
+  m.titleOverlay.text = title
+
+  if streamUrl <> invalid and streamUrl <> "" then
+    playVideo(streamUrl, title)
   else
-    print "[TONY] episodeId is empty, skipping"
+    ' Fallback: try token fetch
+    startTokenFetch(episodeId)
   end if
 end sub
 
-sub playPublicVideo(url as string)
-  print "[TONY] playPublicVideo — url: " + url
+sub playVideo(url as string, title as string)
   m.loadingSpinner.visible = true
   m.errorLabel.visible = false
 
   content = CreateObject("roSGNode", "ContentNode")
   content.url = url
-  content.title = m.top.episodeTitle
+  content.title = title
   content.streamFormat = "hls"
-
-  setupMuxAnalytics(m.top.episodeTitle)
 
   m.videoPlayer.content = content
   m.videoPlayer.control = "play"
   m.videoPlayer.setFocus(true)
-  m.loadingSpinner.visible = false
-  print "[TONY] Video player started"
 end sub
 
 sub startTokenFetch(episodeId as string)
@@ -59,19 +59,8 @@ sub onTokenFetched()
   tokenData = m.tokenTask.tokenData
   if tokenData = invalid then return
 
-  content = CreateObject("roSGNode", "ContentNode")
-  content.url = tokenData.streamUrl
-  content.title = m.top.episodeTitle
-  content.streamFormat = "hls"
+  playVideo(tokenData.streamUrl, m.top.episodeTitle)
 
-  setupMuxAnalytics(m.top.episodeTitle)
-
-  m.videoPlayer.content = content
-  m.videoPlayer.control = "play"
-  m.videoPlayer.setFocus(true)
-  m.loadingSpinner.visible = false
-
-  ' Store expiresAt for token refresh check
   m.tokenExpiresAt = tokenData.expiresAt
 end sub
 
@@ -81,12 +70,13 @@ end sub
 
 sub onVideoStateChange()
   state = m.videoPlayer.state
-  print "[TONY] Video state: " + state
   if state = "error"
     showError("Playback error. Please try again.")
   else if state = "playing"
     m.loadingSpinner.visible = false
     m.errorLabel.visible = false
+  else if state = "buffering"
+    m.loadingSpinner.visible = true
   end if
 end sub
 
@@ -96,33 +86,14 @@ sub showError(message as string)
   m.errorLabel.visible = true
 end sub
 
-function playContent(args as object) as void
-  m.top.getScene().callFunc("playEpisode", {id: args.contentId, title: ""})
-end function
-
-sub setupMuxAnalytics(videoTitle as string)
-  muxConfig = {
-    ' NOTE: In a real app, inject this via token or build process
-    ' We configure an arbitrary key here to allow the task to run without crashing,
-    ' You must replace it with your MUX_ENV_KEY
-    env_key: "bftb17q0qg5j34bhe6f88iudf", 
-    player_name: "T.O.N.Y. Roku App",
-    video_id: m.top.episodeId,
-    video_title: videoTitle
-  }
-  m.mux.setField("config", muxConfig)
-  m.mux.control = "RUN"
-end sub
-
 function onKeyEvent(key as string, press as boolean) as boolean
-  handled = false
   if press then
     if key = "back" then
       m.videoPlayer.control = "stop"
       m.top.visible = false
       m.top.getParent().setFocus(true)
-      handled = true
+      return true
     end if
   end if
-  return handled
+  return false
 end function

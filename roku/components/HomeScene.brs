@@ -1,9 +1,18 @@
+' ===========================================================
+' HomeScene.brs — T.O.N.Y. Roku App Home Screen
+' ===========================================================
+
 sub init()
   m.episodeGrid = m.top.findNode("episodeGrid")
   m.loadingSpinner = m.top.findNode("loadingSpinner")
+  m.statusLabel = m.top.findNode("statusLabel")
 
   m.episodeGrid.observeField("itemSelected", "onEpisodeSelected")
 
+  ' Store episode metadata so we can look up streamUrl later
+  m.episodeData = []
+
+  m.statusLabel.text = "Fetching episodes..."
   fetchEpisodes()
 end sub
 
@@ -18,68 +27,101 @@ end sub
 
 sub onFeedFetched()
   parsed = m.feedTask.feedData
-  if parsed <> invalid and parsed.episodes <> invalid
-    print "[TONY] Feed loaded: " + str(parsed.episodes.count()) + " episodes"
+  if parsed <> invalid and parsed.episodes <> invalid and parsed.episodes.count() > 0
+    m.statusLabel.text = "Loaded " + str(parsed.episodes.count()).trim() + " episodes"
     buildEpisodeGrid(parsed.episodes)
   else
-    print "[TONY] Feed returned invalid or no episodes"
+    m.statusLabel.text = "Feed empty — using fallback episode"
+    useFallbackEpisode()
   end if
   m.loadingSpinner.visible = false
 end sub
 
 sub onFeedError()
-  print "Error fetching feed: " + m.feedTask.error
+  m.statusLabel.text = "Feed error — using fallback episode"
+  useFallbackEpisode()
   m.loadingSpinner.visible = false
+end sub
+
+' Hardcoded fallback so the app ALWAYS has something to play
+sub useFallbackEpisode()
+  fallback = [{
+    id: "episode-one",
+    title: "T.O.N.Y. Episode 1",
+    description: "Season 1, Episode 1",
+    thumbnail: "https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=400&height=225",
+    streamUrl: "https://stream.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko.m3u8",
+    runtime: 7959
+  }]
+  buildEpisodeGrid(fallback)
 end sub
 
 sub buildEpisodeGrid(episodes as object)
   contentNode = CreateObject("roSGNode", "ContentNode")
 
-  row = contentNode.createChild("ContentNode")
-  row.title = "Season 1 Episodes"
+  ' Store metadata in m.episodeData for lookup on selection
+  m.episodeData = []
 
   for each ep in episodes
-    item = row.createChild("ContentNode")
+    item = contentNode.createChild("ContentNode")
     item.title = ep.title
-    item.description = ep.description
-    item.hdPosterUrl = ep.thumbnail
-    item.length = ep.runtime
-    item.rating = ep.rating
-    item.CONTENTID = ep.id  ' CONTENTID is writable; .id is read-only
-    item.url = ep.streamUrl  ' Mux public playback URL
-    print "[TONY] Added episode: " + ep.title + " | streamUrl: " + ep.streamUrl
+    if ep.description <> invalid then
+      item.description = ep.description
+    end if
+    if ep.thumbnail <> invalid then
+      item.hdPosterUrl = ep.thumbnail
+      item.sdPosterUrl = ep.thumbnail
+    end if
+
+    ' Store the episode data for lookup when selected
+    m.episodeData.push({
+      id: ep.id,
+      title: ep.title,
+      streamUrl: ep.streamUrl
+    })
   end for
 
   m.episodeGrid.content = contentNode
+  m.episodeGrid.setFocus(true)
+  m.statusLabel.text = "Ready — select an episode"
 end sub
 
 sub onEpisodeSelected()
-  selectedItem = m.episodeGrid.content.getChild(0).getChild(m.episodeGrid.itemSelected)
-  if selectedItem <> invalid
-    print "[TONY] Selected: " + selectedItem.title + " | CONTENTID: " + selectedItem.CONTENTID + " | url: " + selectedItem.url
-    playEpisode({
-      id: selectedItem.CONTENTID,
-      title: selectedItem.title,
-      streamUrl: selectedItem.url
-    })
+  selectedIndex = m.episodeGrid.itemSelected
+  if selectedIndex >= 0 and selectedIndex < m.episodeData.count()
+    epData = m.episodeData[selectedIndex]
+    m.statusLabel.text = "Playing: " + epData.title
+    playEpisode(epData)
   end if
 end sub
 
 sub playEpisode(args as object)
-  playerScene = CreateObject("roSGNode", "PlayerScene")
-  
-  m.top.appendChild(playerScene)
-  playerScene.visible = true
+  ' Create player overlay
+  m.playerGroup = CreateObject("roSGNode", "PlayerScene")
 
-  playerScene.episodeTitle = args.title
-  if args.streamUrl <> invalid then
-    playerScene.streamUrl = args.streamUrl
+  ' Attach to scene FIRST so nodes exist
+  m.top.appendChild(m.playerGroup)
+  m.playerGroup.visible = true
+
+  ' THEN set fields (episodeId must be LAST since it triggers playback)
+  m.playerGroup.episodeTitle = args.title
+  if args.streamUrl <> invalid and args.streamUrl <> "" then
+    m.playerGroup.streamUrl = args.streamUrl
   end if
-  playerScene.episodeId = args.id
+  m.playerGroup.episodeId = args.id
 end sub
 
-function playContent(args as object) as void
-  ' Handle deep link launches
-  ' For deep links, we only have contentId, so fetch from feed first
-  playEpisode({id: args.contentId, title: "", streamUrl: ""})
+function onKeyEvent(key as string, press as boolean) as boolean
+  if press and key = "back"
+    ' If player is showing, close it and return to grid
+    if m.playerGroup <> invalid and m.playerGroup.visible
+      m.playerGroup.visible = false
+      m.top.removeChild(m.playerGroup)
+      m.playerGroup = invalid
+      m.episodeGrid.setFocus(true)
+      m.statusLabel.text = "Ready — select an episode"
+      return true
+    end if
+  end if
+  return false
 end function

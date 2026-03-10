@@ -37,5 +37,14 @@
       translation="[80, 500]"
       visible="false"
     />
+
+    <!-- Title overlay at top -->
+    <Label
+      id="titleOverlay"
+      text=""
+      color="#FFFFFF"
+      font="font:MediumBoldSystemFont"
+      translation="[80, 40]"
+    />
   </children>
 </component>

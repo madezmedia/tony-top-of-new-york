@@ -28,14 +28,16 @@
       translation="[80, 110]"
     />
 
-    <!-- Episode Grid -->
-    <RowList
+    <!-- Episode Grid — PosterGrid is simpler and more reliable than RowList -->
+    <PosterGrid
       id="episodeGrid"
       translation="[80, 180]"
-      itemSize="[400, 280]"
-      itemSpacing="[20, 0]"
-      numRows="1"
-      rowLabelOffset="[0, -40]"
+      basePosterSize="[400, 225]"
+      caption1NumLines="1"
+      caption2NumLines="1"
+      numColumns="4"
+      numRows="2"
+      itemSpacing="[20, 30]"
     />
 
     <!-- Loading indicator -->
@@ -43,6 +45,15 @@
       id="loadingSpinner"
       translation="[930, 480]"
       visible="true"
+    />
+
+    <!-- Status label for debugging -->
+    <Label
+      id="statusLabel"
+      text="Loading..."
+      font="font:SmallSystemFont"
+      color="#FFFFFF"
+      translation="[80, 950]"
     />
   </children>
 </component>
