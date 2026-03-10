@@ -20,9 +20,13 @@ sub init()
 
   ' Store episode metadata for lookup
   m.episodeData = []
+  m.playerGroup = invalid
 
   m.statusLabel.text = "Fetching episodes..."
   fetchEpisodes()
+
+  ' Give initial focus to grid so remote works
+  m.episodeGrid.setFocus(true)
 end sub
 
 sub fetchEpisodes()

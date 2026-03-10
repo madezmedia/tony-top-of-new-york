@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="HomeScene" extends="Scene">
+<component name="HomeScene" extends="Scene" initialFocus="episodeGrid">
   <script type="text/brightscript" uri="pkg:/components/HomeScene.brs" />
 
   <children>
@@ -36,6 +36,15 @@
       color="#020B13"
       opacity="0.9"
       translation="[0, 380]"
+    />
+
+    <!-- App logo in top-right corner -->
+    <Poster
+      id="appLogo"
+      uri="pkg:/images/icon-hd.png"
+      width="90"
+      height="90"
+      translation="[1780, 20]"
     />
 
     <!-- T.O.N.Y. Logo / Title -->
