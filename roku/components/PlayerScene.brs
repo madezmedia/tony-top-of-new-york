@@ -13,15 +13,20 @@ end sub
 sub onEpisodeIdChange()
   episodeId = m.top.episodeId
   streamUrl = m.top.streamUrl
+  print "[TONY] onEpisodeIdChange — episodeId: " + episodeId + " | streamUrl: " + streamUrl
   if episodeId <> "" AND streamUrl <> "" then
+    print "[TONY] Playing public video directly"
     playPublicVideo(streamUrl)
   else if episodeId <> "" then
-    ' Fallback: try token fetch if no public URL
+    print "[TONY] No public URL, falling back to token fetch"
     startTokenFetch(episodeId)
+  else
+    print "[TONY] episodeId is empty, skipping"
   end if
 end sub
 
 sub playPublicVideo(url as string)
+  print "[TONY] playPublicVideo — url: " + url
   m.loadingSpinner.visible = true
   m.errorLabel.visible = false
 
@@ -36,6 +41,7 @@ sub playPublicVideo(url as string)
   m.videoPlayer.control = "play"
   m.videoPlayer.setFocus(true)
   m.loadingSpinner.visible = false
+  print "[TONY] Video player started"
 end sub
 
 sub startTokenFetch(episodeId as string)
@@ -75,6 +81,7 @@ end sub
 
 sub onVideoStateChange()
   state = m.videoPlayer.state
+  print "[TONY] Video state: " + state
   if state = "error"
     showError("Playback error. Please try again.")
   else if state = "playing"

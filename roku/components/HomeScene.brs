@@ -19,7 +19,10 @@ end sub
 sub onFeedFetched()
   parsed = m.feedTask.feedData
   if parsed <> invalid and parsed.episodes <> invalid
+    print "[TONY] Feed loaded: " + str(parsed.episodes.count()) + " episodes"
     buildEpisodeGrid(parsed.episodes)
+  else
+    print "[TONY] Feed returned invalid or no episodes"
   end if
   m.loadingSpinner.visible = false
 end sub
@@ -42,8 +45,9 @@ sub buildEpisodeGrid(episodes as object)
     item.hdPosterUrl = ep.thumbnail
     item.length = ep.runtime
     item.rating = ep.rating
-    item.id = ep.id  ' slug used to fetch token
+    item.CONTENTID = ep.id  ' CONTENTID is writable; .id is read-only
     item.url = ep.streamUrl  ' Mux public playback URL
+    print "[TONY] Added episode: " + ep.title + " | streamUrl: " + ep.streamUrl
   end for
 
   m.episodeGrid.content = contentNode
@@ -52,8 +56,9 @@ end sub
 sub onEpisodeSelected()
   selectedItem = m.episodeGrid.content.getChild(0).getChild(m.episodeGrid.itemSelected)
   if selectedItem <> invalid
+    print "[TONY] Selected: " + selectedItem.title + " | CONTENTID: " + selectedItem.CONTENTID + " | url: " + selectedItem.url
     playEpisode({
-      id: selectedItem.id,
+      id: selectedItem.CONTENTID,
       title: selectedItem.title,
       streamUrl: selectedItem.url
     })
