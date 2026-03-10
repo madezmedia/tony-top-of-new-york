@@ -3,58 +3,58 @@
   <script type="text/brightscript" uri="pkg:/components/HomeScene.brs" />
 
   <children>
-    <!-- Full black background -->
-    <Rectangle width="1920" height="1080" color="#020B13" />
+    <!-- Full background — 1280x720 for HD Roku -->
+    <Rectangle width="1280" height="720" color="#020B13" />
 
-    <!-- Hero poster — full width -->
+    <!-- Hero poster — sized for 720p -->
     <Poster
       id="heroPoster"
-      width="1920"
-      height="800"
-      uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1920&amp;height=800"
+      width="1280"
+      height="500"
+      uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1280&amp;height=500"
       translation="[0, 0]"
     />
 
     <!-- Dark gradient at bottom of poster -->
-    <Rectangle width="1920" height="300" color="#020B13" opacity="0.85" translation="[0, 550]" />
+    <Rectangle width="1280" height="200" color="#020B13" opacity="0.85" translation="[0, 350]" />
 
-    <!-- App logo -->
-    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="90" height="90" translation="[1780, 30]" />
+    <!-- App logo top-right -->
+    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="60" height="60" translation="[1190, 20]" />
 
     <!-- Title -->
-    <Label text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[80, 620]" />
-    <Label text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[80, 670]" />
+    <Label text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[50, 400]" />
+    <Label text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[50, 445]" />
 
     <!-- Gold divider -->
-    <Rectangle width="120" height="3" color="#DAAB2D" translation="[80, 715]" />
+    <Rectangle width="80" height="3" color="#DAAB2D" translation="[50, 480]" />
 
     <!-- Episode info -->
-    <Label text="Season 1, Episode 1  •  TV-MA" font="font:SmallSystemFont" color="#DAAB2D" translation="[80, 735]" />
-    <Label text="A Bronx Crime Saga" font="font:SmallSystemFont" color="#AAAAAA" translation="[80, 765]" />
+    <Label text="Season 1, Episode 1  •  TV-MA" font="font:SmallSystemFont" color="#DAAB2D" translation="[50, 495]" />
+    <Label text="A Bronx Crime Saga" font="font:SmallSystemFont" color="#AAAAAA" translation="[50, 520]" />
 
-    <!-- BIG play prompt -->
+    <!-- Play prompt -->
     <Label
       id="playPrompt"
       text="▶  PRESS OK TO PLAY"
-      font="font:LargeBoldSystemFont"
+      font="font:MediumBoldSystemFont"
       color="#DAAB2D"
-      translation="[680, 900]"
+      translation="[440, 620]"
     />
 
     <!-- Status -->
-    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#666666" translation="[80, 1040]" />
+    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#666666" translation="[50, 690]" />
 
-    <!-- Video player (hidden until playing) -->
+    <!-- Video player (hidden until playing) — 1280x720 -->
     <Video
       id="videoPlayer"
-      width="1920"
-      height="1080"
+      width="1280"
+      height="720"
       translation="[0, 0]"
       visible="false"
       enableUI="true"
     />
 
-    <!-- Buffering spinner (hidden) -->
-    <BusySpinner id="spinner" translation="[930, 480]" visible="false" />
+    <!-- Buffering spinner -->
+    <BusySpinner id="spinner" translation="[610, 330]" visible="false" />
   </children>
 </component>
