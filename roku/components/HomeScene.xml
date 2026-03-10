@@ -11,31 +11,121 @@
       color="#020B13"
     />
 
+    <!-- ===== HERO SECTION ===== -->
+    <!-- Hero thumbnail background (faded) -->
+    <Poster
+      id="heroImage"
+      width="1920"
+      height="540"
+      translation="[0, 0]"
+    />
+
+    <!-- Gradient overlay on hero for text readability -->
+    <Rectangle
+      id="heroGradientTop"
+      width="1920"
+      height="120"
+      color="#020B13"
+      opacity="0.8"
+      translation="[0, 0]"
+    />
+    <Rectangle
+      id="heroGradientBottom"
+      width="1920"
+      height="200"
+      color="#020B13"
+      opacity="0.9"
+      translation="[0, 380]"
+    />
+
     <!-- T.O.N.Y. Logo / Title -->
     <Label
       id="showTitle"
-      text="T.O.N.Y. | TOP OF NEW YORK"
+      text="T.O.N.Y."
       font="font:LargeBoldSystemFont"
       color="#DAAB2D"
-      translation="[80, 60]"
+      translation="[80, 30]"
+    />
+    <Label
+      id="showSubtitle"
+      text="TOP OF NEW YORK"
+      font="font:MediumBoldSystemFont"
+      color="#FFFFFF"
+      translation="[80, 80]"
     />
 
+    <!-- Gold divider -->
+    <Rectangle
+      id="divider"
+      width="120"
+      height="3"
+      color="#DAAB2D"
+      translation="[80, 125]"
+    />
+
+    <!-- Hero episode info -->
     <Label
-      id="showTagline"
-      text="A Bronx Crime Saga"
+      id="heroEpisodeTitle"
+      text=""
+      font="font:MediumBoldSystemFont"
+      color="#FFFFFF"
+      width="900"
+      translation="[80, 150]"
+    />
+    <Label
+      id="heroEpisodeMeta"
+      text=""
+      font="font:SmallSystemFont"
+      color="#DAAB2D"
+      translation="[80, 195]"
+    />
+    <Label
+      id="heroEpisodeDesc"
+      text=""
       font="font:SmallSystemFont"
       color="#AAAAAA"
-      translation="[80, 110]"
+      width="800"
+      maxLines="3"
+      wrap="true"
+      translation="[80, 230]"
     />
 
-    <!-- Episode Grid — PosterGrid is simpler and more reliable than RowList -->
+    <!-- Play prompt -->
+    <Label
+      id="playPrompt"
+      text="▶  Press OK to Play"
+      font="font:SmallBoldSystemFont"
+      color="#DAAB2D"
+      translation="[80, 320]"
+      visible="false"
+    />
+
+    <!-- ===== EPISODE GRID SECTION ===== -->
+    <Label
+      id="gridTitle"
+      text="EPISODES"
+      font="font:SmallBoldSystemFont"
+      color="#DAAB2D"
+      translation="[80, 540]"
+    />
+
+    <!-- Gold line under section title -->
+    <Rectangle
+      id="gridDivider"
+      width="1760"
+      height="1"
+      color="#333333"
+      translation="[80, 570]"
+    />
+
+    <!-- Episode Grid -->
     <PosterGrid
       id="episodeGrid"
-      translation="[80, 180]"
-      basePosterSize="[400, 225]"
+      translation="[80, 590]"
+      basePosterSize="[320, 180]"
       caption1NumLines="1"
       caption2NumLines="1"
-      numColumns="4"
+      numColumns="5"
       numRows="2"
       itemSpacing="[20, 30]"
     />
@@ -47,13 +137,13 @@
       visible="true"
     />
 
-    <!-- Status label for debugging -->
+    <!-- Status label -->
     <Label
       id="statusLabel"
       text="Loading..."
       font="font:SmallSystemFont"
-      color="#FFFFFF"
-      translation="[80, 950]"
+      color="#666666"
+      translation="[80, 1030]"
     />
   </children>
 </component>

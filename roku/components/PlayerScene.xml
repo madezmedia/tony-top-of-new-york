@@ -9,6 +9,7 @@
   </interface>
 
   <children>
+    <!-- Solid black background to cover home screen -->
     <Rectangle
       id="background"
       width="1920"
@@ -16,11 +17,13 @@
       color="#000000"
     />
 
+    <!-- Video player — use enableUI=true for built-in transport controls -->
     <Video
       id="videoPlayer"
       width="1920"
       height="1080"
       translation="[0, 0]"
+      enableUI="true"
     />
 
     <BusySpinner
@@ -38,13 +41,13 @@
       visible="false"
     />
 
-    <!-- Title overlay at top -->
+    <!-- Back hint overlay -->
     <Label
-      id="titleOverlay"
-      text=""
-      color="#FFFFFF"
-      font="font:MediumBoldSystemFont"
-      translation="[80, 40]"
+      id="backHint"
+      text="◀ Back"
+      color="#AAAAAA"
+      font="font:SmallSystemFont"
+      translation="[40, 30]"
     />
   </children>
 </component>

@@ -1,5 +1,6 @@
 ' ===========================================================
 ' HomeScene.brs — T.O.N.Y. Roku App Home Screen
+' Hero banner + Episode grid + Public Mux playback
 ' ===========================================================
 
 sub init()
@@ -7,9 +8,17 @@ sub init()
   m.loadingSpinner = m.top.findNode("loadingSpinner")
   m.statusLabel = m.top.findNode("statusLabel")
 
+  ' Hero elements
+  m.heroImage = m.top.findNode("heroImage")
+  m.heroEpisodeTitle = m.top.findNode("heroEpisodeTitle")
+  m.heroEpisodeMeta = m.top.findNode("heroEpisodeMeta")
+  m.heroEpisodeDesc = m.top.findNode("heroEpisodeDesc")
+  m.playPrompt = m.top.findNode("playPrompt")
+
+  m.episodeGrid.observeField("itemFocused", "onEpisodeFocused")
   m.episodeGrid.observeField("itemSelected", "onEpisodeSelected")
 
-  ' Store episode metadata so we can look up streamUrl later
+  ' Store episode metadata for lookup
   m.episodeData = []
 
   m.statusLabel.text = "Fetching episodes..."
@@ -28,62 +37,105 @@ end sub
 sub onFeedFetched()
   parsed = m.feedTask.feedData
   if parsed <> invalid and parsed.episodes <> invalid and parsed.episodes.count() > 0
-    m.statusLabel.text = "Loaded " + str(parsed.episodes.count()).trim() + " episodes"
+    m.statusLabel.text = str(parsed.episodes.count()).trim() + " episodes loaded"
     buildEpisodeGrid(parsed.episodes)
   else
-    m.statusLabel.text = "Feed empty — using fallback episode"
+    m.statusLabel.text = "Feed empty — using fallback"
     useFallbackEpisode()
   end if
   m.loadingSpinner.visible = false
 end sub
 
 sub onFeedError()
-  m.statusLabel.text = "Feed error — using fallback episode"
+  m.statusLabel.text = "Feed error — using fallback"
   useFallbackEpisode()
   m.loadingSpinner.visible = false
 end sub
 
-' Hardcoded fallback so the app ALWAYS has something to play
 sub useFallbackEpisode()
   fallback = [{
     id: "episode-one",
-    title: "T.O.N.Y. Episode 1",
-    description: "Season 1, Episode 1",
-    thumbnail: "https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=400&height=225",
+    title: "T.O.N.Y. Episode 1 — REMIXX",
+    description: "Follow the rise of Tony as he navigates the treacherous streets of the Bronx in this gripping crime saga.",
+    thumbnail: "https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1920&height=1080",
     streamUrl: "https://stream.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko.m3u8",
-    runtime: 7959
+    runtime: 7959,
+    season: 1,
+    episode: 1,
+    rating: "TV-MA"
   }]
   buildEpisodeGrid(fallback)
 end sub
 
 sub buildEpisodeGrid(episodes as object)
   contentNode = CreateObject("roSGNode", "ContentNode")
-
-  ' Store metadata in m.episodeData for lookup on selection
   m.episodeData = []
 
   for each ep in episodes
     item = contentNode.createChild("ContentNode")
     item.title = ep.title
-    if ep.description <> invalid then
-      item.description = ep.description
-    end if
+
+    ' Use smaller thumbnail for grid posters
     if ep.thumbnail <> invalid then
-      item.hdPosterUrl = ep.thumbnail
-      item.sdPosterUrl = ep.thumbnail
+      gridThumb = ep.thumbnail
+      ' Replace dimensions for grid-sized poster
+      gridThumb = gridThumb.replace("width=1920", "width=320")
+      gridThumb = gridThumb.replace("height=1080", "height=180")
+      item.hdPosterUrl = gridThumb
+      item.sdPosterUrl = gridThumb
     end if
 
-    ' Store the episode data for lookup when selected
-    m.episodeData.push({
+    ' Build metadata for hero display
+    epMeta = {
       id: ep.id,
       title: ep.title,
-      streamUrl: ep.streamUrl
-    })
+      streamUrl: ep.streamUrl,
+      description: "",
+      season: 1,
+      episode: 1,
+      rating: "TV-MA",
+      thumbnail: ""
+    }
+    if ep.description <> invalid then epMeta.description = ep.description
+    if ep.season <> invalid then epMeta.season = ep.season
+    if ep.episode <> invalid then epMeta.episode = ep.episode
+    if ep.rating <> invalid then epMeta.rating = ep.rating
+    if ep.thumbnail <> invalid then epMeta.thumbnail = ep.thumbnail
+
+    m.episodeData.push(epMeta)
   end for
 
   m.episodeGrid.content = contentNode
   m.episodeGrid.setFocus(true)
-  m.statusLabel.text = "Ready — select an episode"
+
+  ' Show first episode in hero
+  if m.episodeData.count() > 0
+    updateHero(0)
+  end if
+
+  m.statusLabel.text = "Ready"
+end sub
+
+' Update hero banner when user scrolls through grid
+sub onEpisodeFocused()
+  focusedIndex = m.episodeGrid.itemFocused
+  if focusedIndex >= 0 and focusedIndex < m.episodeData.count()
+    updateHero(focusedIndex)
+  end if
+end sub
+
+sub updateHero(index as integer)
+  ep = m.episodeData[index]
+
+  ' Set hero background image (full size)
+  if ep.thumbnail <> "" then
+    m.heroImage.uri = ep.thumbnail
+  end if
+
+  m.heroEpisodeTitle.text = ep.title
+  m.heroEpisodeMeta.text = "S" + str(ep.season).trim() + " E" + str(ep.episode).trim() + "  •  " + ep.rating
+  m.heroEpisodeDesc.text = ep.description
+  m.playPrompt.visible = true
 end sub
 
 sub onEpisodeSelected()
@@ -96,14 +148,12 @@ sub onEpisodeSelected()
 end sub
 
 sub playEpisode(args as object)
-  ' Create player overlay
   m.playerGroup = CreateObject("roSGNode", "PlayerScene")
 
-  ' Attach to scene FIRST so nodes exist
+  ' Attach first, then set fields
   m.top.appendChild(m.playerGroup)
   m.playerGroup.visible = true
 
-  ' THEN set fields (episodeId must be LAST since it triggers playback)
   m.playerGroup.episodeTitle = args.title
   if args.streamUrl <> invalid and args.streamUrl <> "" then
     m.playerGroup.streamUrl = args.streamUrl
@@ -113,13 +163,12 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   if press and key = "back"
-    ' If player is showing, close it and return to grid
     if m.playerGroup <> invalid and m.playerGroup.visible
       m.playerGroup.visible = false
       m.top.removeChild(m.playerGroup)
       m.playerGroup = invalid
       m.episodeGrid.setFocus(true)
-      m.statusLabel.text = "Ready — select an episode"
+      m.statusLabel.text = "Ready"
       return true
     end if
   end if
