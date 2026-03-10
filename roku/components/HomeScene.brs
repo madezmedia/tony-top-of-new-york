@@ -163,7 +163,9 @@ sub playEpisode(args as object)
 end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
-  if press and key = "back"
+  if not press then return false
+
+  if key = "back"
     if m.playerGroup <> invalid and m.playerGroup.visible
       m.playerGroup.visible = false
       m.top.removeChild(m.playerGroup)
@@ -173,5 +175,23 @@ function onKeyEvent(key as string, press as boolean) as boolean
       return true
     end if
   end if
+
+  ' Handle OK/Select — play the focused episode
+  if key = "OK"
+    if m.playerGroup = invalid or not m.playerGroup.visible
+      ' Determine which episode is focused
+      focusedIndex = m.episodeGrid.itemFocused
+      if focusedIndex < 0 or focusedIndex >= m.episodeData.count()
+        focusedIndex = 0
+      end if
+      if m.episodeData.count() > 0
+        epData = m.episodeData[focusedIndex]
+        m.statusLabel.text = "Playing: " + epData.title
+        playEpisode(epData)
+        return true
+      end if
+    end if
+  end if
+
   return false
 end function

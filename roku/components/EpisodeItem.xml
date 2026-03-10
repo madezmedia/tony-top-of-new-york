@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- Simple item renderer for the MarkupGrid -->
 <component name="EpisodeItem" extends="Group">
-  <interface>
-    <field id="itemContent" type="node" onChange="onContentChange" />
-  </interface>
-
   <script type="text/brightscript">
     <![CDATA[
       sub init()
@@ -21,6 +17,10 @@
       end sub
     ]]>
   </script>
+
+  <interface>
+    <field id="itemContent" type="node" onChange="onContentChange" />
+  </interface>
 
   <children>
     <Poster
