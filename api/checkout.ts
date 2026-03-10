@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Client, Environment } from 'square';
+import { SquareClient, SquareEnvironment } from 'square';
 import { createClient } from '@supabase/supabase-js';
 import { randomUUID } from 'crypto';
 
@@ -9,13 +9,13 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-// Initialize Square client
-const squareClient = new Client({
+// Initialize Square client (v43+)
+const squareClient = new SquareClient({
   environment:
     process.env.SQUARE_ENVIRONMENT === 'production'
-      ? Environment.Production
-      : Environment.Sandbox,
-  accessToken: process.env.SQUARE_ACCESS_TOKEN!,
+      ? SquareEnvironment.Production
+      : SquareEnvironment.Sandbox,
+  token: process.env.SQUARE_ACCESS_TOKEN!,
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -68,11 +68,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'You already own this film' });
     }
 
-    // Create Square payment link
-    const { paymentsApi } = squareClient;
+    // Create Square payment link (v43+ API)
     const idempotencyKey = randomUUID();
 
-    const response = await squareClient.checkoutApi.createPaymentLink({
+    const response = await squareClient.checkout.createPaymentLink({
       idempotencyKey,
       quickPay: {
         name: `T.O.N.Y. - ${film.title}`,
@@ -90,7 +89,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         askForShippingAddress: false,
       },
       paymentNote: `Purchase: T.O.N.Y. - ${film.title}`,
-      // Store user and film IDs in order reference for webhook
       description: JSON.stringify({
         userId: user.id,
         filmId: film.id,
@@ -98,9 +96,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }),
     });
 
-    const checkoutUrl = response.result.paymentLink?.url;
+    const checkoutUrl = response.paymentLink?.url;
     if (!checkoutUrl) {
-      console.error('Square error:', response.result);
+      console.error('Square error:', response);
       return res.status(500).json({ error: 'Failed to create checkout session' });
     }
 
@@ -108,13 +106,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await supabase.from('pending_orders').insert({
       user_id: user.id,
       film_id: film.id,
-      square_order_id: response.result.paymentLink?.orderId,
+      square_order_id: response.paymentLink?.orderId,
       created_at: new Date().toISOString(),
     });
 
     return res.status(200).json({
       checkoutUrl,
-      orderId: response.result.paymentLink?.orderId,
+      orderId: response.paymentLink?.orderId,
     });
   } catch (error) {
     console.error('Error creating checkout:', error);
