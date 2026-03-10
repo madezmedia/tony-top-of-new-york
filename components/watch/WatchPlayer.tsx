@@ -8,6 +8,7 @@ import { Button } from '../ui/Button';
 interface WatchPlayerProps {
   slug: string;
   title: string;
+  playbackId?: string; // Public playback ID — if provided, skip token fetch
 }
 
 interface MuxTokens {
@@ -16,15 +17,22 @@ interface MuxTokens {
   thumbnail: string;
 }
 
-export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title }) => {
-  const [playbackId, setPlaybackId] = useState<string | null>(null);
+export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title, playbackId: publicPlaybackId }) => {
+  const [playbackId, setPlaybackId] = useState<string | null>(publicPlaybackId || null);
   const [tokens, setTokens] = useState<MuxTokens | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!publicPlaybackId); // Skip loading if we already have public ID
   const [error, setError] = useState<string | null>(null);
   const [showDownloadMenu, setShowDownloadMenu] = useState(false);
   const [downloadLoading, setDownloadLoading] = useState(false);
 
   useEffect(() => {
+    // If we have a public playback ID, no need to fetch tokens
+    if (publicPlaybackId) {
+      setPlaybackId(publicPlaybackId);
+      setLoading(false);
+      return;
+    }
+
     const fetchToken = async () => {
       try {
         setLoading(true);
@@ -42,16 +50,13 @@ export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title }) => {
     };
 
     fetchToken();
-  }, [slug]);
+  }, [slug, publicPlaybackId]);
 
   const handleDownload = async (quality: string) => {
     try {
       setDownloadLoading(true);
       const data = await api.getDownloadLink(slug, quality);
-
-      // Open download link in new tab
       window.open(data.downloadUrl, '_blank');
-
       setShowDownloadMenu(false);
     } catch (err: any) {
       console.error('Error getting download link:', err);
@@ -71,7 +76,7 @@ export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title }) => {
           <Loader2 className="w-12 h-12 text-primary-main" />
         </motion.div>
         <p className="absolute bottom-8 text-neutral-textSecondary">
-          Loading secure stream...
+          Loading stream...
         </p>
       </div>
     );
@@ -98,7 +103,7 @@ export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title }) => {
     );
   }
 
-  if (!playbackId || !tokens) {
+  if (!playbackId) {
     return (
       <div className="relative w-full aspect-video bg-neutral-surface rounded-xl flex items-center justify-center">
         <p className="text-neutral-textSecondary">No video available</p>
@@ -112,15 +117,17 @@ export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title }) => {
       <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-neutral-border">
         <MuxPlayer
           playbackId={playbackId}
-          tokens={{
-            playback: tokens.playback,
-            storyboard: tokens.storyboard,
-            thumbnail: tokens.thumbnail,
-          }}
+          {...(tokens ? {
+            tokens: {
+              playback: tokens.playback,
+              storyboard: tokens.storyboard,
+              thumbnail: tokens.thumbnail,
+            }
+          } : {})}
           streamType="on-demand"
           metadata={{
             video_title: title,
-            viewer_user_id: 'anonymous', // Will be populated with actual user ID
+            viewer_user_id: 'anonymous',
           }}
           primaryColor="#FF1744"
           secondaryColor="#FFFFFF"
@@ -133,70 +140,15 @@ export const WatchPlayer: React.FC<WatchPlayerProps> = ({ slug, title }) => {
         />
       </div>
 
-      {/* Download Section */}
+      {/* Title and Info */}
       <div className="mt-6 flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-display font-bold text-neutral-text">
             {title}
           </h2>
           <p className="text-neutral-textSecondary text-sm mt-1">
-            You own this content. Stream anytime or download to keep.
+            Stream anytime. T.O.N.Y. — Top of New York.
           </p>
-        </div>
-
-        {/* Download Button with Dropdown */}
-        <div className="relative">
-          <Button
-            variant="outline"
-            onClick={() => setShowDownloadMenu(!showDownloadMenu)}
-            disabled={downloadLoading}
-          >
-            {downloadLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Download size={18} />
-            )}
-            Download
-            <ChevronDown
-              size={16}
-              className={`transition-transform ${showDownloadMenu ? 'rotate-180' : ''}`}
-            />
-          </Button>
-
-          {/* Download Menu */}
-          {showDownloadMenu && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="absolute right-0 mt-2 w-48 bg-neutral-surface border border-neutral-border rounded-lg shadow-xl z-10 overflow-hidden"
-            >
-              <div className="p-2">
-                <p className="text-xs text-neutral-textSecondary px-3 py-2">
-                  Select Quality
-                </p>
-                {[
-                  { label: '4K Ultra HD', value: '4k', size: '~8 GB' },
-                  { label: '1080p Full HD', value: '1080p', size: '~4 GB' },
-                  { label: '720p HD', value: '720p', size: '~2 GB' },
-                  { label: '480p SD', value: '480p', size: '~1 GB' },
-                ].map((option) => (
-                  <button
-                    key={option.value}
-                    onClick={() => handleDownload(option.value)}
-                    className="w-full text-left px-3 py-2 hover:bg-neutral-border/50 rounded-md transition-colors"
-                  >
-                    <span className="text-neutral-text text-sm font-medium">
-                      {option.label}
-                    </span>
-                    <span className="block text-xs text-neutral-textSecondary">
-                      {option.size}
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>
