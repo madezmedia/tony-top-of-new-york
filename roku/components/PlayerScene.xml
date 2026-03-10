@@ -5,6 +5,7 @@
   <interface>
     <field id="episodeId" type="string" onChange="onEpisodeIdChange" />
     <field id="episodeTitle" type="string" />
+    <field id="streamUrl" type="string" onChange="onEpisodeIdChange" />
   </interface>
 
   <children>

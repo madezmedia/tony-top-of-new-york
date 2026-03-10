@@ -8,9 +8,27 @@ end sub
 
 sub onEpisodeIdChange()
   episodeId = m.top.episodeId
-  if episodeId <> "" then
+  streamUrl = m.top.streamUrl
+  if episodeId <> "" AND streamUrl <> "" then
+    playPublicVideo(streamUrl)
+  else if episodeId <> "" then
+    ' Fallback: try token fetch if no public URL
     startTokenFetch(episodeId)
   end if
+end sub
+
+sub playPublicVideo(url as string)
+  m.loadingSpinner.visible = true
+  m.errorLabel.visible = false
+
+  content = CreateObject("roSGNode", "ContentNode")
+  content.url = url
+  content.title = m.top.episodeTitle
+  content.streamFormat = "hls"
+
+  m.videoPlayer.content = content
+  m.videoPlayer.control = "play"
+  m.loadingSpinner.visible = false
 end sub
 
 sub startTokenFetch(episodeId as string)
@@ -34,22 +52,6 @@ sub onTokenFetched()
   content.streamFormat = "hls"
 
   m.videoPlayer.content = content
-
-  ' VAST pre-roll via Roku Advertising Framework (RAF)
-  ' RAF handles ad insertion before and during playback.
-  ' Requires "Library Roku_Ads.brs" at top of this file.
-  ' Full integration: https://developer.roku.com/docs/developer-program/advertising/roku-advertising-framework.md
-  '
-  ' Minimal RAF pre-roll:
-  '   Library "Roku_Ads.brs"
-  '   adIface = Roku_Ads()
-  '   adIface.setAdUrl("https://tony-top-of-new-york.vercel.app/api/vast-tag")
-  '   adIface.showAds(adIface.getAds())
-  '   ' After ads complete → set video content and play
-  '
-  ' NOTE: RAF requires a separate RAF integration step. The Video node
-  ' is loaded and plays without ads until RAF is fully integrated.
-
   m.videoPlayer.control = "play"
   m.loadingSpinner.visible = false
 

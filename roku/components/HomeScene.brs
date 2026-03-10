@@ -43,6 +43,7 @@ sub buildEpisodeGrid(episodes as object)
     item.length = ep.runtime
     item.rating = ep.rating
     item.id = ep.id  ' slug used to fetch token
+    item.streamUrl = ep.streamUrl  ' Mux public playback URL
   end for
 
   m.episodeGrid.content = contentNode
@@ -51,11 +52,26 @@ end sub
 sub onEpisodeSelected()
   selectedItem = m.episodeGrid.content.getChild(0).getChild(m.episodeGrid.itemSelected)
   if selectedItem <> invalid
-    m.top.getScene().callFunc("playEpisode", {id: selectedItem.id, title: selectedItem.title})
+    playEpisode({
+      id: selectedItem.id,
+      title: selectedItem.title,
+      streamUrl: selectedItem.streamUrl
+    })
   end if
+end sub
+
+sub playEpisode(args as object)
+  playerScene = CreateObject("roSGNode", "PlayerScene")
+  playerScene.id = args.id
+  playerScene.episodeTitle = args.title
+  playerScene.streamUrl = args.streamUrl
+
+  m.top.appendChild(playerScene)
+  playerScene.visible = true
 end sub
 
 function playContent(args as object) as void
   ' Handle deep link launches
-  m.top.getScene().callFunc("playEpisode", {id: args.contentId, title: ""})
+  ' For deep links, we only have contentId, so fetch from feed first
+  playEpisode({id: args.contentId, title: "", streamUrl: ""})
 end function
