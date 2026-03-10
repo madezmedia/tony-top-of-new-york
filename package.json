@@ -23,7 +23,8 @@
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "square": "^43.2.1"
+    "square": "^43.2.1",
+    "telnet": "^0.0.1"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.10",

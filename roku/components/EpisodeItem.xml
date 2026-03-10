@@ -5,6 +5,7 @@
       sub init()
         m.poster = m.top.findNode("poster")
         m.label = m.top.findNode("label")
+        m.focusBorder = m.top.findNode("focusBorder")
       end sub
 
       sub onContentChange()
@@ -14,15 +15,36 @@
           m.label.text = content.title
         end if
       end sub
+
+      sub focusChange()
+        if m.top.focus
+          m.focusBorder.visible = true
+        else
+          m.focusBorder.visible = false
+        end if
+      end sub
     ]]>
   </script>
 
   <interface>
     <field id="itemContent" type="node" onChange="onContentChange" />
     <field id="focusPercent" type="float" value="0" />
+    <field id="focusable" type="boolean" value="true" />
+    <field id="focus" type="boolean" value="false" onChange="focusChange" />
   </interface>
 
   <children>
+    <!-- Focus indicator rectangle -->
+    <Rectangle
+      id="focusBorder"
+      width="320"
+      height="180"
+      color="#00000000"
+      strokeWidth="4"
+      strokeColor="#DAAB2D"
+      visible="false"
+    />
+
     <Poster
       id="poster"
       width="320"
