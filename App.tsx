@@ -32,7 +32,7 @@ function App() {
 
   // Handle /watch and /watch/:slug routes
   if (path.startsWith('/watch')) {
-    const slug = path.split('/')[2] || 's1e1-concrete-jungle';
+    const slug = path.split('/')[2] || 'episode-one';
     return <WatchPage slug={slug} />;
   }
 
