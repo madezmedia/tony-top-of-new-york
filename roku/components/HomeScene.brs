@@ -43,7 +43,7 @@ sub buildEpisodeGrid(episodes as object)
     item.length = ep.runtime
     item.rating = ep.rating
     item.id = ep.id  ' slug used to fetch token
-    item.streamUrl = ep.streamUrl  ' Mux public playback URL
+    item.url = ep.streamUrl  ' Mux public playback URL
   end for
 
   m.episodeGrid.content = contentNode
@@ -55,22 +55,22 @@ sub onEpisodeSelected()
     playEpisode({
       id: selectedItem.id,
       title: selectedItem.title,
-      streamUrl: selectedItem.streamUrl
+      streamUrl: selectedItem.url
     })
   end if
 end sub
 
 sub playEpisode(args as object)
   playerScene = CreateObject("roSGNode", "PlayerScene")
+  
+  m.top.appendChild(playerScene)
+  playerScene.visible = true
+
   playerScene.episodeTitle = args.title
   if args.streamUrl <> invalid then
     playerScene.streamUrl = args.streamUrl
   end if
   playerScene.episodeId = args.id
-
-  m.top.appendChild(playerScene)
-  playerScene.visible = true
-  playerScene.setFocus(true)
 end sub
 
 function playContent(args as object) as void
