@@ -117,11 +117,11 @@ sub buildContentCatalog()
     streamFormat: "hls",
     thumbnailUrl: ep1Thumb + "?width=240&height=136&time=5",
     heroUrl: ep1Thumb + "?width=1280&height=400&time=5",
-    duration: "TBD",
+    duration: "2h 12m",
     episodeNum: "E1",
     season: "Season 1",
     rating: "TV-MA",
-    meta: "S1:E1 • TV-MA",
+    meta: "S1:E1 • 2h 12m • TV-MA",
     available: true,
     isNew: true
   }
