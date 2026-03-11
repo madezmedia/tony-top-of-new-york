@@ -2,7 +2,7 @@
 <component name="HomeScene" extends="Scene">
   <script type="text/brightscript" uri="pkg:/components/HomeScene.brs" />
 
-  <!-- Deep linking interface (required for certification) -->
+  <!-- Deep linking interface -->
   <interface>
     <field id="deepLinkContentId" type="string" onChange="onDeepLink" />
     <field id="deepLinkMediaType" type="string" />
@@ -13,7 +13,6 @@
     <Rectangle id="background" width="1280" height="720" color="#020B13" />
 
     <!-- ============ HERO SECTION ============ -->
-    <!-- Hero poster (dynamic resolution via Mux thumbnail API) -->
     <Poster
       id="heroPoster"
       width="1280"
@@ -22,23 +21,47 @@
       translation="[0, 0]"
     />
 
-    <!-- Hero gradient overlay -->
-    <Rectangle width="1280" height="250" color="#020B13" opacity="0.9" translation="[0, 250]" />
+    <!-- Hero gradients -->
+    <Rectangle width="1280" height="300" color="#020B13" opacity="0.95" translation="[0, 200]" />
+    <Rectangle width="600" height="400" color="#020B13" opacity="0.7" translation="[0, 0]" />
 
-    <!-- App logo top-right -->
-    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="50" height="50" translation="[1200, 15]" />
+    <!-- App logo -->
+    <Poster id="appLogo" uri="pkg:/images/icon-focus-hd.png" width="50" height="38" translation="[1200, 15]" />
 
-    <!-- Hero Title & Info -->
-    <Label id="heroTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[50, 300]" />
-    <Label id="heroSubtitle" text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[50, 340]" />
-    <Rectangle width="60" height="2" color="#DAAB2D" translation="[50, 375]" />
-    <Label id="heroMeta" text="Season 1  •  TV-MA  •  Crime Drama" font="font:SmallSystemFont" color="#DAAB2D" translation="[50, 385]" />
-    <Label id="heroDescription" text="In the unforgiving streets of the Bronx, power is earned and survival comes at a cost." font="font:SmallSystemFont" color="#AAAAAA" translation="[50, 408]" width="500" />
+    <!-- Hero branding -->
+    <Label id="heroTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[50, 20]" />
+    <Label id="heroSubtitle" text="TOP OF NEW YORK" font="font:SmallBoldSystemFont" color="#FFFFFF" translation="[52, 60]" />
+    <Rectangle width="50" height="2" color="#DAAB2D" translation="[52, 82]" />
+    <Label id="heroMeta" text="Season 1  •  TV-MA  •  Crime Drama" font="font:SmallestSystemFont" color="#AAAAAA" translation="[52, 90]" />
+
+    <!-- ============ DETAIL PANEL (updates on focus) ============ -->
+    <Group id="detailPanel" translation="[50, 110]" visible="true">
+      <!-- Detail title -->
+      <Label id="detailTitle" text="S1:E1 — Concrete Jungle" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[0, 0]" width="700" />
+
+      <!-- Rating badge -->
+      <Rectangle width="50" height="20" color="#E61025" opacity="0.9" translation="[0, 35]" />
+      <Label id="detailRating" text="TV-MA" font="font:SmallestBoldSystemFont" color="#FFFFFF"
+        width="50" horizAlign="center" translation="[0, 37]" />
+
+      <!-- Meta info (duration, etc) -->
+      <Label id="detailMeta" text="S1:E1 • 45 min • TV-MA" font="font:SmallestSystemFont" color="#DAAB2D" translation="[58, 37]" />
+
+      <!-- Episode description -->
+      <Label id="detailDescription"
+        text="Michael Cortez returns to the Bronx after years away, only to find the neighborhood he left behind has changed."
+        font="font:SmallSystemFont" color="#AAAAAA"
+        translation="[0, 62]" width="580" maxLines="3" wrap="true"
+      />
+
+      <!-- Play/Info hint -->
+      <Label text="OK to Play  •  ★ Info" font="font:SmallestSystemFont" color="#555555" translation="[0, 120]" />
+    </Group>
 
     <!-- ============ CONTENT ROWS ============ -->
     <RowList
       id="contentRowList"
-      translation="[50, 445]"
+      translation="[50, 455]"
       itemComponentName="ContentItem"
       numRows="4"
       itemSize="[1180, 190]"
@@ -68,10 +91,10 @@
     <!-- Buffering spinner -->
     <BusySpinner id="spinner" translation="[610, 330]" visible="false" />
 
-    <!-- Status label (for errors) -->
-    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#FF4444" translation="[50, 690]" />
+    <!-- Status / toast message -->
+    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#DAAB2D" translation="[50, 690]" />
 
-    <!-- Exit Confirmation Dialog -->
+    <!-- Exit Dialog -->
     <Dialog
       id="exitDialog"
       title="Exit T.O.N.Y."

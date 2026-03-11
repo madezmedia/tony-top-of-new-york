@@ -1,32 +1,50 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- ContentItem.xml — Renders each poster tile in a RowList row -->
+<!-- ContentItem.xml — Professional episode tile renderer -->
 <component name="ContentItem" extends="Group">
   <interface>
     <field id="itemContent" type="node" onChange="onContentChange" />
+    <field id="focusPercent" type="float" onChange="onFocusChange" />
   </interface>
 
   <script type="text/brightscript" uri="pkg:/components/ContentItem.brs" />
 
   <children>
     <Group id="itemGroup">
-      <!-- Card background -->
-      <Rectangle id="cardBg" width="240" height="180" color="#111111" />
-
-      <!-- Focus highlight ring -->
-      <Rectangle id="focusRing" width="244" height="184" color="#DAAB2D" translation="[-2, -2]" visible="false" />
-      <Rectangle id="focusInner" width="240" height="180" color="#111111" visible="false" />
+      <!-- Card container -->
+      <Rectangle id="cardBg" width="240" height="180" color="#0A0A0A" />
 
       <!-- Poster thumbnail -->
       <Poster id="poster" width="240" height="136" translation="[0, 0]" />
 
-      <!-- Coming Soon overlay -->
-      <Rectangle id="comingSoonOverlay" width="240" height="136" color="#000000" opacity="0.7" visible="false" />
-      <Label id="comingSoonLabel" text="COMING SOON" font="font:SmallBoldSystemFont" color="#DAAB2D"
-        width="240" horizAlign="center" translation="[0, 55]" visible="false" />
+      <!-- Coming Soon darkened overlay -->
+      <Rectangle id="comingSoonOverlay" width="240" height="136" color="#000000" opacity="0.65" visible="false" />
+
+      <!-- Episode number badge (top-left) -->
+      <Rectangle id="episodeBadgeBg" width="36" height="22" color="#DAAB2D" translation="[6, 6]" visible="false" />
+      <Label id="episodeBadge" text="" font="font:SmallestBoldSystemFont" color="#000000"
+        width="36" horizAlign="center" translation="[6, 8]" visible="false" />
+
+      <!-- Duration badge (bottom-right) -->
+      <Rectangle id="durationBg" width="48" height="20" color="#000000" opacity="0.8" translation="[186, 112]" visible="false" />
+      <Label id="durationLabel" text="" font="font:SmallestSystemFont" color="#FFFFFF"
+        width="48" horizAlign="center" translation="[186, 113]" visible="false" />
+
+      <!-- Coming Soon label -->
+      <Label id="comingSoonLabel" text="COMING SOON" font="font:SmallestBoldSystemFont" color="#DAAB2D"
+        width="240" horizAlign="center" translation="[0, 60]" visible="false" />
+
+      <!-- NEW badge for newly added content -->
+      <Rectangle id="newBadgeBg" width="34" height="18" color="#E61025" translation="[200, 6]" visible="false" />
+      <Label id="newBadge" text="NEW" font="font:SmallestBoldSystemFont" color="#FFFFFF"
+        width="34" horizAlign="center" translation="[200, 7]" visible="false" />
 
       <!-- Title label -->
-      <Label id="titleLabel" text="" font="font:SmallSystemFont" color="#CCCCCC"
-        width="240" height="40" translation="[0, 140]" />
+      <Label id="titleLabel" text="" font="font:SmallestBoldSystemFont" color="#CCCCCC"
+        width="240" height="20" translation="[0, 140]" />
+
+      <!-- Subtitle / meta -->
+      <Label id="subtitleLabel" text="" font="font:SmallestSystemFont" color="#666666"
+        width="240" height="18" translation="[0, 158]" />
     </Group>
   </children>
 </component>
