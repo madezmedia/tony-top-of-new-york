@@ -148,4 +148,25 @@ export const api = {
   async getDownloadLink(slug: string, quality: string = '1080p') {
     return this.post('download-link', { slug, quality });
   },
+
+  /**
+   * Device Linking - Web UI (link code to user)
+   */
+  async linkDeviceCode(code: string) {
+    return this.post('device/link', { code });
+  },
+
+  /**
+   * Device Linking - Roku TV (generate code)
+   */
+  async generateDeviceCode(deviceId: string) {
+    return this.post('device/code', { deviceId });
+  },
+
+  /**
+   * Device Linking - Roku TV (poll status)
+   */
+  async pollDeviceStatus(code: string, deviceId: string) {
+    return this.post('device/status', { code, deviceId });
+  },
 };

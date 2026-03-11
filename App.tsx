@@ -10,6 +10,7 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { WatchPage } from './components/watch';
 import { AuthPage } from './components/auth/AuthPage';
+import { ActivatePage } from './components/device/ActivatePage';
 
 // Simple client-side routing
 function useRoute() {
@@ -40,6 +41,11 @@ function App() {
   if (path.startsWith('/auth')) {
     const isSignup = path.includes('/signup');
     return <AuthPage type={isSignup ? 'signup' : 'login'} />;
+  }
+
+  // Handle /activate route for Roku TV Linking
+  if (path.startsWith('/activate')) {
+    return <ActivatePage />;
   }
 
   // Default: Home page
