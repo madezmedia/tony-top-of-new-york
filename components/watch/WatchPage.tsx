@@ -32,15 +32,7 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
   // Track if we just returned from checkout
   const [justPurchased, setJustPurchased] = useState(false);
 
-  useEffect(() => {
-    // Check URL for success parameter (returned from Square checkout)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('success') === '1') {
-      setJustPurchased(true);
-      setShowSuccessMessage(true);
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-  }, []);
+  // Remove old justPurchased separate use-effect to prevent race conditions
 
   useEffect(() => {
     const checkAccess = async () => {
@@ -51,6 +43,27 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
         // Check if user is logged in
         const { session } = await auth.getSession();
         setIsLoggedIn(!!session);
+
+        // Check URL directly to prevent React state race condition on initial mount
+        const urlParams = new URLSearchParams(window.location.search);
+        const isSuccessRedirect = urlParams.get('success') === '1';
+
+        // Logged in — if returning from checkout, grant access first
+        // Make sure we have a session before hitting this API, otherwise it will 401
+        if (isSuccessRedirect && session) {
+          try {
+            await api.grantAccess(slug);
+            console.log('Access granted via checkout redirect');
+            setShowSuccessMessage(true);
+            
+            // Clean URL without reloading
+            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+          } catch (grantErr: any) {
+            console.warn('Grant access attempt:', grantErr.message);
+            // Not fatal — webhook may handle it, or user may already have access
+          }
+        }
 
         if (!session) {
           // Not logged in - show paywall with default film info
@@ -64,17 +77,6 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
           });
           setLoading(false);
           return;
-        }
-
-        // Logged in — if returning from checkout, grant access first
-        if (justPurchased) {
-          try {
-            await api.grantAccess(slug);
-            console.log('Access granted via checkout redirect');
-          } catch (grantErr: any) {
-            console.warn('Grant access attempt:', grantErr.message);
-            // Not fatal — webhook may handle it, or user may already have access
-          }
         }
 
         // Now check entitlement
@@ -161,7 +163,6 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
               </span>
               <Button
                 variant="outline"
-                size="sm"
                 onClick={async () => {
                   await auth.signOut();
                   window.location.reload();
@@ -174,7 +175,6 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
             <div className="flex items-center gap-2">
               <Button
                 variant="outline"
-                size="sm"
                 onClick={() => {
                   const returnUrl = encodeURIComponent(window.location.pathname);
                   window.location.href = `/auth/login?returnTo=${returnUrl}`;
@@ -184,7 +184,6 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
               </Button>
               <Button
                 variant="primary"
-                size="sm"
                 onClick={() => {
                   const returnUrl = encodeURIComponent(window.location.pathname);
                   window.location.href = `/auth/signup?returnTo=${returnUrl}`;
