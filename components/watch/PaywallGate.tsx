@@ -11,6 +11,7 @@ interface PaywallGateProps {
   tagline?: string;
   priceCents: number;
   trailerUrl?: string;
+  isLoggedIn?: boolean;
   onPurchaseComplete?: () => void;
 }
 
@@ -20,6 +21,7 @@ export const PaywallGate: React.FC<PaywallGateProps> = ({
   tagline,
   priceCents,
   trailerUrl,
+  isLoggedIn = false,
   onPurchaseComplete,
 }) => {
   const [loading, setLoading] = useState(false);
@@ -163,7 +165,6 @@ export const PaywallGate: React.FC<PaywallGateProps> = ({
 
             <Button
               variant="primary"
-              size="lg"
               onClick={handlePurchase}
               disabled={loading}
               className="w-full md:w-auto min-w-[200px]"
@@ -183,6 +184,20 @@ export const PaywallGate: React.FC<PaywallGateProps> = ({
 
             {error && (
               <p className="text-red-500 text-sm mt-2">{error}</p>
+            )}
+
+            {!isLoggedIn && (
+              <div className="mt-2 text-center md:text-right w-full">
+                <p className="text-sm text-neutral-textSecondary">
+                  Already purchased?{' '}
+                  <a 
+                    href={`/auth/login?returnTo=${encodeURIComponent(window.location.pathname)}`}
+                    className="text-primary-main hover:text-white underline transition-colors"
+                  >
+                    Sign in to unlock
+                  </a>
+                </p>
+              </div>
             )}
 
             <p className="text-xs text-neutral-muted text-center md:text-right max-w-xs">

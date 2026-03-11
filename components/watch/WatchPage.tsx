@@ -29,6 +29,7 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
   const [film, setFilm] = useState<FilmData | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [purchasedAt, setPurchasedAt] = useState<string | null>(null);
 
   // Track if we just returned from checkout
   const [justPurchased, setJustPurchased] = useState(false);
@@ -77,6 +78,9 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
           const data = await api.checkEntitlement(slug);
           setHasAccess(data.hasAccess);
           setFilm(data.film);
+          if (data.entitlement?.purchasedAt) {
+            setPurchasedAt(data.entitlement.purchasedAt);
+          }
         } catch (err: any) {
           // Entitlement check failed — deny access, show paywall
           console.warn('Entitlement check failed:', err.message);
@@ -285,11 +289,32 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
             className="max-w-5xl mx-auto"
           >
             {hasAccess ? (
-              <WatchPlayer
-                slug={film.slug}
-                title={film.title}
-                playbackId={PUBLIC_PLAYBACK_ID}
-              />
+              <div className="space-y-4">
+                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="w-5 h-5 text-green-400" />
+                    <div>
+                      <h3 className="text-green-400 font-bold">Unlocked in your Library</h3>
+                      {purchasedAt && (
+                        <p className="text-xs text-green-400/70">
+                          Purchased on {new Date(purchasedAt).toLocaleDateString()}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <a 
+                    href="/purchases" 
+                    className="text-xs font-bold uppercase tracking-wider bg-green-500/20 text-green-400 px-4 py-2 rounded hover:bg-green-500/30 transition-colors whitespace-nowrap"
+                  >
+                    View All Purchases
+                  </a>
+                </div>
+                <WatchPlayer
+                  slug={film.slug}
+                  title={film.title}
+                  playbackId={PUBLIC_PLAYBACK_ID}
+                />
+              </div>
             ) : (
               <PaywallGate
                 slug={film.slug}
@@ -297,6 +322,7 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
                 tagline="In the unforgiving streets of the Bronx, power is earned, loyalty is tested, and survival comes at a cost."
                 priceCents={film.priceCents}
                 trailerUrl={film.trailerUrl}
+                isLoggedIn={isLoggedIn}
                 onPurchaseComplete={() => {
                   setShowSuccessMessage(true);
                   setHasAccess(true);
