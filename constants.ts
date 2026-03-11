@@ -322,7 +322,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     id: 'pheonix-beaumont',
     characterName: 'PHEONIX BEAUMONT (Miss B)',
     alias: 'Miss B',
-    actorName: 'Michelle White',
+    actorName: 'Michele White',
     group: 'main',
     order: 2,
     isFeatured: true,

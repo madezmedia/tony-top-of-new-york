@@ -1,17 +1,31 @@
+## Roku App — T.O.N.Y. Top of New York
 title=TONY - Top of New York
 major_version=1
 minor_version=0
 build_version=1
 
+## Resolution support
 ui_resolutions=hd
+
+## Deep linking (required for certification)
 supports_input_launch=1
 
-mm_icon_focus_hd=pkg:/images/icon-hd.png
+## Channel icons
+mm_icon_focus_hd=pkg:/images/icon-focus-hd.png
 mm_icon_side_hd=pkg:/images/icon-hd.png
 mm_icon_focus_sd=pkg:/images/icon-sd.png
+mm_icon_side_sd=pkg:/images/icon-sd.png
 
-splash_screen_hd=pkg:/images/splash-hd.jpg
+## Splash screen
+splash_screen_hd=pkg:/images/splash-hd.png
 splash_color=#020B13
 splash_min_time=1500
 
+## Build constants
 bs_const=const_debug_enable=false
+
+## Content rating (TV-MA)
+content_rating=TV-MA
+
+## Confirm partner exit dialog (required for back button on Scene)
+confirm_partner_button=1

@@ -2,9 +2,15 @@
 <component name="HomeScene" extends="Scene">
   <script type="text/brightscript" uri="pkg:/components/HomeScene.brs" />
 
+  <!-- Deep linking interface (required for certification) -->
+  <interface>
+    <field id="deepLinkContentId" type="string" onChange="onDeepLink" />
+    <field id="deepLinkMediaType" type="string" />
+  </interface>
+
   <children>
     <!-- Full background — 1280x720 for HD Roku -->
-    <Rectangle width="1280" height="720" color="#020B13" />
+    <Rectangle id="background" width="1280" height="720" color="#020B13" />
 
     <!-- Hero poster — sized for 720p -->
     <Poster
@@ -30,7 +36,7 @@
 
     <!-- Episode info -->
     <Label text="Season 1, Episode 1  •  TV-MA" font="font:SmallSystemFont" color="#DAAB2D" translation="[50, 495]" />
-    <Label text="A Bronx Crime Saga" font="font:SmallSystemFont" color="#AAAAAA" translation="[50, 520]" />
+    <Label id="descriptionLabel" text="A Bronx Crime Saga" font="font:SmallSystemFont" color="#AAAAAA" translation="[50, 520]" width="600" />
 
     <!-- Play prompt -->
     <Label
@@ -52,9 +58,18 @@
       translation="[0, 0]"
       visible="false"
       enableUI="true"
+      enableTrickPlay="true"
     />
 
     <!-- Buffering spinner -->
     <BusySpinner id="spinner" translation="[610, 330]" visible="false" />
+
+    <!-- Exit Confirmation Dialog (required for back button on home screen) -->
+    <Dialog
+      id="exitDialog"
+      title="Exit T.O.N.Y."
+      message="Are you sure you want to exit?"
+      visible="false"
+    />
   </children>
 </component>
