@@ -29,10 +29,14 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
+  // Track if we just returned from checkout
+  const [justPurchased, setJustPurchased] = useState(false);
+
   useEffect(() => {
-    // Check URL for success parameter
+    // Check URL for success parameter (returned from Square checkout)
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('success') === '1') {
+      setJustPurchased(true);
       setShowSuccessMessage(true);
       window.history.replaceState({}, '', window.location.pathname);
     }
@@ -62,7 +66,18 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
           return;
         }
 
-        // Logged in — check entitlement
+        // Logged in — if returning from checkout, grant access first
+        if (justPurchased) {
+          try {
+            await api.grantAccess(slug);
+            console.log('Access granted via checkout redirect');
+          } catch (grantErr: any) {
+            console.warn('Grant access attempt:', grantErr.message);
+            // Not fatal — webhook may handle it, or user may already have access
+          }
+        }
+
+        // Now check entitlement
         try {
           const data = await api.checkEntitlement(slug);
           setHasAccess(data.hasAccess);

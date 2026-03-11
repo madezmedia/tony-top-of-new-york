@@ -135,6 +135,14 @@ export const api = {
   },
 
   /**
+   * Grant access after successful checkout redirect.
+   * Checks pending_orders and creates entitlement.
+   */
+  async grantAccess(slug: string) {
+    return this.post('grant-access', { slug });
+  },
+
+  /**
    * Get download link
    */
   async getDownloadLink(slug: string, quality: string = '1080p') {
