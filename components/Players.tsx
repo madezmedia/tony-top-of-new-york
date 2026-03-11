@@ -12,7 +12,7 @@ import { GroupPreview } from './players/GroupPreview';
 import { CastList } from './cast/CastList';
 
 export const Players: React.FC = () => {
-  const displayCast = ENHANCED_CAST.filter((member) => member.imageUrl);
+  const displayCast = ENHANCED_CAST.filter((member) => member.group === 'main' && member.imageUrl);
   const [activePlayer, setActivePlayer] = useState<EnhancedCastMember>(
     displayCast[0]
   );
