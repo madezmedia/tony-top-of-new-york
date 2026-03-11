@@ -41,6 +41,14 @@
 
       <Label text="Press back to cancel" font="font:SmallestSystemFont" color="#555555" 
              translation="[0, 480]" width="600" horizAlign="center" />
+
+      <!-- Legal & Privacy Button -->
+      <Rectangle id="legalBtnBg" width="200" height="40" color="#222222" translation="[200, 520]" opacity="1.0" />
+      <Label id="legalBtnText" text="Privacy Policy" font="font:SmallestBoldSystemFont" color="#AAAAAA" 
+             width="200" horizAlign="center" translation="[0, 530]" />
     </Group>
+
+    <!-- The actual Legal Scene overlay -->
+    <LegalScene id="legalScene" visible="false" />
   </children>
 </component>

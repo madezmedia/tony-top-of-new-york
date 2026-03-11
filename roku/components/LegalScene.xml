@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- LegalScene.xml - Privacy Policy Display -->
+<component name="LegalScene" extends="Scene">
+  <script type="text/brightscript" uri="pkg:/components/LegalScene.brs" />
+
+  <children>
+    <Rectangle id="background" width="1280" height="720" color="#020B13" />
+    <Poster id="heroPoster" width="1280" height="720" uri="pkg:/images/splash-hd.png" opacity="0.10" />
+
+    <Group id="contentGroup" translation="[140, 100]">
+      <!-- Title -->
+      <Label text="LEGAL &amp; PRIVACY" font="font:LargeBoldSystemFont" color="#DAAB2D" width="1000" />
+      <Rectangle width="60" height="2" color="#DAAB2D" translation="[0, 50]" />
+
+      <!-- Content -->
+      <Label id="legalText"
+             text="By using the T.O.N.Y. Roku Channel, you agree to our Terms of Service and Privacy Policy.&#10;&#10;When you use Device Linking to sign into your account, we generate a unique Device ID and collect your IP address to secure the connection to your topofnewyork.com account.&#10;&#10;We also collect playback analytics to allow you to resume episodes where you left off.&#10;&#10;To view our complete Privacy Policy, Terms of Service, and learn how we manage and protect your data, please visit:&#10;&#10;https://topofnewyork.com/privacy" 
+             font="font:SmallSystemFont" color="#FFFFFF" 
+             translation="[0, 80]" width="1000" wrap="true" lineSpacing="10" />
+             
+      <!-- Buttons -->
+      <Rectangle id="backBtnBg" width="200" height="50" color="#E61025" translation="[0, 500]" />
+      <Label id="backBtnText" text="Go Back" font="font:SmallBoldSystemFont" color="#FFFFFF" 
+             width="200" horizAlign="center" translation="[0, 510]" />
+
+    </Group>
+  </children>
+</component>

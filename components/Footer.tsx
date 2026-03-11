@@ -18,18 +18,16 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex gap-6">
-            <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" className="text-neutral-textSecondary hover:text-primary-main transition-colors"><Facebook size={24} /></a>
-            <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" className="text-neutral-textSecondary hover:text-primary-main transition-colors"><Twitter size={24} /></a>
-            <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="text-neutral-textSecondary hover:text-primary-main transition-colors"><Instagram size={24} /></a>
-            <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" className="text-neutral-textSecondary hover:text-primary-main transition-colors"><Youtube size={24} /></a>
+            <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" aria-label="Follow us on Facebook" className="text-neutral-textSecondary hover:text-primary-main transition-colors focus-visible:ring-2 focus-visible:ring-primary-main outline-none rounded-sm bg-transparent"><Facebook size={24} /></a>
+            <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" aria-label="Follow us on Twitter" className="text-neutral-textSecondary hover:text-primary-main transition-colors focus-visible:ring-2 focus-visible:ring-primary-main outline-none rounded-sm bg-transparent"><Twitter size={24} /></a>
+            <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" aria-label="Follow us on Instagram" className="text-neutral-textSecondary hover:text-primary-main transition-colors focus-visible:ring-2 focus-visible:ring-primary-main outline-none rounded-sm bg-transparent"><Instagram size={24} /></a>
+            <a href={SOCIAL_LINKS.youtube} target="_blank" rel="noopener noreferrer" aria-label="Subscribe to our YouTube channel" className="text-neutral-textSecondary hover:text-primary-main transition-colors focus-visible:ring-2 focus-visible:ring-primary-main outline-none rounded-sm bg-transparent"><Youtube size={24} /></a>
           </div>
         </div>
         
         <div className="flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-4 text-xs text-neutral-textSecondary uppercase tracking-wider font-bold">
-          <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-          <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-          <a href="#" className="hover:text-white transition-colors">Cookie Settings</a>
-          <a href="#" className="hover:text-white transition-colors">Accessibility</a>
+          <a href="/privacy" className="hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-primary-main outline-none rounded-sm">Privacy Policy</a>
+          <a href="/terms" className="hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-primary-main outline-none rounded-sm">Terms of Service</a>
         </div>
       </div>
     </footer>

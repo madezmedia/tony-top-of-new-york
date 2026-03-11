@@ -12,6 +12,10 @@ import { WatchPage } from './components/watch';
 import { AuthPage } from './components/auth/AuthPage';
 import { ActivatePage } from './components/device/ActivatePage';
 
+import { PrivacyPage } from './components/legal/PrivacyPage';
+import { TermsPage } from './components/legal/TermsPage';
+import CookieConsent from 'react-cookie-consent';
+
 // Simple client-side routing
 function useRoute() {
   const [path, setPath] = useState(window.location.pathname);
@@ -30,6 +34,10 @@ function App() {
 
   // Feature toggles via environment variables
   const ENABLE_PRESS_KIT = process.env.VITE_ENABLE_PRESS_KIT === 'true';
+
+  // Handle Legal routes
+  if (path.startsWith('/privacy')) return <PrivacyPage />;
+  if (path.startsWith('/terms')) return <TermsPage />;
 
   // Handle /watch and /watch/:slug routes
   if (path.startsWith('/watch')) {
@@ -63,6 +71,17 @@ function App() {
         {ENABLE_PRESS_KIT && <PressKit />}
         <Contact />
       </main>
+      
+      <CookieConsent
+        location="bottom"
+        buttonText="Accept All"
+        style={{ background: "#0a0a0a", borderTop: "1px solid #1f1f1f", zIndex: 50 }}
+        buttonStyle={{ backgroundColor: "#E61025", color: "#fff", fontSize: "14px", fontWeight: "bold", borderRadius: "4px" }}
+        expires={150}
+      >
+        We use cookies to enable device linking, remember your streaming progress, and analyze site traffic to improve T.O.N.Y. By continuing to use this site, you consent to our use of cookies.
+      </CookieConsent>
+
       <Footer />
     </div>
   );

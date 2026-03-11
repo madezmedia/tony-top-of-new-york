@@ -4,6 +4,8 @@ sub init()
   m.statusLabel = m.top.findNode("statusLabel")
   m.spinner = m.top.findNode("spinner")
   m.authTask = m.top.findNode("authTask")
+  m.legalScene = m.top.findNode("legalScene")
+  m.legalBtnBg = m.top.findNode("legalBtnBg")
 
   ' Generate a unique device ID (used for linking security)
   di = CreateObject("roDeviceInfo")
@@ -82,9 +84,36 @@ end sub
 
 function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
+  
+  if m.legalScene.visible
+    return false ' Let LegalScene handle back button
+  end if
+
+  if key = "down" and m.legalBtnBg.opacity = 1.0
+    m.legalBtnBg.opacity = 0.5
+    return true
+  end if
+  
+  if key = "up" and m.legalBtnBg.opacity = 0.5
+    m.legalBtnBg.opacity = 1.0
+    return true
+  end if
+  
+  if key = "OK" and m.legalBtnBg.opacity = 0.5
+    m.legalScene.visible = true
+    m.legalScene.setFocus(true)
+    return true
+  end if
+
   if key = "back"
+    if m.legalBtnBg.opacity = 0.5
+      m.legalBtnBg.opacity = 1.0
+      return true
+    end if
+    
     m.pollTimer.control = "stop"
     return false ' Let it propagate so Main/Home can pop it
   end if
+  
   return true
 end function
