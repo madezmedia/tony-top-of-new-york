@@ -9,48 +9,52 @@
   </interface>
 
   <children>
-    <!-- Full background — 1280x720 for HD Roku -->
+    <!-- Full background -->
     <Rectangle id="background" width="1280" height="720" color="#020B13" />
 
-    <!-- Hero poster — sized for 720p -->
+    <!-- ============ HERO SECTION ============ -->
+    <!-- Hero poster (dynamic resolution via Mux thumbnail API) -->
     <Poster
       id="heroPoster"
       width="1280"
-      height="500"
-      uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1280&amp;height=500"
+      height="400"
+      uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1280&amp;height=400"
       translation="[0, 0]"
     />
 
-    <!-- Dark gradient at bottom of poster -->
-    <Rectangle width="1280" height="200" color="#020B13" opacity="0.85" translation="[0, 350]" />
+    <!-- Hero gradient overlay -->
+    <Rectangle width="1280" height="250" color="#020B13" opacity="0.9" translation="[0, 250]" />
 
     <!-- App logo top-right -->
-    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="60" height="60" translation="[1190, 20]" />
+    <Poster id="appLogo" uri="pkg:/images/icon-hd.png" width="50" height="50" translation="[1200, 15]" />
 
-    <!-- Title -->
-    <Label text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[50, 400]" />
-    <Label text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[50, 445]" />
+    <!-- Hero Title & Info -->
+    <Label id="heroTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[50, 300]" />
+    <Label id="heroSubtitle" text="TOP OF NEW YORK" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[50, 340]" />
+    <Rectangle width="60" height="2" color="#DAAB2D" translation="[50, 375]" />
+    <Label id="heroMeta" text="Season 1  •  TV-MA  •  Crime Drama" font="font:SmallSystemFont" color="#DAAB2D" translation="[50, 385]" />
+    <Label id="heroDescription" text="In the unforgiving streets of the Bronx, power is earned and survival comes at a cost." font="font:SmallSystemFont" color="#AAAAAA" translation="[50, 408]" width="500" />
 
-    <!-- Gold divider -->
-    <Rectangle width="80" height="3" color="#DAAB2D" translation="[50, 480]" />
-
-    <!-- Episode info -->
-    <Label text="Season 1, Episode 1  •  TV-MA" font="font:SmallSystemFont" color="#DAAB2D" translation="[50, 495]" />
-    <Label id="descriptionLabel" text="A Bronx Crime Saga" font="font:SmallSystemFont" color="#AAAAAA" translation="[50, 520]" width="600" />
-
-    <!-- Play prompt -->
-    <Label
-      id="playPrompt"
-      text="▶  PRESS OK TO PLAY"
-      font="font:MediumBoldSystemFont"
-      color="#DAAB2D"
-      translation="[440, 620]"
+    <!-- ============ CONTENT ROWS ============ -->
+    <RowList
+      id="contentRowList"
+      translation="[50, 445]"
+      itemComponentName="ContentItem"
+      numRows="4"
+      itemSize="[1180, 190]"
+      rowItemSize="[[240, 180]]"
+      rowItemSpacing="[[15, 0]]"
+      itemSpacing="[0, 10]"
+      showRowLabel="[true]"
+      rowLabelOffset="[[0, 8]]"
+      rowLabelFont="font:SmallBoldSystemFont"
+      rowLabelColor="#DAAB2D"
+      rowFocusAnimationStyle="fixedFocusWrap"
+      vertFocusAnimationStyle="fixedFocus"
+      focusXOffset="[0]"
     />
 
-    <!-- Status -->
-    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#666666" translation="[50, 690]" />
-
-    <!-- Video player (hidden until playing) — 1280x720 -->
+    <!-- ============ VIDEO PLAYER ============ -->
     <Video
       id="videoPlayer"
       width="1280"
@@ -64,7 +68,10 @@
     <!-- Buffering spinner -->
     <BusySpinner id="spinner" translation="[610, 330]" visible="false" />
 
-    <!-- Exit Confirmation Dialog (required for back button on home screen) -->
+    <!-- Status label (for errors) -->
+    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#FF4444" translation="[50, 690]" />
+
+    <!-- Exit Confirmation Dialog -->
     <Dialog
       id="exitDialog"
       title="Exit T.O.N.Y."

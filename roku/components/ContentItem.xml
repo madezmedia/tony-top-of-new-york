@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ContentItem.xml — Renders each poster tile in a RowList row -->
+<component name="ContentItem" extends="Group">
+  <interface>
+    <field id="itemContent" type="node" onChange="onContentChange" />
+  </interface>
+
+  <script type="text/brightscript" uri="pkg:/components/ContentItem.brs" />
+
+  <children>
+    <Group id="itemGroup">
+      <!-- Card background -->
+      <Rectangle id="cardBg" width="240" height="180" color="#111111" />
+
+      <!-- Focus highlight ring -->
+      <Rectangle id="focusRing" width="244" height="184" color="#DAAB2D" translation="[-2, -2]" visible="false" />
+      <Rectangle id="focusInner" width="240" height="180" color="#111111" visible="false" />
+
+      <!-- Poster thumbnail -->
+      <Poster id="poster" width="240" height="136" translation="[0, 0]" />
+
+      <!-- Coming Soon overlay -->
+      <Rectangle id="comingSoonOverlay" width="240" height="136" color="#000000" opacity="0.7" visible="false" />
+      <Label id="comingSoonLabel" text="COMING SOON" font="font:SmallBoldSystemFont" color="#DAAB2D"
+        width="240" horizAlign="center" translation="[0, 55]" visible="false" />
+
+      <!-- Title label -->
+      <Label id="titleLabel" text="" font="font:SmallSystemFont" color="#CCCCCC"
+        width="240" height="40" translation="[0, 140]" />
+    </Group>
+  </children>
+</component>
