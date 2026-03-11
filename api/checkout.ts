@@ -88,12 +88,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         redirectUrl: `${process.env.VITE_APP_URL}/watch/${slug}?success=1`,
         askForShippingAddress: false,
       },
-      paymentNote: `Purchase: T.O.N.Y. - ${film.title}`,
-      description: JSON.stringify({
+      paymentNote: JSON.stringify({
         userId: user.id,
         filmId: film.id,
-        userEmail: user.email,
+        title: film.title
       }),
+      description: `Purchase: T.O.N.Y. - ${film.title}`,
     });
 
     const checkoutUrl = response.paymentLink?.url;
@@ -103,12 +103,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Store pending order in database for webhook reconciliation
-    await supabase.from('pending_orders').insert({
+    const { error: insertError } = await supabase.from('pending_orders').insert({
       user_id: user.id,
       film_id: film.id,
       square_order_id: response.paymentLink?.orderId,
       created_at: new Date().toISOString(),
     });
+
+    if (insertError) {
+      console.error('Failed to insert pending_order:', insertError);
+      // Even if this fails, we want to let them checkout, but local redirect might fail.
+    }
 
     return res.status(200).json({
       checkoutUrl,

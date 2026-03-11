@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { WatchPlayer } from './WatchPlayer';
 import { PaywallGate } from './PaywallGate';
+import { PaymentProcessingGate } from './PaymentProcessingGate';
 import { api, auth } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 
@@ -32,9 +33,19 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
   // Track if we just returned from checkout
   const [justPurchased, setJustPurchased] = useState(false);
 
-  // Remove old justPurchased separate use-effect to prevent race conditions
+  const [isCheckingPayment, setIsCheckingPayment] = useState(false);
 
   useEffect(() => {
+    // If we have a success=1 parameter, immediately show the processing gate.
+    // We do NOT want to fetch normal entitlements yet because it causes a flash of the paywall
+    // before the webhook finishes.
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === '1') {
+      setIsCheckingPayment(true);
+      setLoading(false);
+      return;
+    }
+
     const checkAccess = async () => {
       try {
         setLoading(true);
@@ -44,26 +55,8 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
         const { session } = await auth.getSession();
         setIsLoggedIn(!!session);
 
-        // Check URL directly to prevent React state race condition on initial mount
-        const urlParams = new URLSearchParams(window.location.search);
-        const isSuccessRedirect = urlParams.get('success') === '1';
-
-        // Logged in — if returning from checkout, grant access first
-        // Make sure we have a session before hitting this API, otherwise it will 401
-        if (isSuccessRedirect && session) {
-          try {
-            await api.grantAccess(slug);
-            console.log('Access granted via checkout redirect');
-            setShowSuccessMessage(true);
-            
-            // Clean URL without reloading
-            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
-            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
-          } catch (grantErr: any) {
-            console.warn('Grant access attempt:', grantErr.message);
-            // Not fatal — webhook may handle it, or user may already have access
-          }
-        }
+        // The payment processing gate handles the success redirect now.
+        // We only fall through to this logic if there is no success parameter.
 
         if (!session) {
           // Not logged in - show paywall with default film info
@@ -139,6 +132,56 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
           <Loader2 className="w-12 h-12 text-primary-main animate-spin mx-auto mb-4" />
           <p className="text-neutral-textSecondary">Loading...</p>
         </motion.div>
+      </div>
+    );
+  }
+
+  if (isCheckingPayment) {
+    return (
+      <div className="min-h-screen bg-neutral-bg">
+        <header className="sticky top-0 z-40 bg-neutral-bg/80 backdrop-blur-xl border-b border-neutral-border">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="/" className="flex items-center gap-2 text-neutral-textSecondary hover:text-neutral-text transition-colors">
+              <ArrowLeft size={20} />
+              <span className="hidden sm:inline">Back to T.O.N.Y.</span>
+            </a>
+          </div>
+        </header>
+
+        <PaymentProcessingGate 
+          slug={slug}
+          onSuccess={() => {
+            // Remove success param so we don't infinitely process on refresh
+            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+            
+            setIsCheckingPayment(false); // Let the normal checkAccess flow run
+            setShowSuccessMessage(true);
+            setLoading(true); // Restart the loading flow to fetch the video
+            
+            // Re-mount the checker logic by fetching entitlement
+            api.checkEntitlement(slug).then(data => {
+               setHasAccess(data.hasAccess);
+               setFilm(data.film);
+               setLoading(false);
+            }).catch(err => {
+               setError(err.message);
+               setLoading(false);
+            });
+          }}
+          onTimeout={() => {
+            // Fallback to normal view on timeout to let them retry or see error
+            const cleanUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+            window.history.replaceState({ path: cleanUrl }, '', cleanUrl);
+            setIsCheckingPayment(false); 
+          }}
+        />
+        
+        <footer className="border-t border-neutral-border mt-auto">
+          <div className="container mx-auto px-4 py-6 text-center text-sm text-neutral-textSecondary">
+            <p>&copy; {new Date().getFullYear()} T.O.N.Y. - Top of New York. All rights reserved.</p>
+          </div>
+        </footer>
       </div>
     );
   }

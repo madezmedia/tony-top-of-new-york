@@ -114,6 +114,35 @@ export const api = {
   },
 
   /**
+   * Make an authenticated GET request to our API
+   */
+  async get(endpoint: string) {
+    const token = await auth.getAccessToken();
+
+    const response = await fetch(`/api/${endpoint}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'API request failed');
+    }
+
+    return response.json();
+  },
+
+  /**
+   * Get all purchases for logged-in user
+   */
+  async getPurchases() {
+    return this.get('purchases');
+  },
+
+  /**
    * Check entitlement for a film
    */
   async checkEntitlement(slug: string) {

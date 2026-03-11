@@ -14,6 +14,7 @@ import { ActivatePage } from './components/device/ActivatePage';
 
 import { PrivacyPage } from './components/legal/PrivacyPage';
 import { TermsPage } from './components/legal/TermsPage';
+import { PurchasesPage } from './components/purchases/PurchasesPage';
 import CookieConsent from 'react-cookie-consent';
 
 // Simple client-side routing
@@ -38,6 +39,9 @@ function App() {
   // Handle Legal routes
   if (path.startsWith('/privacy')) return <PrivacyPage />;
   if (path.startsWith('/terms')) return <TermsPage />;
+
+  // Handle user's content library
+  if (path.startsWith('/purchases')) return <PurchasesPage />;
 
   // Handle /watch and /watch/:slug routes
   if (path.startsWith('/watch')) {
