@@ -60,17 +60,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(200).json({ granted: true, alreadyHadAccess: true });
     }
 
-    // Check if there's a pending order for this user + film
-    const { data: pendingOrder } = await supabase
+    // Check if there are ANY pending orders for this user + film
+    // (We allow multiple if they abandoned a checkout earlier)
+    const { data: pendingOrders } = await supabase
       .from('pending_orders')
       .select('*')
       .eq('user_id', user.id)
       .eq('film_id', film.id)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
+      .order('created_at', { ascending: false });
 
-    if (!pendingOrder) {
+    if (!pendingOrders || pendingOrders.length === 0) {
       return res.status(403).json({
         error: 'No pending purchase found. If you just paid, please wait a moment and refresh.',
         granted: false,
@@ -78,7 +77,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     // Pending order exists — the user went through checkout.
-    // Grant the entitlement.
+    // Grant the entitlement. We'll link to the most recent Square order ID.
+    const mostRecentOrder = pendingOrders[0];
+
     const { error: entitlementError } = await supabase
       .from('entitlements')
       .upsert(
@@ -87,7 +88,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           film_id: film.id,
           active: true,
           purchased_at: new Date().toISOString(),
-          square_payment_id: pendingOrder.square_order_id || 'checkout_redirect',
+          square_payment_id: mostRecentOrder.square_order_id || 'checkout_redirect',
         },
         {
           onConflict: 'user_id,film_id',
@@ -99,13 +100,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(500).json({ error: 'Failed to grant access' });
     }
 
-    // Clean up the pending order
+    // Clean up ALL pending orders for this user/film to prevent reuse/clutter
     await supabase
       .from('pending_orders')
       .delete()
-      .eq('id', pendingOrder.id);
+      .eq('user_id', user.id)
+      .eq('film_id', film.id);
 
-    console.log(`Access granted for user ${user.id} on film ${film.id} via checkout redirect`);
+    console.log(`Access granted for user ${user.id} on film ${film.id} via checkout redirect. Cleared ${pendingOrders.length} pending orders.`);
 
     return res.status(200).json({ granted: true, alreadyHadAccess: false });
   } catch (error) {
