@@ -2,30 +2,37 @@
 title=TONY - Top of New York
 major_version=1
 minor_version=0
-build_version=1
+build_version=2
 
-## Resolution support
+## Resolution support (HD + FHD)
 ui_resolutions=hd,fhd
 
 ## Deep linking (required for certification)
 supports_input_launch=1
 
-## Channel icons
+## Channel icons — HD (720p)
 mm_icon_focus_hd=pkg:/images/icon-focus-hd.png
 mm_icon_side_hd=pkg:/images/icon-hd.png
+
+## Channel icons — FHD (1080p)
+mm_icon_focus_fhd=pkg:/images/icon-focus-fhd.png
+mm_icon_side_fhd=pkg:/images/icon-fhd.png
+
+## Channel icons — SD
 mm_icon_focus_sd=pkg:/images/icon-sd.png
 mm_icon_side_sd=pkg:/images/icon-sd.png
 
-## Splash screen
+## Splash screens (per resolution)
 splash_screen_hd=pkg:/images/splash-hd.png
+splash_screen_fhd=pkg:/images/splash-fhd.png
 splash_color=#020B13
 splash_min_time=1500
 
 ## Build constants
 bs_const=const_debug_enable=false
 
-## Content rating (TV-MA)
+## Content rating
 content_rating=TV-MA
 
-## Confirm partner exit dialog (required for back button on Scene)
+## Confirm partner exit dialog
 confirm_partner_button=1
