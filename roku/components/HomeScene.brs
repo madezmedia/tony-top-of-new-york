@@ -22,11 +22,23 @@ sub init()
   m.detailMeta = m.top.findNode("detailMeta")
   m.detailRating = m.top.findNode("detailRating")
   m.playHint = m.top.findNode("playHint")
+  
+  ' Account/Activation Nodes
+  m.accountBtnBg = m.top.findNode("accountBtnBg")
+  m.accountBtnText = m.top.findNode("accountBtnText")
+  m.accountScene = m.top.findNode("accountScene")
+  m.accountScene.observeField("authCompleted", "onAuthCompleted")
 
   m.isPlaying = false
   m.exitDialogShowing = false
   m.bgTrailerPlaying = false
   m.currentContentId = "episode-one"
+  m.isLoggedIn = false
+  m.accessToken = ""
+  m.isCheckingEntitlement = false
+
+  ' Check for saved login token
+  checkLoginStatus()
 
   ' Mux playback IDs
   m.muxEpisode1 = "GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko"
@@ -58,6 +70,32 @@ sub init()
   m.trailerTimer.repeat = false
   m.trailerTimer.observeField("fire", "startBgTrailer")
   m.trailerTimer.control = "start"
+end sub
+
+' -----------------------------------------------
+' Authentication & Entitlements
+' -----------------------------------------------
+sub checkLoginStatus()
+  section = CreateObject("roRegistrySection", "auth")
+  if section.Exists("access_token")
+    m.accessToken = section.Read("access_token")
+    m.isLoggedIn = true
+    m.accountBtnText.text = "Account"
+    m.accountBtnBg.color = "#000000"
+  else
+    m.isLoggedIn = false
+    m.accessToken = ""
+    m.accountBtnText.text = "Log In"
+    m.accountBtnBg.color = "#E61025"
+  end if
+end sub
+
+sub onAuthCompleted()
+  if m.accountScene.authCompleted
+    m.accountScene.visible = false
+    checkLoginStatus()
+    m.contentRowList.setFocus(true)
+  end if
 end sub
 
 ' -----------------------------------------------
@@ -380,11 +418,27 @@ sub onItemSelected()
   catalogKey = item.id
   if m.catalog.DoesExist(catalogKey)
     entry = m.catalog[catalogKey]
-    if entry.available and entry.url <> ""
-      m.currentContentId = catalogKey
-      m.streamUrl = entry.url
-      stopBgTrailer()
-      startPlayback()
+    
+    ' FREEMIUM LOGIC: Episode 1 & Trailers are free. Ep2+ require Auth Check.
+    if catalogKey = "episode-one" or catalogKey = "trailer" or catalogKey.instr("bts-") >= 0
+      if entry.available and entry.url <> ""
+        m.currentContentId = catalogKey
+        m.streamUrl = entry.url
+        stopBgTrailer()
+        startPlayback()
+      end if
+    else
+      ' It's premium content. Check entitlements.
+      if not m.isLoggedIn
+        m.statusLabel.text = chr(9888) + "  Please Log In to watch this episode."
+        ' Auto-open the login screen to help them out
+        m.accountScene.visible = true
+        m.accountScene.setFocus(true)
+      else
+        ' Theoretically, we would call an API here to verify m.accessToken has rights to play this. 
+        ' Since we don't have Roku Pay set up yet, and we are just demonstrating the UI flow for certification:
+        m.statusLabel.text = chr(9888) + "  Purchase required on topofnewyork.com to unlock."
+      end if
     end if
   end if
 end sub
@@ -490,10 +544,36 @@ end sub
 function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
+  if m.accountScene.visible
+    return false ' Let AccountScene handle its own keys (like back)
+  end if
+
   if m.exitDialogShowing
     m.exitDialog.visible = false
     m.exitDialogShowing = false
     m.contentRowList.setFocus(true)
+    return true
+  end if
+
+  ' Handle Account Button Focus
+  if key = "up" and not m.isPlaying and m.accountBtnBg.opacity = 1.0 ' Not currently focused
+    focused = m.contentRowList.rowItemFocused
+    if focused <> invalid and focused[0] = 0 ' Only allow from top row
+      m.accountBtnBg.opacity = 0.5 ' Visual focus state
+      m.accountBtnBg.setFocus(true) ' Actually meaningless for Rectangle, just for our state
+      return true
+    end if
+  end if
+
+  if key = "down" and m.accountBtnBg.opacity = 0.5
+    m.accountBtnBg.opacity = 1.0
+    m.contentRowList.setFocus(true)
+    return true
+  end if
+
+  if key = "OK" and m.accountBtnBg.opacity = 0.5
+    m.accountScene.visible = true
+    m.accountScene.setFocus(true)
     return true
   end if
 
@@ -503,6 +583,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
     m.streamUrl = m.catalog["trailer"].url
     stopBgTrailer()
     startPlayback()
+    return true
+  end if
+
+  if key = "back" and m.accountBtnBg.opacity = 0.5
+    m.accountBtnBg.opacity = 1.0
+    m.contentRowList.setFocus(true)
     return true
   end if
 

@@ -58,6 +58,11 @@
       <Label id="detailRating" text="TV-MA" font="font:SmallestBoldSystemFont" color="#FFFFFF"
         width="50" horizAlign="center" translation="[0, 37]" />
 
+      <!-- Account Button (Top Right) -->
+      <Rectangle id="accountBtnBg" width="80" height="30" color="#E61025" translation="[1100, -80]" />
+      <Label id="accountBtnText" text="Log In" font="font:SmallestBoldSystemFont" color="#FFFFFF"
+        width="80" horizAlign="center" translation="[1100, -78]" />
+
       <Label id="detailMeta" text="" font="font:SmallestSystemFont" color="#DAAB2D" translation="[58, 37]" />
 
       <Label id="detailDescription"
@@ -112,5 +117,8 @@
       message="Are you sure you want to exit?"
       visible="false"
     />
+    <!-- Account/Activation Scene (hidden by default) -->
+    <AccountScene id="accountScene" visible="false" />
+
   </children>
 </component>

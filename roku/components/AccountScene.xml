@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- AccountScene.xml - Device Linking Screen -->
+<component name="AccountScene" extends="Scene">
+  <script type="text/brightscript" uri="pkg:/components/AccountScene.brs" />
+
+  <!-- The task that polls the Vercel API -->
+  <children>
+    <Task id="authTask" control="STOP" />
+
+    <!-- Background -->
+    <Rectangle id="background" width="1280" height="720" color="#020B13" />
+    <Poster id="heroPoster" width="1280" height="720" uri="pkg:/images/splash-hd.png" opacity="0.15" />
+
+    <Group id="contentGroup" translation="[340, 150]">
+      <!-- Title -->
+      <Label text="LINK YOUR ACCOUNT" font="font:LargeBoldSystemFont" color="#DAAB2D" width="600" horizAlign="center" />
+      <Rectangle width="60" height="2" color="#DAAB2D" translation="[270, 50]" />
+
+      <!-- Instructions -->
+      <Label text="To watch premium episodes, link this TV to your T.O.N.Y. account." 
+             font="font:MediumSystemFont" color="#FFFFFF" 
+             translation="[0, 80]" width="600" horizAlign="center" wrap="true" />
+      
+      <Label text="Go to topofnewyork.com/activate on your phone or computer and enter this code:" 
+             font="font:SmallSystemFont" color="#AAAAAA" 
+             translation="[0, 150]" width="600" horizAlign="center" wrap="true" />
+
+      <!-- The Code Display -->
+      <Rectangle id="codeBg" width="340" height="100" color="#0A0A0A" translation="[130, 220]" />
+      <Rectangle width="340" height="100" color="#DAAB2D" opacity="0.3" translation="[130, 220]" /> <!-- border effect -->
+      
+      <Label id="codeLabel" text="LOADING..." font="font:MediumBoldSystemFont" color="#FFFFFF" 
+             translation="[130, 245]" width="340" horizAlign="center" />
+
+      <!-- Spinner while generating or polling -->
+      <BusySpinner id="spinner" translation="[270, 340]" visible="true" />
+
+      <!-- Status / Error Messages -->
+      <Label id="statusLabel" text="Waiting for activation..." font="font:SmallestSystemFont" color="#DAAB2D" 
+             translation="[0, 390]" width="600" horizAlign="center" />
+
+      <Label text="Press back to cancel" font="font:SmallestSystemFont" color="#555555" 
+             translation="[0, 480]" width="600" horizAlign="center" />
+    </Group>
+  </children>
+</component>
