@@ -1,11 +1,12 @@
 ' ===========================================================
 ' HomeScene.brs — T.O.N.Y. Roku App (Pro Level)
-' Features: Rich episode metadata, detail panel, deep linking,
-' bookmarks, exit dialog, professional streaming UX
+' Features: Netflix-style trailer auto-play, rich metadata,
+' deep linking, bookmarks, exit dialog
 ' ===========================================================
 
 sub init()
   m.videoPlayer = m.top.findNode("videoPlayer")
+  m.bgTrailer = m.top.findNode("bgTrailer")
   m.spinner = m.top.findNode("spinner")
   m.statusLabel = m.top.findNode("statusLabel")
   m.exitDialog = m.top.findNode("exitDialog")
@@ -15,22 +16,22 @@ sub init()
   m.heroSubtitle = m.top.findNode("heroSubtitle")
   m.heroDescription = m.top.findNode("heroDescription")
   m.heroMeta = m.top.findNode("heroMeta")
-
-  ' Detail panel nodes
   m.detailPanel = m.top.findNode("detailPanel")
   m.detailTitle = m.top.findNode("detailTitle")
   m.detailDescription = m.top.findNode("detailDescription")
   m.detailMeta = m.top.findNode("detailMeta")
   m.detailRating = m.top.findNode("detailRating")
+  m.playHint = m.top.findNode("playHint")
 
   m.isPlaying = false
   m.exitDialogShowing = false
+  m.bgTrailerPlaying = false
   m.currentContentId = "episode-one"
 
-  ' Mux playback ID
-  m.muxPlaybackId = "GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko"
+  ' Mux playback IDs
+  m.muxEpisode1 = "GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko"
+  m.muxTrailer = "kUwvJd9lCQwuqYhRvjLP8u2dWkn00Lsm6zN983GFNY5I"
 
-  ' Build catalog and populate UI
   buildContentCatalog()
   populateRowList()
 
@@ -39,6 +40,7 @@ sub init()
   m.contentRowList.observeField("rowItemFocused", "onItemFocused")
   m.videoPlayer.observeField("state", "onVideoState")
   m.videoPlayer.observeField("position", "onVideoPosition")
+  m.bgTrailer.observeField("state", "onBgTrailerState")
 
   ' Load saved bookmark
   m.bookmarkPosition = 0
@@ -48,30 +50,95 @@ sub init()
   end if
 
   m.contentRowList.setFocus(true)
-
-  ' Show initial detail for first item
   updateDetailPanel("episode-one")
+
+  ' Start background trailer after a short delay
+  m.trailerTimer = CreateObject("roSGNode", "Timer")
+  m.trailerTimer.duration = 2
+  m.trailerTimer.repeat = false
+  m.trailerTimer.observeField("fire", "startBgTrailer")
+  m.trailerTimer.control = "start"
 end sub
 
 ' -----------------------------------------------
-' Rich Content Catalog
+' Background Trailer (Netflix-style auto-play)
+' -----------------------------------------------
+sub startBgTrailer()
+  if m.isPlaying then return
+  content = CreateObject("roSGNode", "ContentNode")
+  content.url = "https://stream.mux.com/" + m.muxTrailer + ".m3u8"
+  content.title = "T.O.N.Y. Trailer"
+  content.streamFormat = "hls"
+
+  m.bgTrailer.content = content
+  m.bgTrailer.control = "play"
+  m.bgTrailer.visible = true
+  m.bgTrailerPlaying = true
+  ' Hide the poster once trailer starts
+end sub
+
+sub stopBgTrailer()
+  if m.bgTrailerPlaying
+    m.bgTrailer.control = "stop"
+    m.bgTrailer.visible = false
+    m.bgTrailerPlaying = false
+    m.heroPoster.visible = true
+  end if
+end sub
+
+sub onBgTrailerState()
+  state = m.bgTrailer.state
+  if state = "playing"
+    ' Hide poster, show trailer
+    m.heroPoster.visible = false
+  else if state = "error" or state = "finished"
+    ' Fallback to poster
+    m.heroPoster.visible = true
+    m.bgTrailer.visible = false
+    m.bgTrailerPlaying = false
+  end if
+end sub
+
+' -----------------------------------------------
+' Content Catalog
 ' -----------------------------------------------
 sub buildContentCatalog()
   m.catalog = {}
+
+  ' Trailer Mux ID for thumbnails
+  trailerThumb = "https://image.mux.com/" + m.muxTrailer + "/thumbnail.jpg"
+  ep1Thumb = "https://image.mux.com/" + m.muxEpisode1 + "/thumbnail.jpg"
 
   m.catalog["episode-one"] = {
     title: "Concrete Jungle",
     fullTitle: "S1:E1 — Concrete Jungle",
     description: "Michael Cortez returns to the Bronx after years away, only to find the neighborhood he left behind has changed — and the enemies he made haven't forgotten. When a routine visit turns deadly, Michael is pulled back into a world of loyalty, betrayal, and blood.",
-    url: "https://stream.mux.com/" + m.muxPlaybackId + ".m3u8",
+    url: "https://stream.mux.com/" + m.muxEpisode1 + ".m3u8",
     streamFormat: "hls",
-    thumbnailUrl: muxThumb(m.muxPlaybackId, 240, 136, 5),
-    heroUrl: muxThumb(m.muxPlaybackId, 1280, 400, 5),
-    duration: "45:22",
+    thumbnailUrl: ep1Thumb + "?width=240&height=136&time=5",
+    heroUrl: ep1Thumb + "?width=1280&height=400&time=5",
+    duration: "TBD",
     episodeNum: "E1",
     season: "Season 1",
     rating: "TV-MA",
-    meta: "S1:E1 • 45 min • TV-MA",
+    meta: "S1:E1 • TV-MA",
+    available: true,
+    isNew: true
+  }
+
+  m.catalog["trailer"] = {
+    title: "Official Trailer",
+    fullTitle: "T.O.N.Y. — Official Trailer",
+    description: "Watch the official trailer for T.O.N.Y. Top of New York. In the unforgiving streets of the Bronx, power is earned and survival comes at a cost. A Michael Steven-Paul crime saga.",
+    url: "https://stream.mux.com/" + m.muxTrailer + ".m3u8",
+    streamFormat: "hls",
+    thumbnailUrl: trailerThumb + "?width=240&height=136&time=3",
+    heroUrl: trailerThumb + "?width=1280&height=400&time=3",
+    duration: "TBD",
+    episodeNum: "",
+    season: "Trailer",
+    rating: "TV-MA",
+    meta: "Official Trailer • TV-MA",
     available: true,
     isNew: true
   }
@@ -79,15 +146,15 @@ sub buildContentCatalog()
   m.catalog["episode-two"] = {
     title: "Blood Money",
     fullTitle: "S1:E2 — Blood Money",
-    description: "Miss B tightens her grip on the Beaumont empire as a new supply route opens through the docks. Michael faces an impossible choice when Enrique demands loyalty that could cost him everything. Detective Cage starts connecting the dots.",
+    description: "Miss B tightens her grip on the Beaumont empire as a new supply route opens through the docks. Michael faces an impossible choice when Enrique demands loyalty that could cost him everything.",
     url: "",
-    thumbnailUrl: muxThumb(m.muxPlaybackId, 240, 136, 120),
-    heroUrl: muxThumb(m.muxPlaybackId, 1280, 400, 120),
-    duration: "42:15",
+    thumbnailUrl: ep1Thumb + "?width=240&height=136&time=120",
+    heroUrl: ep1Thumb + "?width=1280&height=400&time=120",
+    duration: "TBD",
     episodeNum: "E2",
     season: "Season 1",
     rating: "TV-MA",
-    meta: "S1:E2 • 42 min • TV-MA",
+    meta: "S1:E2 • TV-MA • Coming Soon",
     available: false,
     isNew: false
   }
@@ -95,15 +162,15 @@ sub buildContentCatalog()
   m.catalog["episode-three"] = {
     title: "Family Ties",
     fullTitle: "S1:E3 — Family Ties",
-    description: "Rina discovers a secret that threatens to unravel both the Cortez and Beaumont families. Billy Black makes his move for the crown while Marisol fights to keep the family together. Loyalties are tested as the streets demand their due.",
+    description: "Rina discovers a secret that threatens to unravel both the Cortez and Beaumont families. Billy Black makes his move for the crown while Marisol fights to keep the family together.",
     url: "",
-    thumbnailUrl: muxThumb(m.muxPlaybackId, 240, 136, 240),
-    heroUrl: muxThumb(m.muxPlaybackId, 1280, 400, 240),
-    duration: "47:33",
+    thumbnailUrl: ep1Thumb + "?width=240&height=136&time=240",
+    heroUrl: ep1Thumb + "?width=1280&height=400&time=240",
+    duration: "TBD",
     episodeNum: "E3",
     season: "Season 1",
     rating: "TV-MA",
-    meta: "S1:E3 • 47 min • TV-MA",
+    meta: "S1:E3 • TV-MA • Coming Soon",
     available: false,
     isNew: false
   }
@@ -111,15 +178,15 @@ sub buildContentCatalog()
   m.catalog["episode-four"] = {
     title: "The Reckoning",
     fullTitle: "S1:E4 — The Reckoning",
-    description: "Alliances shatter as the war between families reaches a breaking point. Michael must confront the demons of his past to protect the people he loves. In the Bronx, there are no clean hands — only survivors.",
+    description: "Alliances shatter as the war between families reaches a breaking point. Michael must confront the demons of his past. In the Bronx, there are no clean hands — only survivors.",
     url: "",
-    thumbnailUrl: muxThumb(m.muxPlaybackId, 240, 136, 360),
-    heroUrl: muxThumb(m.muxPlaybackId, 1280, 400, 360),
-    duration: "51:08",
+    thumbnailUrl: ep1Thumb + "?width=240&height=136&time=360",
+    heroUrl: ep1Thumb + "?width=1280&height=400&time=360",
+    duration: "TBD",
     episodeNum: "E4",
     season: "Season 1",
     rating: "TV-MA",
-    meta: "S1:E4 • 51 min • TV-MA • Season Finale",
+    meta: "S1:E4 • TV-MA • Season Finale • Coming Soon",
     available: false,
     isNew: false
   }
@@ -129,13 +196,13 @@ sub buildContentCatalog()
     fullTitle: "Behind the Scenes — Making of T.O.N.Y.",
     description: "Go behind the camera with creator Michael Steven-Paul as he brings his vision of the Bronx to life. From casting to location scouting, discover how an independent film became a streaming sensation.",
     url: "",
-    thumbnailUrl: muxThumb(m.muxPlaybackId, 240, 136, 500),
-    heroUrl: muxThumb(m.muxPlaybackId, 1280, 400, 500),
-    duration: "28:45",
+    thumbnailUrl: ep1Thumb + "?width=240&height=136&time=500",
+    heroUrl: ep1Thumb + "?width=1280&height=400&time=500",
+    duration: "TBD",
     episodeNum: "",
     season: "Special",
     rating: "TV-14",
-    meta: "Special • 28 min • TV-14",
+    meta: "Special • TV-14",
     available: false,
     isNew: false
   }
@@ -145,13 +212,13 @@ sub buildContentCatalog()
     fullTitle: "Behind the Scenes — Cast Interviews",
     description: "Sit down with the cast of T.O.N.Y. as they reveal what it took to inhabit these complex characters. Michele White, Shana Bookman, Britton Carter, and Raymond Broadwater share the stories behind the stories.",
     url: "",
-    thumbnailUrl: muxThumb(m.muxPlaybackId, 240, 136, 700),
-    heroUrl: muxThumb(m.muxPlaybackId, 1280, 400, 700),
-    duration: "34:12",
+    thumbnailUrl: ep1Thumb + "?width=240&height=136&time=700",
+    heroUrl: ep1Thumb + "?width=1280&height=400&time=700",
+    duration: "TBD",
     episodeNum: "",
     season: "Special",
     rating: "TV-14",
-    meta: "Special • 34 min • TV-14",
+    meta: "Special • TV-14",
     available: false,
     isNew: false
   }
@@ -159,15 +226,15 @@ sub buildContentCatalog()
   m.catalog["bts-bronx"] = {
     title: "On Set: The Bronx",
     fullTitle: "Behind the Scenes — On Set in The Bronx",
-    description: "The Bronx is more than a backdrop — it's a character. Explore the real locations used in the series and meet the community that made filming possible. From rooftops to bodegas, every corner tells a story.",
+    description: "The Bronx is more than a backdrop — it's a character. Explore the real locations used in the series and meet the community that made filming possible.",
     url: "",
-    thumbnailUrl: muxThumb(m.muxPlaybackId, 240, 136, 900),
-    heroUrl: muxThumb(m.muxPlaybackId, 1280, 400, 900),
-    duration: "22:30",
+    thumbnailUrl: ep1Thumb + "?width=240&height=136&time=900",
+    heroUrl: ep1Thumb + "?width=1280&height=400&time=900",
+    duration: "TBD",
     episodeNum: "",
     season: "Special",
     rating: "TV-G",
-    meta: "Special • 22 min • TV-G",
+    meta: "Special • TV-G",
     available: false,
     isNew: false
   }
@@ -178,10 +245,16 @@ function muxThumb(playbackId as string, w as integer, h as integer, time as inte
 end function
 
 ' -----------------------------------------------
-' Populate RowList with Rich Metadata
+' Populate RowList
 ' -----------------------------------------------
 sub populateRowList()
   content = CreateObject("roSGNode", "ContentNode")
+
+  ' === ROW 0: Featured — Trailer + Episode 1 ===
+  row0 = content.CreateChild("ContentNode")
+  row0.title = "FEATURED"
+  addCatalogItem(row0, "trailer")
+  addCatalogItem(row0, "episode-one")
 
   ' === ROW 1: Season 1 Episodes ===
   row1 = content.CreateChild("ContentNode")
@@ -216,12 +289,9 @@ sub addCatalogItem(row as object, catalogKey as string)
   item.title = entry.title
   item.HDPosterUrl = entry.thumbnailUrl
   item.id = catalogKey
-
-  ' Pack metadata: episodeNum|duration|subtitle|flags
   flags = ""
   if entry.isNew then flags = "new"
   item.ShortDescriptionLine2 = entry.episodeNum + "|" + entry.duration + "|" + entry.season + "|" + flags
-
   if not entry.available
     item.description = "coming_soon"
   end if
@@ -230,27 +300,34 @@ end sub
 sub addPlaceholder(row as object, title as string, epLabel as string)
   item = row.CreateChild("ContentNode")
   item.title = title
-  item.HDPosterUrl = muxThumb(m.muxPlaybackId, 240, 136, int(rnd(0) * 1200))
+  item.HDPosterUrl = muxThumb(m.muxEpisode1, 240, 136, int(rnd(0) * 1200))
   item.description = "coming_soon"
   item.id = "placeholder"
-  item.ShortDescriptionLine2 = epLabel + "|--:--|Season 2|"
+  item.ShortDescriptionLine2 = epLabel + "|TBD|Season 2|"
 end sub
 
 ' -----------------------------------------------
-' Detail Panel — Updates on Focus
+' Detail Panel
 ' -----------------------------------------------
 sub updateDetailPanel(catalogKey as string)
   if not m.catalog.DoesExist(catalogKey) then return
-
   entry = m.catalog[catalogKey]
   m.detailTitle.text = entry.fullTitle
   m.detailDescription.text = entry.description
   m.detailMeta.text = entry.meta
   m.detailRating.text = entry.rating
 
-  ' Update hero image
   if entry.heroUrl <> invalid and entry.heroUrl <> ""
     m.heroPoster.uri = entry.heroUrl
+  end if
+
+  ' Update play hint
+  if catalogKey = "trailer"
+    m.playHint.text = "OK to Play Trailer"
+  else if entry.available
+    m.playHint.text = "OK to Play  •  ★ Watch Trailer"
+  else
+    m.playHint.text = "Coming Soon"
   end if
 end sub
 
@@ -263,7 +340,6 @@ sub onItemFocused()
 
   row = m.contentRowList.content.getChild(rowIndex)
   if row = invalid then return
-
   item = row.getChild(itemIndex)
   if item = invalid then return
 
@@ -272,15 +348,12 @@ sub onItemFocused()
     updateDetailPanel(catalogKey)
     m.detailPanel.visible = true
   else
-    ' Placeholder items — show generic Season 2 info
     m.detailTitle.text = "Season 2: " + item.title
     m.detailDescription.text = "The saga continues. New alliances. New enemies. The Bronx never sleeps."
     m.detailMeta.text = "Coming 2027"
     m.detailRating.text = "TV-MA"
     m.detailPanel.visible = true
-
-    ' Use a different Mux frame for hero
-    m.heroPoster.uri = muxThumb(m.muxPlaybackId, 1280, 400, 60 * itemIndex + 30)
+    m.heroPoster.uri = muxThumb(m.muxEpisode1, 1280, 400, 60 * itemIndex + 30)
   end if
 end sub
 
@@ -296,7 +369,6 @@ sub onItemSelected()
 
   row = m.contentRowList.content.getChild(rowIndex)
   if row = invalid then return
-
   item = row.getChild(itemIndex)
   if item = invalid then return
 
@@ -311,18 +383,19 @@ sub onItemSelected()
     if entry.available and entry.url <> ""
       m.currentContentId = catalogKey
       m.streamUrl = entry.url
+      stopBgTrailer()
       startPlayback()
     end if
   end if
 end sub
 
-' Deep linking
 sub onDeepLink()
   contentId = m.top.deepLinkContentId
   if contentId <> invalid and contentId <> ""
     m.currentContentId = contentId
     if m.catalog.DoesExist(contentId) and m.catalog[contentId].available
       m.streamUrl = m.catalog[contentId].url
+      stopBgTrailer()
       startPlayback()
     end if
   end if
@@ -358,6 +431,9 @@ sub stopPlayback()
   m.statusLabel.text = ""
   m.detailPanel.visible = true
   m.contentRowList.setFocus(true)
+
+  ' Restart background trailer
+  m.trailerTimer.control = "start"
 end sub
 
 ' -----------------------------------------------
@@ -418,6 +494,15 @@ function onKeyEvent(key as string, press as boolean) as boolean
     m.exitDialog.visible = false
     m.exitDialogShowing = false
     m.contentRowList.setFocus(true)
+    return true
+  end if
+
+  ' Play button — play trailer when on home screen
+  if key = "play" and not m.isPlaying
+    m.currentContentId = "trailer"
+    m.streamUrl = m.catalog["trailer"].url
+    stopBgTrailer()
+    startPlayback()
     return true
   end if
 
