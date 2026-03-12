@@ -12,7 +12,7 @@ sub init()
   m.exitDialog = m.top.findNode("exitDialog")
   m.contentRowList = m.top.findNode("contentRowList")
   m.heroPoster = m.top.findNode("heroPoster")
-  m.heroTitle = m.top.findNode("heroTitle")
+  m.heroLogo = m.top.findNode("heroLogo")
   m.heroSubtitle = m.top.findNode("heroSubtitle")
   m.heroDescription = m.top.findNode("heroDescription")
   m.heroMeta = m.top.findNode("heroMeta")
@@ -90,7 +90,7 @@ sub checkLoginStatus()
     m.accessToken = section.Read("access_token")
     m.isLoggedIn = true
     m.accountBtnText.text = "MY ACCOUNT"
-    m.accountBtnBg.color = "#DAAB2D" ' Gold for logged in
+    m.accountBtnBg.color = "#00D7FF" ' Cyan for logged in
   else
     m.isLoggedIn = false
     m.accessToken = ""
