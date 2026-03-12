@@ -31,7 +31,7 @@ sub generateCode()
   req.InitClientCertificates()
   req.AddHeader("Content-Type", "application/json")
   req.RetainBodyOnError(true)
-  req.SetFollowRedirects(true)
+  req.EnableFollowRedirects(true)
   
   body = {
     "deviceId": m.top.deviceId
