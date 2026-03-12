@@ -20,8 +20,8 @@
       <Rectangle id="comingSoonOverlay" width="240" height="136" color="#000000" opacity="0.65" visible="false" />
 
       <!-- Episode number badge (top-left) -->
-      <Rectangle id="episodeBadgeBg" width="36" height="22" color="#DAAB2D" translation="[6, 6]" visible="false" />
-      <Label id="episodeBadge" text="" font="font:SmallestBoldSystemFont" color="#000000"
+      <Rectangle id="episodeBadgeBg" width="36" height="22" color="#E61025" translation="[6, 6]" visible="false" />
+      <Label id="episodeBadge" text="" font="font:SmallestBoldSystemFont" color="#FFFFFF"
         width="36" horizAlign="center" translation="[6, 8]" visible="false" />
 
       <!-- Duration badge (bottom-right) -->
@@ -30,7 +30,7 @@
         width="48" horizAlign="center" translation="[186, 113]" visible="false" />
 
       <!-- Coming Soon label -->
-      <Label id="comingSoonLabel" text="COMING SOON" font="font:SmallestBoldSystemFont" color="#DAAB2D"
+      <Label id="comingSoonLabel" text="COMING SOON" font="font:SmallestBoldSystemFont" color="#E61025"
         width="240" horizAlign="center" translation="[0, 60]" visible="false" />
 
       <!-- NEW badge for newly added content -->

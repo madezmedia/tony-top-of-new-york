@@ -17,8 +17,8 @@
 
     <Group id="contentGroup" translation="[340, 120]">
       <!-- Heading -->
-      <Label text="ACTIVATE YOUR TV" font="font:LargeBoldSystemFont" color="#00D7FF" width="600" horizAlign="center" />
-      <Rectangle width="100" height="3" color="#00D7FF" translation="[250, 50]" />
+      <Label text="ACTIVATE YOUR TV" font="font:LargeBoldSystemFont" color="#E61025" width="600" horizAlign="center" />
+      <Rectangle width="100" height="3" color="#E61025" translation="[250, 50]" />
 
       <!-- High-level instruction -->
       <Label text="Link this device to your Top of New York account to unlock premium episodes and exclusive content." 
@@ -32,7 +32,7 @@
 
       <!-- The Code Display - Polished -->
       <Rectangle id="codeBg" width="380" height="120" color="#051521" translation="[110, 240]" />
-      <Rectangle width="380" height="120" color="#00D7FF" opacity="0.2" translation="[110, 240]" />
+      <Rectangle width="380" height="120" color="#E61025" opacity="0.2" translation="[110, 240]" />
       
       <Label id="codeLabel" text="GENERATING..." font="font:MediumBoldSystemFont" color="#FFFFFF" 
              translation="[110, 275]" width="380" horizAlign="center" />
@@ -41,7 +41,7 @@
       <BusySpinner id="spinner" translation="[275, 380]" visible="true" />
 
       <!-- Status/Error -->
-      <Label id="statusLabel" text="Establishing secure connection..." font="font:SmallBoldSystemFont" color="#00D7FF" 
+      <Label id="statusLabel" text="Establishing secure connection..." font="font:SmallBoldSystemFont" color="#E61025" 
              translation="[0, 430]" width="600" horizAlign="center" />
 
       <!-- Footer Info -->

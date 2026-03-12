@@ -90,7 +90,7 @@ sub checkLoginStatus()
     m.accessToken = section.Read("access_token")
     m.isLoggedIn = true
     m.accountBtnText.text = "MY ACCOUNT"
-    m.accountBtnBg.color = "#00D7FF" ' Cyan for logged in
+    m.accountBtnBg.color = "#E61025" ' Red for logged in
   else
     m.isLoggedIn = false
     m.accessToken = ""

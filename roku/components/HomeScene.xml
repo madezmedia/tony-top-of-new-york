@@ -9,8 +9,8 @@
   </interface>
 
   <children>
-    <!-- Full background -->
-    <Rectangle id="background" width="1280" height="720" color="#020B13" />
+    <!-- Full background: Website Deep Black -->
+    <Rectangle id="background" width="1280" height="720" color="#050303" />
 
     <!-- Roku Pay ChannelStore -->
     <ChannelStore id="channelStore" />
@@ -22,7 +22,7 @@
       id="bgTrailer"
       width="600"
       height="338"
-      translation="[620, 40]"
+      translation="[620, 60]"
       visible="false"
       enableUI="false"
       enableTrickPlay="false"
@@ -35,22 +35,22 @@
       width="600"
       height="338"
       uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=600&amp;height=338"
-      translation="[620, 40]"
+      translation="[620, 60]"
     />
 
     <!-- Subtle overlays for readability -->
-    <Rectangle width="1280" height="150" translation="[0, 310]" color="#020B13" opacity="0.6" />
+    <Rectangle width="1280" height="150" translation="[0, 310]" color="#050303" opacity="0.6" />
 
     <!-- ============ QUADRANT 1: TOP LEFT (BRANDING) ============ -->
-    <Group translation="[60, 40]">
-      <!-- 1.5x scaled Brand Logo -->
-      <Poster id="heroLogo" uri="pkg:/images/logo.png" width="450" height="150" loadDisplayMode="limitSize" />
-      <Label id="heroSubtitle" text="A MICHAEL STEVEN-PAUL CRIME SERIES" font="font:SmallBoldSystemFont" color="#00D7FF" translation="[10, 140]" />
-      <Rectangle width="120" height="2" color="#00D7FF" translation="[10, 168]" />
+    <Group translation="[60, 60]">
+      <!-- Brand Logo from website - Resized to be less aggressive -->
+      <Poster id="heroLogo" uri="pkg:/images/logo.png" width="300" height="100" loadDisplayMode="limitSize" />
+      <Label id="heroSubtitle" text="A MICHAEL STEVEN-PAUL CRIME SERIES" font="font:SmallBoldSystemFont" color="#E61025" translation="[0, 110]" />
+      <Rectangle width="120" height="2" color="#E61025" translation="[0, 138]" />
     </Group>
 
     <!-- ============ QUADRANT 2: TOP RIGHT (USER/ACCOUNT) ============ -->
-    <Group translation="[1080, 40]">
+    <Group translation="[1080, 60]">
       <Rectangle id="accountBtnBg" width="140" height="40" color="#E61025" translation="[0, 0]" />
       <Label id="accountBtnText" text="SIGN IN" font="font:SmallestBoldSystemFont" color="#FFFFFF" 
         width="140" horizAlign="center" translation="[0, 10]" />
@@ -65,7 +65,7 @@
         <Label id="detailRating" text="TV-MA" font="font:SmallestBoldSystemFont" color="#FFFFFF"
           width="60" horizAlign="center" translation="[0, 2]" />
         
-        <Label id="detailMeta" text="S1:E1 • 2h 12m" font="font:SmallestBoldSystemFont" color="#00D7FF" translation="[75, 2]" />
+        <Label id="detailMeta" text="S1:E1 • 2h 12m" font="font:SmallestBoldSystemFont" color="#E61025" translation="[75, 2]" />
       </Group>
 
       <Label id="detailDescription"
@@ -74,7 +74,7 @@
         translation="[0, 80]" width="550" maxLines="2" wrap="true"
       />
 
-      <Label id="playHint" text="OK to Watch  •  ★ Trailer" font="font:SmallestSystemFont" color="#00D7FF" translation="[0, 130]" />
+      <Label id="playHint" text="OK to Watch  •  ★ Trailer" font="font:SmallestSystemFont" color="#E61025" translation="[0, 130]" />
     </Group>
 
     <!-- ============ QUADRANT 4: BOTTOM (CONTENT) ============ -->
@@ -90,7 +90,7 @@
       showRowLabel="[true]"
       rowLabelOffset="[[0, 10]]"
       rowLabelFont="font:SmallBoldSystemFont"
-      rowLabelColor="#00D7FF"
+      rowLabelColor="#E61025"
       rowFocusAnimationStyle="fixedFocusWrap"
       vertFocusAnimationStyle="fixedFocus"
     />
@@ -108,7 +108,7 @@
 
     <!-- Buffering/Loading Elements -->
     <BusySpinner id="spinner" translation="[610, 330]" visible="false" />
-    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#00D7FF" translation="[60, 680]" />
+    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#E61025" translation="[60, 680]" />
 
     <!-- Overlays -->
     <Dialog id="exitDialog" title="Exit T.O.N.Y." message="Are you sure you want to exit?" visible="false" />

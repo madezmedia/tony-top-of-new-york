@@ -25,7 +25,7 @@ mm_icon_side_sd=pkg:/images/icon-sd.png
 ## Splash screens (per resolution)
 splash_screen_hd=pkg:/images/splash-hd.png
 splash_screen_fhd=pkg:/images/splash-fhd.png
-splash_color=#020B13
+splash_color=#050303
 splash_min_time=1500
 
 ## Build constants
