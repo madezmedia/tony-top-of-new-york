@@ -8,6 +8,8 @@ interface Post {
   slug: string;
   title: string;
   excerpt: string | null;
+  featured_image: string | null;
+  category: string | null;
   published: boolean;
   created_at: string;
 }
@@ -105,25 +107,45 @@ export const NewsPage: React.FC = () => {
                 transition={{ delay: i * 0.1 }}
                 className="group relative bg-neutral-surface border border-neutral-border rounded-2xl p-6 md:p-8 hover:border-primary-main/50 transition-colors"
               >
-                <div className="flex items-center gap-2 text-sm text-primary-main mb-4 font-medium uppercase tracking-wider">
-                  <Calendar size={16} />
-                  {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-                </div>
-                
-                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-primary-main transition-colors">
-                  <a href={`/news/${post.slug}`} className="focus:outline-none before:absolute before:inset-0">
-                    {post.title}
-                  </a>
-                </h2>
-                
-                {post.excerpt && (
-                  <p className="text-neutral-textSecondary text-lg leading-relaxed mb-6">
-                    {post.excerpt}
-                  </p>
-                )}
-                
-                <div className="text-primary-main font-bold text-sm tracking-wider uppercase flex items-center gap-2">
-                  Read Full Update <ArrowLeft size={16} className="rotate-180 group-hover:translate-x-1 transition-transform" />
+                <div className="flex flex-col md:flex-row gap-8">
+                  {post.featured_image && (
+                    <div className="md:w-1/3 aspect-video md:aspect-auto overflow-hidden rounded-xl border border-neutral-border">
+                      <img 
+                        src={post.featured_image} 
+                        alt={post.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+                  <div className={post.featured_image ? 'md:w-2/3' : 'w-full'}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-2 text-sm text-primary-main font-medium uppercase tracking-wider">
+                        <Calendar size={16} />
+                        {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                      </div>
+                      {post.category && (
+                        <span className="px-2 py-0.5 bg-primary-main/10 text-primary-main text-[10px] font-bold rounded uppercase tracking-widest border border-primary-main/20">
+                          {post.category}
+                        </span>
+                      )}
+                    </div>
+                    
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-primary-main transition-colors">
+                      <a href={`/news/${post.slug}`} className="focus:outline-none before:absolute before:inset-0">
+                        {post.title}
+                      </a>
+                    </h2>
+                    
+                    {post.excerpt && (
+                      <p className="text-neutral-textSecondary text-lg leading-relaxed mb-6">
+                        {post.excerpt}
+                      </p>
+                    )}
+                    
+                    <div className="text-primary-main font-bold text-sm tracking-wider uppercase flex items-center gap-2">
+                      Read Full Update <ArrowLeft size={16} className="rotate-180 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
                 </div>
               </motion.article>
             ))}

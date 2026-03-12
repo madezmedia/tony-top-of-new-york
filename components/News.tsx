@@ -56,7 +56,7 @@ export const News: React.FC = () => {
                 </div>
                 <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary-light transition-colors">{item.title}</h3>
                 <p className="text-neutral-textSecondary text-sm mb-4">{item.summary}</p>
-                <a href="#" className="inline-flex items-center text-sm font-bold text-white hover:text-primary-main transition-colors gap-2">
+                <a href={`/news/${item.id === 'n1' ? 'casting-call-winston-salem-nc' : item.id === 'n2' ? 'new-episodes-in-production' : 'roku-app-and-website-launch'}`} className="inline-flex items-center text-sm font-bold text-white hover:text-primary-main transition-colors gap-2">
                   Read More <ArrowRight size={16} />
                 </a>
               </div>

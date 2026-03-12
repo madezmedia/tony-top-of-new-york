@@ -13,6 +13,8 @@ CREATE TABLE IF NOT EXISTS public.posts (
     content TEXT NOT NULL,
     excerpt TEXT,
     published BOOLEAN DEFAULT false,
+    featured_image TEXT,
+    category TEXT,
     author_id UUID REFERENCES auth.users(id),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL

@@ -11,6 +11,8 @@ interface Post {
   title: string;
   content: string;
   excerpt: string | null;
+  featured_image: string | null;
+  category: string | null;
   published: boolean;
   created_at: string;
 }
@@ -28,6 +30,8 @@ export const AdminPage: React.FC = () => {
   const [slug, setSlug] = useState('');
   const [content, setContent] = useState('');
   const [excerpt, setExcerpt] = useState('');
+  const [featuredImage, setFeaturedImage] = useState('');
+  const [category, setCategory] = useState('');
   const [published, setPublished] = useState(false);
   
   // Preview State
@@ -104,6 +108,8 @@ export const AdminPage: React.FC = () => {
         slug: slug || title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, ''),
         content,
         excerpt,
+        featured_image: featuredImage,
+        category,
         published,
         author_id: session.user.id
       };
@@ -158,6 +164,8 @@ export const AdminPage: React.FC = () => {
     setSlug(post.slug);
     setContent(post.content);
     setExcerpt(post.excerpt || '');
+    setFeaturedImage(post.featured_image || '');
+    setCategory(post.category || '');
     setPublished(post.published);
     setIsEditing(true);
     setShowPreview(false);
@@ -175,6 +183,8 @@ export const AdminPage: React.FC = () => {
     setSlug('');
     setContent('');
     setExcerpt('');
+    setFeaturedImage('');
+    setCategory('');
     setPublished(false);
     setShowPreview(false);
     setError(null);
@@ -273,6 +283,29 @@ export const AdminPage: React.FC = () => {
                   className="w-full bg-neutral-bg border border-neutral-border rounded-lg px-4 py-2 text-white focus:border-primary-main focus:ring-1 focus:ring-primary-main outline-none h-20"
                   placeholder="A brief summary for the news feed..."
                 />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-neutral-textSecondary mb-1">Featured Image URL</label>
+                  <input 
+                    type="text" 
+                    value={featuredImage}
+                    onChange={e => setFeaturedImage(e.target.value)}
+                    className="w-full bg-neutral-bg border border-neutral-border rounded-lg px-4 py-2 text-white focus:border-primary-main focus:ring-1 focus:ring-primary-main outline-none"
+                    placeholder="https://..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-textSecondary mb-1">Category</label>
+                  <input 
+                    type="text" 
+                    value={category}
+                    onChange={e => setCategory(e.target.value)}
+                    className="w-full bg-neutral-bg border border-neutral-border rounded-lg px-4 py-2 text-white focus:border-primary-main focus:ring-1 focus:ring-primary-main outline-none"
+                    placeholder="e.g. Casting, Production"
+                  />
+                </div>
               </div>
 
               <div>

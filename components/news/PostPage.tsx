@@ -10,6 +10,8 @@ interface Post {
   title: string;
   content: string;
   excerpt: string | null;
+  featured_image: string | null;
+  category: string | null;
   published: boolean;
   created_at: string;
 }
@@ -95,15 +97,35 @@ export const PostPage: React.FC<PostPageProps> = ({ slug }) => {
           animate={{ opacity: 1, y: 0 }}
         >
           <header className="mb-12 border-b border-neutral-border pb-12">
-            <div className="flex items-center gap-2 text-sm text-primary-main mb-6 font-medium uppercase tracking-wider">
-              <Calendar size={16} />
-              {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2 text-sm text-primary-main font-medium uppercase tracking-wider">
+                <Calendar size={16} />
+                {new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+              </div>
+              {post.category && (
+                <span className="px-3 py-1 bg-primary-main/10 text-primary-main text-xs font-bold rounded uppercase tracking-widest">
+                  {post.category}
+                </span>
+              )}
             </div>
+            
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 leading-tight">
               {post.title}
             </h1>
+
+            {post.featured_image && (
+              <div className="relative aspect-video rounded-xl overflow-hidden mb-8 border border-neutral-border shadow-2xl">
+                <img 
+                  src={post.featured_image} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-neutral-bg/60 to-transparent" />
+              </div>
+            )}
+
             {post.excerpt && (
-              <p className="text-xl text-neutral-textSecondary leading-relaxed">
+              <p className="text-xl text-neutral-textSecondary leading-relaxed border-l-4 border-primary-main pl-6 italic">
                 {post.excerpt}
               </p>
             )}
@@ -117,7 +139,7 @@ export const PostPage: React.FC<PostPageProps> = ({ slug }) => {
 
       <footer className="border-t border-neutral-border mt-24">
         <div className="container mx-auto px-4 py-8 text-center flex flex-col items-center gap-4">
-          <img src="/assets/logo.svg" alt="T.O.N.Y." className="w-16 h-16 opacity-50 grayscale" onError={(e) => e.currentTarget.style.display = 'none'} />
+          <img src="/images/brand/tony-logo.jpg" alt="T.O.N.Y." className="w-16 h-auto opacity-50 grayscale hover:grayscale-0 transition-all" />
           <p className="text-sm text-neutral-textSecondary">&copy; {new Date().getFullYear()} T.O.N.Y. - Top of New York. All rights reserved.</p>
         </div>
       </footer>
