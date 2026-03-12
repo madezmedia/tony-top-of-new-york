@@ -82,7 +82,7 @@ sub pollStatus()
   response = req.PostFromString(json)
   ? "[AuthTask] Poll Response Code: " ; response
   
-  else if response = 200
+  if response = 200
     resStr = req.GetToString()
     resObj = ParseJson(resStr)
     if resObj <> invalid and resObj.status <> invalid
