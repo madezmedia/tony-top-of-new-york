@@ -33,7 +33,7 @@ sub generateCode()
   req.RetainBodyOnError(true)
   
   body = {
-    deviceId: m.top.deviceId
+    "deviceId": m.top.deviceId
   }
   
   json = FormatJson(body)
@@ -69,8 +69,8 @@ sub pollStatus()
   req.RetainBodyOnError(true)
   
   body = {
-    code: m.top.code,
-    deviceId: m.top.deviceId
+    "code": m.top.code,
+    "deviceId": m.top.deviceId
   }
   
   json = FormatJson(body)

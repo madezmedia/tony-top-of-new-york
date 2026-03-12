@@ -16,8 +16,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { code, deviceId } = req.body;
+  const { code } = req.body;
+  const deviceId = req.body.deviceId || req.body.deviceid;
+  
   if (!code || !deviceId) {
+    console.warn('[api/device/status] Missing params:', { code, deviceId, body: req.body });
     return res.status(400).json({ error: 'Missing code or deviceId' });
   }
 
