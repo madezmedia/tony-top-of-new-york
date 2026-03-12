@@ -29,6 +29,15 @@ sub init()
   m.accountScene = m.top.findNode("accountScene")
   m.accountScene.observeField("authCompleted", "onAuthCompleted")
 
+  ' Roku Pay In-App Billing
+  m.channelStore = m.top.findNode("channelStore")
+  m.channelStore.observeField("purchases", "onGetPurchases")
+  m.channelStore.observeField("orderStatus", "onOrderStatus")
+  
+  m.rokuPaySKU = "tony_season_1_pass"
+  m.hasRokuPass = false
+  m.channelStore.command = "getPurchases"
+
   m.isPlaying = false
   m.exitDialogShowing = false
   m.bgTrailerPlaying = false
@@ -138,6 +147,38 @@ sub onBgTrailerState()
 end sub
 
 ' -----------------------------------------------
+' Roku Pay (ChannelStore)
+' -----------------------------------------------
+sub onGetPurchases()
+  if m.channelStore.purchases <> invalid
+    for each purchase in m.channelStore.purchases
+      if purchase.code = m.rokuPaySKU
+        m.hasRokuPass = true
+        exit for
+      end if
+    end for
+  end if
+end sub
+
+sub onOrderStatus()
+  if m.channelStore.orderStatus <> invalid
+    status = m.channelStore.orderStatus
+    if status.status = 1 ' Success
+      m.hasRokuPass = true
+      m.statusLabel.text = ""
+      ' Automatically play the content they just tried to purchase
+      if m.currentContentId <> invalid and m.currentContentId <> "" and m.catalog.DoesExist(m.currentContentId)
+        m.streamUrl = m.catalog[m.currentContentId].url
+        stopBgTrailer()
+        startPlayback()
+      end if
+    else
+      m.statusLabel.text = chr(9888) + " Purchase cancelled or failed."
+    end if
+  end if
+end sub
+
+' -----------------------------------------------
 ' Content Catalog
 ' -----------------------------------------------
 sub buildContentCatalog()
@@ -185,15 +226,15 @@ sub buildContentCatalog()
     title: "Blood Money",
     fullTitle: "S1:E2 — Blood Money",
     description: "Miss B tightens her grip on the Beaumont empire as a new supply route opens through the docks. Michael faces an impossible choice when Enrique demands loyalty that could cost him everything.",
-    url: "",
+    url: "https://stream.mux.com/" + m.muxEpisode1 + ".m3u8",
     thumbnailUrl: ep1Thumb + "?width=240&height=136&time=120",
     heroUrl: ep1Thumb + "?width=1280&height=400&time=120",
-    duration: "TBD",
+    duration: "2h 4m",
     episodeNum: "E2",
     season: "Season 1",
     rating: "TV-MA",
-    meta: "S1:E2 • TV-MA • Coming Soon",
-    available: false,
+    meta: "S1:E2 • 2h 4m • TV-MA",
+    available: true,
     isNew: false
   }
 
@@ -419,7 +460,7 @@ sub onItemSelected()
   if m.catalog.DoesExist(catalogKey)
     entry = m.catalog[catalogKey]
     
-    ' FREEMIUM LOGIC: Episode 1 & Trailers are free. Ep2+ require Auth Check.
+    ' FREEMIUM LOGIC: Episode 1 & Trailers are free. Ep2+ require Auth Check or Roku Pass.
     if catalogKey = "episode-one" or catalogKey = "trailer" or catalogKey.instr("bts-") >= 0
       if entry.available and entry.url <> ""
         m.currentContentId = catalogKey
@@ -428,16 +469,20 @@ sub onItemSelected()
         startPlayback()
       end if
     else
-      ' It's premium content. Check entitlements.
-      if not m.isLoggedIn
-        m.statusLabel.text = chr(9888) + "  Please Log In to watch this episode."
-        ' Auto-open the login screen to help them out
-        m.accountScene.visible = true
-        m.accountScene.setFocus(true)
+      ' It's premium content. Check native Roku purchases first.
+      if m.hasRokuPass
+        m.currentContentId = catalogKey
+        m.streamUrl = entry.url
+        stopBgTrailer()
+        startPlayback()
+      else if m.isLoggedIn
+        ' The user linked a web account. Ideally call API here to verify entitlement.
+        m.statusLabel.text = chr(9888) + "  Log in to topofnewyork.com to purchase this episode."
       else
-        ' Theoretically, we would call an API here to verify m.accessToken has rights to play this. 
-        ' Since we don't have Roku Pay set up yet, and we are just demonstrating the UI flow for certification:
-        m.statusLabel.text = chr(9888) + "  Purchase required on topofnewyork.com to unlock."
+        ' Prompt native Roku purchase
+        m.currentContentId = catalogKey
+        m.channelStore.order = [{ code: m.rokuPaySKU, qty: 1 }]
+        m.channelStore.command = "doOrder"
       end if
     end if
   end if

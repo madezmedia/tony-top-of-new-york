@@ -12,6 +12,9 @@
     <!-- Full background -->
     <Rectangle id="background" width="1280" height="720" color="#020B13" />
 
+    <!-- Roku Pay ChannelStore -->
+    <ChannelStore id="channelStore" />
+
     <!-- ============ HERO SECTION ============ -->
 
     <!-- Background trailer video (auto-plays muted like Netflix) -->

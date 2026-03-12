@@ -16,6 +16,7 @@
     "@cloudinary/react": "^1.14.4",
     "@cloudinary/url-gen": "^1.22.0",
     "@mux/mux-player-react": "^3.10.2",
+    "@react-email/components": "^1.0.9",
     "@supabase/supabase-js": "^2.90.1",
     "cloudinary": "^2.8.0",
     "framer-motion": "^12.24.7",
@@ -24,6 +25,8 @@
     "react": "^19.2.3",
     "react-cookie-consent": "^10.0.1",
     "react-dom": "^19.2.3",
+    "react-markdown": "^10.1.0",
+    "resend": "^6.9.3",
     "square": "^43.2.1"
   },
   "devDependencies": {

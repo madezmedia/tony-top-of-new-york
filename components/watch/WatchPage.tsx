@@ -7,8 +7,6 @@ import { PaymentProcessingGate } from './PaymentProcessingGate';
 import { api, auth } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 
-// Public Mux playback ID for the film
-const PUBLIC_PLAYBACK_ID = 'GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko';
 
 interface WatchPageProps {
   slug?: string;
@@ -312,7 +310,6 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
                 <WatchPlayer
                   slug={film.slug}
                   title={film.title}
-                  playbackId={PUBLIC_PLAYBACK_ID}
                 />
               </div>
             ) : (

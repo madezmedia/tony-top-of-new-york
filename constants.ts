@@ -5,7 +5,7 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Overview', href: '#overview' },
   { label: 'Cast', href: '#cast' },
   { label: 'Episodes', href: '#episodes' },
-  { label: 'News', href: '#news' },
+  { label: 'News', href: '/news' },
   // Press Kit hidden until assets are ready - restore by setting VITE_ENABLE_PRESS_KIT=true
   // { label: 'Press Kit', href: '#presskit' },
   { label: 'Contact', href: '#contact' },

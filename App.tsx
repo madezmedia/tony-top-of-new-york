@@ -15,6 +15,9 @@ import { ActivatePage } from './components/device/ActivatePage';
 import { PrivacyPage } from './components/legal/PrivacyPage';
 import { TermsPage } from './components/legal/TermsPage';
 import { PurchasesPage } from './components/purchases/PurchasesPage';
+import { AdminPage } from './components/admin/AdminPage';
+import { NewsPage } from './components/news/NewsPage';
+import { PostPage } from './components/news/PostPage';
 import CookieConsent from 'react-cookie-consent';
 
 // Simple client-side routing
@@ -42,6 +45,16 @@ function App() {
 
   // Handle user's content library
   if (path.startsWith('/purchases')) return <PurchasesPage />;
+
+  // Handle Admin Backend
+  if (path.startsWith('/admin')) return <AdminPage />;
+
+  // Handle Blog & News
+  if (path.startsWith('/news')) {
+    const slug = path.split('/')[2];
+    if (slug) return <PostPage slug={slug} />;
+    return <NewsPage />;
+  }
 
   // Handle /watch and /watch/:slug routes
   if (path.startsWith('/watch')) {
