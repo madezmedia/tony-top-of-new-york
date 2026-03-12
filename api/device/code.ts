@@ -22,21 +22,23 @@ function generateShortCode(): string {
  * Called by Roku app to generate a new linking code.
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ 
-      error: 'Method not allowed', 
-      method: req.method,
-      url: req.url
-    });
-  }
-
+  // Robust handling for Roku which sometimes morphs POST to GET during redirects
+  const deviceId = (req.body?.deviceId || req.body?.deviceid || req.query?.deviceId || req.query?.deviceid) as string;
+  
   console.log('[api/device/code] Headers:', req.headers);
   console.log('[api/device/code] Body:', req.body);
+  console.log('[api/device/code] Query:', req.query);
+  console.log('[api/device/code] Decided deviceId:', deviceId);
 
-  const deviceId = req.body.deviceId || req.body.deviceid;
   if (!deviceId) {
-    console.warn('[api/device/code] Missing deviceId parameter. Body was:', JSON.stringify(req.body));
-    return res.status(400).json({ error: 'Missing deviceId parameter' });
+    console.warn('[api/device/code] Missing deviceId parameter. Body was:', JSON.stringify(req.body), 'Query was:', JSON.stringify(req.query));
+    // If it's a GET request and missing deviceId, it's definitely an error
+    return res.status(400).json({ 
+      error: 'Missing deviceId parameter',
+      method: req.method,
+      receivedBody: req.body,
+      receivedQuery: req.query
+    });
   }
 
   try {

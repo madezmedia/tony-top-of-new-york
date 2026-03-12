@@ -12,44 +12,46 @@
     <AuthTask id="authTask" control="STOP" />
 
     <!-- Background -->
-    <Rectangle id="background" width="1280" height="720" color="#020B13" />
-    <Poster id="heroPoster" width="1280" height="720" uri="pkg:/images/splash-hd.png" opacity="0.15" />
+    <Rectangle id="background" width="1280" height="720" color="#030E17" />
+    <Poster id="heroPoster" width="1280" height="720" uri="pkg:/images/splash-hd.png" opacity="0.1" />
 
-    <Group id="contentGroup" translation="[340, 150]">
-      <!-- Title -->
-      <Label text="LINK YOUR ACCOUNT" font="font:LargeBoldSystemFont" color="#DAAB2D" width="600" horizAlign="center" />
-      <Rectangle width="60" height="2" color="#DAAB2D" translation="[270, 50]" />
+    <Group id="contentGroup" translation="[340, 120]">
+      <!-- Heading -->
+      <Label text="ACTIVATE YOUR TV" font="font:LargeBoldSystemFont" color="#DAAB2D" width="600" horizAlign="center" />
+      <Rectangle width="100" height="3" color="#DAAB2D" translation="[250, 50]" />
 
-      <!-- Instructions -->
-      <Label text="To watch premium episodes, link this TV to your T.O.N.Y. account." 
+      <!-- High-level instruction -->
+      <Label text="Link this device to your Top of New York account to unlock premium episodes and exclusive content." 
              font="font:MediumSystemFont" color="#FFFFFF" 
-             translation="[0, 80]" width="600" horizAlign="center" wrap="true" />
+             translation="[0, 85]" width="600" horizAlign="center" wrap="true" lineSpacing="4" />
       
-      <Label text="Go to topofnewyork.com/activate on your phone or computer and enter this code:" 
-             font="font:SmallSystemFont" color="#AAAAAA" 
-             translation="[0, 150]" width="600" horizAlign="center" wrap="true" />
+      <!-- Actionable step -->
+      <Label text="1. Visit topofnewyork.com/activate on your phone&#10;2. Enter the 6-character code shown below:" 
+             font="font:SmallBoldSystemFont" color="#AAAAAA" 
+             translation="[0, 180]" width="600" horizAlign="center" wrap="true" lineSpacing="6" />
 
-      <!-- The Code Display -->
-      <Rectangle id="codeBg" width="340" height="100" color="#0A0A0A" translation="[130, 220]" />
-      <Rectangle width="340" height="100" color="#DAAB2D" opacity="0.3" translation="[130, 220]" /> <!-- border effect -->
+      <!-- The Code Display - Polished -->
+      <Rectangle id="codeBg" width="380" height="120" color="#051521" translation="[110, 240]" />
+      <Rectangle width="380" height="120" color="#DAAB2D" opacity="0.2" translation="[110, 240]" />
       
-      <Label id="codeLabel" text="LOADING..." font="font:MediumBoldSystemFont" color="#FFFFFF" 
-             translation="[130, 245]" width="340" horizAlign="center" />
+      <Label id="codeLabel" text="GENERATING..." font="font:MediumBoldSystemFont" color="#FFFFFF" 
+             translation="[110, 275]" width="380" horizAlign="center" />
 
-      <!-- Spinner while generating or polling -->
-      <BusySpinner id="spinner" translation="[270, 340]" visible="true" />
+      <!-- Spinner -->
+      <BusySpinner id="spinner" translation="[275, 380]" visible="true" />
 
-      <!-- Status / Error Messages -->
-      <Label id="statusLabel" text="Waiting for activation..." font="font:SmallestSystemFont" color="#DAAB2D" 
-             translation="[0, 390]" width="600" horizAlign="center" />
+      <!-- Status/Error -->
+      <Label id="statusLabel" text="Establishing secure connection..." font="font:SmallBoldSystemFont" color="#DAAB2D" 
+             translation="[0, 430]" width="600" horizAlign="center" />
 
-      <Label text="Press back to cancel" font="font:SmallestSystemFont" color="#555555" 
-             translation="[0, 480]" width="600" horizAlign="center" />
+      <!-- Footer Info -->
+      <Label text="Press BACK to cancel and return to browsing." font="font:SmallestSystemFont" color="#445566" 
+             translation="[0, 520]" width="600" horizAlign="center" />
 
-      <!-- Legal & Privacy Button -->
-      <Rectangle id="legalBtnBg" width="200" height="40" color="#222222" translation="[200, 520]" opacity="1.0" />
-      <Label id="legalBtnText" text="Privacy Policy" font="font:SmallestBoldSystemFont" color="#AAAAAA" 
-             width="200" horizAlign="center" translation="[0, 530]" />
+      <!-- Legal & Privacy Button - Fixed UI -->
+      <Rectangle id="legalBtnBg" width="220" height="40" color="#051521" translation="[190, 560]" opacity="0.6" />
+      <Label id="legalBtnText" text="PRIVACY &amp; LEGAL" font="font:SmallestBoldSystemFont" color="#AAAAAA" 
+             width="220" horizAlign="center" translation="[190, 570]" />
     </Group>
 
     <!-- The actual Legal Scene overlay -->

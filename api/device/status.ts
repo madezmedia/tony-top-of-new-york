@@ -12,16 +12,15 @@ const supabase = createClient(
  * Polled by Roku app. If status='linked', returns a custom session token for the Roku.
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  // Robust handling for Roku redirects
+  const code = (req.body?.code || req.query?.code) as string;
+  const deviceId = (req.body?.deviceId || req.body?.deviceid || req.query?.deviceId || req.query?.deviceid) as string;
 
-  const { code } = req.body;
-  const deviceId = req.body.deviceId || req.body.deviceid;
-  
   if (!code || !deviceId) {
-    console.warn('[api/device/status] Missing params:', { code, deviceId, body: req.body });
-    return res.status(400).json({ error: 'Missing code or deviceId' });
+    return res.status(400).json({
+      error: 'Missing code or deviceId',
+      method: req.method
+    });
   }
 
   try {

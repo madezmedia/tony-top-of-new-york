@@ -18,11 +18,13 @@ sub executeCommand()
 end sub
 
 function getApiUrl(path as string) as string
-  return "https://www.topofnewyork.com/api/device/" + path
+  ' Use non-www as the base, API will handle redirect if needed.
+  return "https://topofnewyork.com/api/device/" + path
 end function
 
 sub generateCode()
-  url = getApiUrl("code")
+  ' Send as query param too in case POST is morphed to GET
+  url = getApiUrl("code") + "?deviceId=" + m.top.deviceId
   ? "[AuthTask] POST to " ; url
   
   req = CreateObject("roUrlTransfer")
@@ -60,7 +62,8 @@ sub generateCode()
 end sub
 
 sub pollStatus()
-  url = getApiUrl("status")
+  ' Send as query params too in case POST is morphed to GET
+  url = getApiUrl("status") + "?code=" + m.top.code + "&deviceId=" + m.top.deviceId
   ? "[AuthTask] polling " ; url
   
   req = CreateObject("roUrlTransfer")

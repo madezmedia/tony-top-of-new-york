@@ -10,18 +10,18 @@
 
   <children>
     <!-- Full background -->
-    <Rectangle id="background" width="1280" height="720" color="#020B13" />
+    <Rectangle id="background" width="1280" height="720" color="#030E17" />
 
     <!-- Roku Pay ChannelStore -->
     <ChannelStore id="channelStore" />
 
-    <!-- ============ HERO SECTION ============ -->
+    <!-- ============ HERO & CINEMATIC OVERLAYS ============ -->
 
     <!-- Background trailer video (auto-plays muted like Netflix) -->
     <Video
       id="bgTrailer"
       width="1280"
-      height="400"
+      height="450"
       translation="[0, 0]"
       visible="false"
       enableUI="false"
@@ -34,66 +34,79 @@
     <Poster
       id="heroPoster"
       width="1280"
-      height="400"
-      uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1280&amp;height=400"
+      height="450"
+      uri="https://image.mux.com/GCrZV02lhiXHvASjK24E00JFBruFw4uJKT7RAtBRvCdko/thumbnail.jpg?width=1280&amp;height=500"
       translation="[0, 0]"
     />
 
-    <!-- Hero gradient — subtle, ~25% of hero area -->
-    <Rectangle width="1280" height="120" color="#020B13" opacity="0.85" translation="[0, 320]" />
-    <Rectangle width="400" height="180" color="#020B13" opacity="0.5" translation="[0, 0]" />
+    <!-- THE "WOW" GRADIENTS (Layered for depth) -->
+    <!-- Left-side vertical wash for readability -->
+    <Rectangle width="640" height="450" translation="[0, 0]" opacity="0.6">
+      <SimpleGradient color="#030E17" stop="[1.0, 0.0]" direction="to right" />
+    </Rectangle>
+    
+    <!-- Bottom horizontal wash for RowList transition -->
+    <Rectangle width="1280" height="300" translation="[0, 150]" opacity="0.95">
+      <SimpleGradient color="#030E17" stop="[1.0, 0.0]" direction="to bottom" />
+    </Rectangle>
 
-    <!-- App logo -->
-    <Poster id="appLogo" uri="pkg:/images/icon-focus-hd.png" width="50" height="38" translation="[1200, 15]" />
+    <!-- Top bar gradient for branding readability -->
+    <Rectangle width="1280" height="100" translation="[0, 0]" opacity="0.4">
+      <SimpleGradient color="#030E17" stop="[1.0, 0.0]" direction="to top" />
+    </Rectangle>
 
-    <!-- Hero branding -->
-    <Label id="heroTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" translation="[50, 20]" />
-    <Label id="heroSubtitle" text="TOP OF NEW YORK" font="font:SmallBoldSystemFont" color="#FFFFFF" translation="[52, 60]" />
-    <Rectangle width="50" height="2" color="#DAAB2D" translation="[52, 82]" />
-    <Label id="heroMeta" text="Season 1  •  TV-MA  •  Crime Drama" font="font:SmallestSystemFont" color="#AAAAAA" translation="[52, 90]" />
-
-    <!-- ============ DETAIL PANEL ============ -->
-    <Group id="detailPanel" translation="[50, 110]" visible="true">
-      <Label id="detailTitle" text="S1:E1 — Concrete Jungle" font="font:MediumBoldSystemFont" color="#FFFFFF" translation="[0, 0]" width="700" />
-
-      <!-- Rating badge -->
-      <Rectangle width="50" height="20" color="#E61025" opacity="0.9" translation="[0, 35]" />
-      <Label id="detailRating" text="TV-MA" font="font:SmallestBoldSystemFont" color="#FFFFFF"
-        width="50" horizAlign="center" translation="[0, 37]" />
-
-      <!-- Account Button (Top Right) -->
-      <Rectangle id="accountBtnBg" width="80" height="30" color="#E61025" translation="[1100, -80]" />
-      <Label id="accountBtnText" text="Log In" font="font:SmallestBoldSystemFont" color="#FFFFFF"
-        width="80" horizAlign="center" translation="[1100, -78]" />
-
-      <Label id="detailMeta" text="" font="font:SmallestSystemFont" color="#DAAB2D" translation="[58, 37]" />
-
-      <Label id="detailDescription"
-        text=""
-        font="font:SmallSystemFont" color="#AAAAAA"
-        translation="[0, 62]" width="580" maxLines="3" wrap="true"
-      />
-
-      <Label id="playHint" text="OK to Play  •  ★ Trailer" font="font:SmallestSystemFont" color="#555555" translation="[0, 120]" />
+    <!-- ============ QUADRANT 1: TOP LEFT (BRANDING) ============ -->
+    <Group id="brandingGroup" translation="[60, 40]">
+      <Label id="heroTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" />
+      <Label id="heroSubtitle" text="TOP OF NEW YORK" font="font:SmallBoldSystemFont" color="#FFFFFF" translation="[2, 40]" />
+      <Rectangle width="60" height="3" color="#DAAB2D" translation="[2, 65]" />
     </Group>
 
-    <!-- ============ CONTENT ROWS ============ -->
+    <!-- ============ QUADRANT 2: TOP RIGHT (USER/ACCOUNT) ============ -->
+    <Group id="userGroup" translation="[1080, 40]">
+      <Rectangle id="accountBtnBg" width="140" height="44" color="#E61025" translation="[0, 0]" />
+      <Label id="accountBtnText" text="SIGN IN" font="font:SmallBoldSystemFont" color="#FFFFFF" 
+        width="140" horizAlign="center" translation="[0, 10]" />
+    </Group>
+
+    <!-- ============ QUADRANT 3: MIDDLE LEFT (FOCUS DETAIL) ============ -->
+    <Group id="detailPanel" translation="[60, 160]" visible="true">
+      <Label id="detailTitle" text="CONCRETE JUNGLE" font="font:LargeBoldSystemFont" color="#FFFFFF" width="800" />
+      
+      <Group translation="[0, 50]">
+        <!-- Rating badge -->
+        <Rectangle width="70" height="26" color="#E61025" />
+        <Label id="detailRating" text="TV-MA" font="font:SmallestBoldSystemFont" color="#FFFFFF"
+          width="70" horizAlign="center" translation="[0, 4]" />
+        
+        <Label id="detailMeta" text="S1:E1 • 2h 12m • 2026" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[85, 2]" />
+      </Group>
+
+      <Label id="detailDescription"
+        text="Sample description for the cinematic experience."
+        font="font:SmallSystemFont" color="#CCCCCC"
+        translation="[0, 95]" width="650" maxLines="3" wrap="true" lineSpacing="4"
+      />
+
+      <Label id="playHint" text="PRESS OK TO WATCH" font="font:SmallestBoldSystemFont" color="#DAAB2D" translation="[0, 180]" />
+    </Group>
+
+    <!-- ============ QUADRANT 4: BOTTOM (CONTENT) ============ -->
     <RowList
       id="contentRowList"
-      translation="[50, 455]"
+      translation="[60, 470]"
       itemComponentName="ContentItem"
       numRows="4"
-      itemSize="[1180, 190]"
-      rowItemSize="[[240, 180]]"
-      rowItemSpacing="[[15, 0]]"
-      itemSpacing="[0, 10]"
+      itemSize="[1220, 240]"
+      rowItemSize="[[280, 200]]"
+      rowItemSpacing="[[20, 0]]"
+      itemSpacing="[0, 20]"
       showRowLabel="[true]"
-      rowLabelOffset="[[0, 8]]"
+      rowLabelOffset="[[0, 10]]"
       rowLabelFont="font:SmallBoldSystemFont"
       rowLabelColor="#DAAB2D"
       rowFocusAnimationStyle="fixedFocusWrap"
       vertFocusAnimationStyle="fixedFocus"
-      focusXOffset="[0]"
     />
 
     <!-- ============ FULL VIDEO PLAYER ============ -->
@@ -107,20 +120,12 @@
       enableTrickPlay="true"
     />
 
-    <!-- Buffering spinner -->
+    <!-- Buffering/Loading Elements -->
     <BusySpinner id="spinner" translation="[610, 330]" visible="false" />
+    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#DAAB2D" translation="[60, 680]" />
 
-    <!-- Status toast -->
-    <Label id="statusLabel" text="" font="font:SmallSystemFont" color="#DAAB2D" translation="[50, 690]" />
-
-    <!-- Exit Dialog -->
-    <Dialog
-      id="exitDialog"
-      title="Exit T.O.N.Y."
-      message="Are you sure you want to exit?"
-      visible="false"
-    />
-    <!-- Account/Activation Scene (hidden by default) -->
+    <!-- Overlays -->
+    <Dialog id="exitDialog" title="Exit T.O.N.Y." message="Are you sure you want to exit?" visible="false" />
     <AccountScene id="accountScene" visible="false" />
 
   </children>

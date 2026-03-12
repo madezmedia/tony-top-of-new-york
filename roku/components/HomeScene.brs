@@ -89,13 +89,13 @@ sub checkLoginStatus()
   if section.Exists("access_token")
     m.accessToken = section.Read("access_token")
     m.isLoggedIn = true
-    m.accountBtnText.text = "Account"
-    m.accountBtnBg.color = "#000000"
+    m.accountBtnText.text = "MY ACCOUNT"
+    m.accountBtnBg.color = "#DAAB2D" ' Gold for logged in
   else
     m.isLoggedIn = false
     m.accessToken = ""
-    m.accountBtnText.text = "Log In"
-    m.accountBtnBg.color = "#E61025"
+    m.accountBtnText.text = "SIGN IN"
+    m.accountBtnBg.color = "#E61025" ' Red for guest
   end if
 end sub
 
