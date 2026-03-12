@@ -150,8 +150,19 @@ end sub
 ' Roku Pay (ChannelStore)
 ' -----------------------------------------------
 sub onGetPurchases()
-  if m.channelStore.purchases <> invalid
-    for each purchase in m.channelStore.purchases
+  purchases = m.channelStore.purchases
+  if purchases = invalid then return
+
+  ' Handle both Array and ContentNode types
+  if type(purchases) = "roArray"
+    for each purchase in purchases
+      if purchase.code = m.rokuPaySKU
+        m.hasRokuPass = true
+        exit for
+      end if
+    end for
+  else if type(purchases) = "roSGNode"
+    for each purchase in purchases.getChildren(-1, 0)
       if purchase.code = m.rokuPaySKU
         m.hasRokuPass = true
         exit for
@@ -590,7 +601,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
   if not press then return false
 
   if m.accountScene.visible
-    return false ' Let AccountScene handle its own keys (like back)
+    if key = "back" and not m.accountScene.findNode("legalScene").visible
+      m.accountScene.visible = false
+      m.accountBtnBg.setFocus(true)
+      return true
+    end if
+    return false ' Let AccountScene handle its own internal keys (like OK on legal btn)
   end if
 
   if m.exitDialogShowing
