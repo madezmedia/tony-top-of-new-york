@@ -9,8 +9,21 @@ export interface MuxSigningOptions {
 const MIN_EXPIRY_SECONDS = 4 * 60 * 60; // 4 hours
 const THUMBNAIL_STORYBOARD_EXPIRY_SECONDS = 24 * 60 * 60; // 24 hours
 
-function getPrivateKey(base64: string): string {
-  return Buffer.from(base64, 'base64').toString('utf8');
+function getPrivateKey(secret: string): string {
+  // If it's already a PEM string, return it as is
+  if (secret.includes('-----BEGIN')) {
+    return secret.replace(/\\n/g, '\n');
+  }
+  // Otherwise, assume it's base64 encoded
+  try {
+    const decoded = Buffer.from(secret, 'base64').toString('utf8');
+    if (decoded.includes('-----BEGIN')) {
+      return decoded;
+    }
+  } catch (e) {
+    // Fallback to raw string if decoding fails
+  }
+  return secret;
 }
 
 export function computeExpiry(episodeDurationSeconds: number): number {

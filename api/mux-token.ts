@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { generateVideoToken, generateThumbnailToken, generateStoryboardToken } from '../lib/mux-jwt.js';
 
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL!,
+  process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
@@ -12,6 +12,10 @@ const signingOptions = {
   privateKeyBase64: process.env.MUX_SIGNING_PRIVATE_KEY!,
   restrictionId: process.env.MUX_PLAYBACK_RESTRICTION_ID,
 };
+
+if (!signingOptions.signingKeyId || !signingOptions.privateKeyBase64) {
+  console.warn('Mux Signing Keys are missing from environment variables. Tokens will not be generated correctly.');
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
