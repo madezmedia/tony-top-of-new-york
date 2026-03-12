@@ -18,7 +18,7 @@ sub executeCommand()
 end sub
 
 function getApiUrl(path as string) as string
-  return "https://topofnewyork.com/api/device/" + path
+  return "https://www.topofnewyork.com/api/device/" + path
 end function
 
 sub generateCode()
@@ -31,7 +31,7 @@ sub generateCode()
   req.InitClientCertificates()
   req.AddHeader("Content-Type", "application/json")
   req.RetainBodyOnError(true)
-  req.EnableFollowRedirects(true)
+  req.SetRequest("POST")
   
   body = {
     "deviceId": m.top.deviceId
@@ -68,7 +68,7 @@ sub pollStatus()
   req.InitClientCertificates()
   req.AddHeader("Content-Type", "application/json")
   req.RetainBodyOnError(true)
-  req.SetFollowRedirects(true)
+  req.SetRequest("POST")
   
   body = {
     "code": m.top.code,
