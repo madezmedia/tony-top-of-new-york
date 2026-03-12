@@ -33,58 +33,6 @@ export const Episodes: React.FC = () => {
         </a>
       </motion.div>
 
-      {/* Watch Now Preview Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.1, duration: 0.5 }}
-        className="mb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
-      >
-        {/* Video Preview Column */}
-        <div className="lg:col-span-7 relative aspect-video rounded-sm overflow-hidden border border-primary-main/30 shadow-[0_0_50px_rgba(230,16,37,0.2)] bg-black">
-          <iframe
-            src="https://player.mux.com/I3X2sr1TRI02p01fLABUS01v6BCzsUcbeLmBQm9OMjm6vU?metadata-video-title=Top+of+New+York+-+Preview&video-title=Top+of+New+York+-+Preview"
-            style={{ width: '100%', height: '100%', border: 'none' }}
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowFullScreen
-          ></iframe>
-        </div>
-
-        {/* CTA Column */}
-        <div className="lg:col-span-5 space-y-6">
-          <div className="inline-block px-3 py-1 bg-primary-main/20 border border-primary-main/40 rounded-sm text-primary-main text-xs font-bold tracking-widest uppercase">
-            Special Preview
-          </div>
-          <h4 className="text-3xl md:text-4xl font-display font-bold text-white leading-tight">
-            Witness the beginning of the <span className="text-primary-main">Cortez Legacy</span>.
-          </h4>
-          <p className="text-neutral-textSecondary text-lg leading-relaxed">
-            Own the complete first season uncensored in 4K. Immediate access on all your devices including Roku, Web, and Mobile.
-          </p>
-          
-          <div className="pt-4 flex flex-col sm:flex-row items-center gap-6">
-            <div className="flex flex-col">
-              <span className="text-4xl font-bold text-white">{priceDisplay}</span>
-              <span className="text-xs text-neutral-muted uppercase tracking-wider">Full Season Pass</span>
-            </div>
-            <a href="/watch" className="w-full sm:w-auto">
-              <Button variant="primary" className="w-full sm:w-auto group px-8">
-                Buy Now To Watch <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </a>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-border/30">
-            <div className="flex items-center gap-2 text-xs text-neutral-textSecondary">
-              <Play size={14} className="text-primary-main" /> Uncensored 4K
-            </div>
-            <div className="flex items-center gap-2 text-xs text-neutral-textSecondary">
-              <Tv size={14} className="text-primary-main" /> Roku App Ready
-            </div>
-          </div>
-        </div>
-      </motion.div>
 
       {/* Episode Grid */}
       {EPISODES.length > 0 && (
