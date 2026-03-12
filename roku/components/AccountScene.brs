@@ -112,7 +112,8 @@ function onKeyEvent(key as string, press as boolean) as boolean
     end if
     
     m.pollTimer.control = "stop"
-    return false ' Let it propagate so Main/Home can pop it
+    m.authTask.control = "STOP"
+    return false ' Propagate back to HomeScene to hide this component
   end if
   
   return true

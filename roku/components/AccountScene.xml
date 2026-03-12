@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- AccountScene.xml - Device Linking Screen -->
-<component name="AccountScene" extends="Scene">
+<component name="AccountScene" extends="Rectangle">
   <script type="text/brightscript" uri="pkg:/components/AccountScene.brs" />
+
+  <interface>
+    <field id="authCompleted" type="bool" value="false" />
+  </interface>
 
   <!-- The task that polls the Vercel API -->
   <children>
-    <Task id="authTask" control="STOP" />
+    <AuthTask id="authTask" control="STOP" />
 
     <!-- Background -->
     <Rectangle id="background" width="1280" height="720" color="#020B13" />
