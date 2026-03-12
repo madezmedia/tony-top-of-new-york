@@ -39,21 +39,15 @@
       translation="[0, 0]"
     />
 
-    <!-- THE "WOW" GRADIENTS (Layered for depth) -->
+    <!-- THE CINEMATIC OVERLAYS (Safe version using standard nodes) -->
     <!-- Left-side vertical wash for readability -->
-    <Rectangle width="640" height="450" translation="[0, 0]" opacity="0.6">
-      <SimpleGradient color="#030E17" stop="[1.0, 0.0]" direction="to right" />
-    </Rectangle>
+    <Rectangle width="640" height="450" translation="[0, 0]" color="#030E17" opacity="0.6" />
     
     <!-- Bottom horizontal wash for RowList transition -->
-    <Rectangle width="1280" height="300" translation="[0, 150]" opacity="0.95">
-      <SimpleGradient color="#030E17" stop="[1.0, 0.0]" direction="to bottom" />
-    </Rectangle>
+    <Rectangle width="1280" height="300" translation="[0, 150]" color="#030E17" opacity="0.95" />
 
-    <!-- Top bar gradient for branding readability -->
-    <Rectangle width="1280" height="100" translation="[0, 0]" opacity="0.4">
-      <SimpleGradient color="#030E17" stop="[1.0, 0.0]" direction="to top" />
-    </Rectangle>
+    <!-- Top bar gradient/wash for branding readability -->
+    <Rectangle width="1280" height="100" translation="[0, 0]" color="#030E17" opacity="0.4" />
 
     <!-- ============ QUADRANT 1: TOP LEFT (BRANDING) ============ -->
     <Group id="brandingGroup" translation="[60, 40]">
