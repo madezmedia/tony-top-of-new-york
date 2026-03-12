@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { createHmac } from 'crypto';
 
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL!,
+  process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY! // Need service role to fetch the user's token later
 );
 

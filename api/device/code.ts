@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
 
 const supabase = createClient(
-  process.env.VITE_SUPABASE_URL!,
+  process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
@@ -28,6 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const { deviceId } = req.body;
   if (!deviceId) {
+    console.warn('[api/device/code] Missing deviceId. Body:', req.body);
     return res.status(400).json({ error: 'Missing deviceId parameter' });
   }
 

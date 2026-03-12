@@ -18,12 +18,15 @@ sub executeCommand()
 end sub
 
 function getApiUrl(path as string) as string
-  return "https://topofnewyork.com/api/device/" + path
+  return "https://www.topofnewyork.com/api/device/" + path
 end function
 
 sub generateCode()
+  url = getApiUrl("code")
+  ? "[AuthTask] POST to " ; url
+  
   req = CreateObject("roUrlTransfer")
-  req.SetUrl(getApiUrl("code"))
+  req.SetUrl(url)
   req.SetCertificatesFile("common:/certs/ca-bundle.crt")
   req.InitClientCertificates()
   req.AddHeader("Content-Type", "application/json")
@@ -35,25 +38,31 @@ sub generateCode()
   
   json = FormatJson(body)
   response = req.PostFromString(json)
+  ? "[AuthTask] Response: " ; response
   
   if response = 200
-    resObj = ParseJson(req.GetString())
+    resStr = req.GetString()
+    resObj = ParseJson(resStr)
     if resObj <> invalid and resObj.code <> invalid
       m.top.code = resObj.code
       m.top.status = "pending"
     else
+      ? "[AuthTask] JSON Parse Error: " ; resStr
       m.top.errorMessage = "Invalid response from server."
       m.top.status = "error"
     end if
   else
-    m.top.errorMessage = "Failed to communicate with server."
+    m.top.errorMessage = "Failed to communicate with server (" + str(response).trim() + ")"
     m.top.status = "error"
   end if
 end sub
 
 sub pollStatus()
+  url = getApiUrl("status")
+  ? "[AuthTask] polling " ; url
+  
   req = CreateObject("roUrlTransfer")
-  req.SetUrl(getApiUrl("status"))
+  req.SetUrl(url)
   req.SetCertificatesFile("common:/certs/ca-bundle.crt")
   req.InitClientCertificates()
   req.AddHeader("Content-Type", "application/json")
@@ -66,9 +75,11 @@ sub pollStatus()
   
   json = FormatJson(body)
   response = req.PostFromString(json)
+  ? "[AuthTask] Poll Response: " ; response
   
   if response = 200
-    resObj = ParseJson(req.GetString())
+    resStr = req.GetString()
+    resObj = ParseJson(resStr)
     if resObj <> invalid and resObj.status <> invalid
       m.top.status = resObj.status
       if resObj.status = "linked" and resObj.token <> invalid
