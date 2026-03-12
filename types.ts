@@ -58,7 +58,7 @@ export interface NewsItem {
   title: string;
   summary: string;
   date: string;
-  category: 'Production' | 'Event' | 'Press';
+  category: 'Production' | 'Event' | 'Press' | 'Casting' | 'Platform';
   imageUrl: string;
 }
 

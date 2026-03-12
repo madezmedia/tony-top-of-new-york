@@ -20,7 +20,7 @@ export const CAST_MEMBERS: CastMember[] = [
     imageUrl: buildImageUrl('cast', 'michael-steven-paul', 'cast'),
   },
   {
-    id: '2',
+    id: 'michele-white',
     name: 'Michele White',
     role: "Phoenix 'Miss B' Beaumont",
     bio: 'The Queen Pin of the Beaumont empire. Phoenix commands respect and fear in equal measure, running her organization with an iron will and a strategic mind that keeps everyone guessing.',
@@ -76,50 +76,32 @@ export const EPISODES: Episode[] = [
     duration: '48m',
     thumbnailUrl: buildImageUrl('episodes', 's01e01-concrete-jungle', 'card'),
   },
-  {
-    id: 's1e2',
-    number: 2,
-    title: 'Shadows of the Empire',
-    slug: 's1e2-shadows-of-the-empire',
-    isFree: false,
-    status: 'in-production', // In production
-    releaseDate: 'Spring 2026', // Expected release
-    description: 'Billy Black makes his move for territory while Miss B summons Michael to discuss the future of the Beaumont empire. Trust is a luxury no one can afford.',
-    airDate: 'TBA',
-    duration: '52m',
-    thumbnailUrl: buildImageUrl('episodes', 's01e02-shadows-of-the-empire', 'card'),
-  },
-  {
-    id: 's1e3',
-    number: 3,
-    title: 'Bridge and Tunnel',
-    slug: 's1e3-bridge-and-tunnel',
-    isFree: false,
-    status: 'in-production', // In production
-    releaseDate: 'Spring 2026', // Expected release
-    description: 'As law enforcement closes in, alliances are tested. Michael must choose between protecting the Cortez family legacy and his own survival.',
-    airDate: 'TBA',
-    duration: '50m',
-    thumbnailUrl: buildImageUrl('episodes', 's01e03-bridge-and-tunnel', 'card'),
-  },
 ];
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
     id: 'n1',
-    title: 'Season 2 Renewed!',
-    summary: 'T.O.N.Y. will return for a second season. Filming begins in Brooklyn this Spring.',
-    date: 'Dec 15, 2023',
-    category: 'Production',
-    imageUrl: buildImageUrl('press', 'season-2-renewed', 'card'),
+    title: 'Casting Call: Winston Salem, NC',
+    summary: 'The search for new faces continues! T.O.N.Y. is heading to North Carolina for a major casting expansion this Spring.',
+    date: 'March 15, 2026',
+    category: 'Casting',
+    imageUrl: buildImageUrl('news', 'casting-call-nc', 'card'),
   },
   {
     id: 'n2',
-    title: 'Red Carpet Premiere',
-    summary: 'See the photos from the star-studded event at the Tribeca Film Festival.',
-    date: 'Nov 02, 2023',
-    category: 'Event',
-    imageUrl: buildImageUrl('press', 'red-carpet-premiere', 'card'),
+    title: 'New Episodes in Production',
+    summary: 'The saga continues. Production has officially resumed for the next chapters of the Cortez family legacy.',
+    date: 'March 12, 2026',
+    category: 'Production',
+    imageUrl: buildImageUrl('news', 'episodes-in-production', 'card'),
+  },
+  {
+    id: 'n3',
+    title: 'Roku App & Website Launch',
+    summary: 'Experience T.O.N.Y. like never before. Our official Roku channel and all-new web platform are now live and streaming.',
+    date: 'March 10, 2026',
+    category: 'Platform',
+    imageUrl: buildImageUrl('news', 'dual-launch', 'card'),
   },
 ];
 

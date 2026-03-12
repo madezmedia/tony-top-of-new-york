@@ -11,6 +11,9 @@ export const LOCAL_IMAGES: Record<string, string> = {
   'cast/michele-white': 'michele-white.jpeg',
   'cast/britton-carter': 'btton-l-carter.jpeg',
   'brand/tony-logo': 'tony-logo.jpg',
+  'news/casting-call-nc': 'casting-call-nc.png',
+  'news/episodes-in-production': 'episodes-in-production.png',
+  'news/dual-launch': 'dual-launch.png',
   // Add more local images as they are added to public/images/
 };
 
