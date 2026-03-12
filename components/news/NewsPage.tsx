@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, Calendar } from 'lucide-react';
 import { api } from '../../lib/supabase';
+import { buildImageUrl } from '../../lib/media';
 
 interface Post {
   id: string;
@@ -111,7 +112,7 @@ export const NewsPage: React.FC = () => {
                   {post.featured_image && (
                     <div className="md:w-1/3 aspect-video md:aspect-auto overflow-hidden rounded-xl border border-neutral-border">
                       <img 
-                        src={post.featured_image} 
+                        src={post.featured_image || buildImageUrl('news', post.slug)} 
                         alt={post.title} 
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />

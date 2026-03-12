@@ -14,6 +14,9 @@ export const LOCAL_IMAGES: Record<string, string> = {
   'news/casting-call-nc': 'casting-call-nc.png',
   'news/episodes-in-production': 'episodes-in-production.png',
   'news/dual-launch': 'dual-launch.png',
+  'news/casting-call-winston-salem-nc': 'casting-call-nc.png',
+  'news/new-episodes-in-production': 'episodes-in-production.png',
+  'news/roku-app-and-website-launch': 'dual-launch.png',
   // Add more local images as they are added to public/images/
 };
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, Calendar, AlertCircle } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { Button } from '../ui/Button';
+import { buildImageUrl } from '../../lib/media';
 
 interface Post {
   id: string;
@@ -113,10 +114,10 @@ export const PostPage: React.FC<PostPageProps> = ({ slug }) => {
               {post.title}
             </h1>
 
-            {post.featured_image && (
+            { (post.featured_image || post.slug) && (
               <div className="relative aspect-video rounded-xl overflow-hidden mb-8 border border-neutral-border shadow-2xl">
                 <img 
-                  src={post.featured_image} 
+                  src={post.featured_image || buildImageUrl('news', post.slug)} 
                   alt={post.title} 
                   className="w-full h-full object-cover"
                 />
