@@ -56,8 +56,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const jwtSecret = process.env.SUPABASE_JWT_SECRET;
       
       if (!jwtSecret) {
-         console.error('Missing SUPABASE_JWT_SECRET in environment');
-         return res.status(500).json({ error: 'Server configuration error' });
+         console.error('[CRITICAL] Missing SUPABASE_JWT_SECRET in environment. Please add it to Vercel from Supabase Dashboard > Settings > API');
+         return res.status(500).json({ 
+           error: 'Missing SUPABASE_JWT_SECRET',
+           instruction: 'Please add SUPABASE_JWT_SECRET to your Vercel Environment Variables. Find it in Supabase Dashboard > Settings > API > JWT Settings' 
+         });
       }
 
       // Generate a long-lived custom JWT for the TV
