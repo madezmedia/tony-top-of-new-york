@@ -103,6 +103,7 @@ sub onAuthCompleted()
   if m.accountScene.authCompleted
     m.accountScene.visible = false
     checkLoginStatus()
+    populateRowList() ' Refresh rows to show/hide Library and Continue Watching
     m.contentRowList.setFocus(true)
   end if
 end sub
