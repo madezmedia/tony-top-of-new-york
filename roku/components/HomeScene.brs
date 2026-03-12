@@ -246,6 +246,7 @@ sub buildContentCatalog()
     rating: "TV-MA",
     meta: "S1:E2 • 2h 4m • TV-MA",
     available: true,
+    isPremium: true,
     isNew: false
   }
 
@@ -262,6 +263,7 @@ sub buildContentCatalog()
     rating: "TV-MA",
     meta: "S1:E3 • TV-MA • Coming Soon",
     available: false,
+    isPremium: true,
     isNew: false
   }
 
@@ -278,6 +280,7 @@ sub buildContentCatalog()
     rating: "TV-MA",
     meta: "S1:E4 • TV-MA • Season Finale • Coming Soon",
     available: false,
+    isPremium: true,
     isNew: false
   }
 
@@ -340,35 +343,56 @@ end function
 sub populateRowList()
   content = CreateObject("roSGNode", "ContentNode")
 
-  ' === ROW 0: Featured — Trailer + Episode 1 ===
-  row0 = content.CreateChild("ContentNode")
-  row0.title = "FEATURED"
-  addCatalogItem(row0, "trailer")
-  addCatalogItem(row0, "episode-one")
+  ' === ROW: Continue Watching (Dynamic) ===
+  ' We check for any bookmarks in registry
+  section = CreateObject("roRegistrySection", "playback")
+  hasBookmarks = false
+  for each key in m.catalog
+    if section.Exists("bookmark_" + key)
+      hasBookmarks = true
+      exit for
+    end if
+  end for
 
-  ' === ROW 1: Season 1 Episodes ===
-  row1 = content.CreateChild("ContentNode")
-  row1.title = "SEASON 1"
-  addCatalogItem(row1, "episode-one")
-  addCatalogItem(row1, "episode-two")
-  addCatalogItem(row1, "episode-three")
-  addCatalogItem(row1, "episode-four")
+  if hasBookmarks
+    rowCW = content.CreateChild("ContentNode")
+    rowCW.title = "CONTINUE WATCHING"
+    for each key in m.catalog
+      if section.Exists("bookmark_" + key)
+        addCatalogItem(rowCW, key)
+      end if
+    end for
+  end if
 
-  ' === ROW 2: Behind the Scenes ===
-  row2 = content.CreateChild("ContentNode")
-  row2.title = "BEHIND THE SCENES"
-  addCatalogItem(row2, "bts-making-of")
-  addCatalogItem(row2, "bts-cast-interviews")
-  addCatalogItem(row2, "bts-bronx")
+  ' === ROW: My Library (Only for Logged-In / Purchasers) ===
+  if m.isLoggedIn or m.hasRokuPass
+    rowLib = content.CreateChild("ContentNode")
+    rowLib.title = "MY ACCOUNT / LIBRARY"
+    addCatalogItem(rowLib, "episode-one")
+    addCatalogItem(rowLib, "episode-two")
+    ' For a real app, this would only include purchased ContentIds
+  end if
 
-  ' === ROW 3: Coming Soon — Season 2 ===
-  row3 = content.CreateChild("ContentNode")
-  row3.title = "COMING SOON — SEASON 2"
-  addPlaceholder(row3, "New Blood", "S2:E1")
-  addPlaceholder(row3, "Empire State", "S2:E2")
-  addPlaceholder(row3, "The Takeover", "S2:E3")
-  addPlaceholder(row3, "Crown Heights", "S2:E4")
-  addPlaceholder(row3, "Endgame", "S2:E5")
+  ' === ROW: Featured (Static) ===
+  rowFeatured = content.CreateChild("ContentNode")
+  rowFeatured.title = "FEATURED"
+  addCatalogItem(rowFeatured, "trailer")
+  addCatalogItem(rowFeatured, "episode-one")
+
+  ' === ROW: All Season 1 Episodes ===
+  rowS1 = content.CreateChild("ContentNode")
+  rowS1.title = "SEASON 1"
+  addCatalogItem(rowS1, "episode-one")
+  addCatalogItem(rowS1, "episode-two")
+  addCatalogItem(rowS1, "episode-three")
+  addCatalogItem(rowS1, "episode-four")
+
+  ' === ROW: Behind the Scenes ===
+  rowBTS = content.CreateChild("ContentNode")
+  rowBTS.title = "BEHIND THE SCENES"
+  addCatalogItem(rowBTS, "bts-making-of")
+  addCatalogItem(rowBTS, "bts-cast-interviews")
+  addCatalogItem(rowBTS, "bts-bronx")
 
   m.contentRowList.content = content
 end sub
@@ -379,8 +403,16 @@ sub addCatalogItem(row as object, catalogKey as string)
   item.title = entry.title
   item.HDPosterUrl = entry.thumbnailUrl
   item.id = catalogKey
+  
   flags = ""
-  if entry.isNew then flags = "new"
+  if entry.isNew then flags += "new,"
+  if entry.isPremium then flags += "premium,"
+  
+  ' LOCK LOGIC: Lock if premium AND not logged in AND doesn't have Roku pass
+  if entry.isPremium and not m.isLoggedIn and not m.hasRokuPass
+    flags += "locked,"
+  end if
+  
   item.ShortDescriptionLine2 = entry.episodeNum + "|" + entry.duration + "|" + entry.season + "|" + flags
   if not entry.available
     item.description = "coming_soon"
@@ -472,7 +504,7 @@ sub onItemSelected()
     entry = m.catalog[catalogKey]
     
     ' FREEMIUM LOGIC: Episode 1 & Trailers are free. Ep2+ require Auth Check or Roku Pass.
-    if catalogKey = "episode-one" or catalogKey = "trailer" or catalogKey.instr("bts-") >= 0
+    if entry.isPremium <> true or catalogKey = "episode-one" or catalogKey = "trailer" or catalogKey.instr("bts-") >= 0
       if entry.available and entry.url <> ""
         m.currentContentId = catalogKey
         m.streamUrl = entry.url
@@ -480,18 +512,20 @@ sub onItemSelected()
         startPlayback()
       end if
     else
-      ' It's premium content. Check native Roku purchases first.
-      if m.hasRokuPass
-        m.currentContentId = catalogKey
-        m.streamUrl = entry.url
-        stopBgTrailer()
-        startPlayback()
-      else if m.isLoggedIn
-        ' The user linked a web account. Ideally call API here to verify entitlement.
-        m.statusLabel.text = chr(9888) + "  Log in to topofnewyork.com to purchase this episode."
+      ' It's premium content. Check native Roku purchases AND login status.
+      if m.hasRokuPass or m.isLoggedIn
+        if entry.available and entry.url <> ""
+          m.currentContentId = catalogKey
+          m.streamUrl = entry.url
+          stopBgTrailer()
+          startPlayback()
+        else
+          m.statusLabel.text = chr(9888) + "  This episode is coming soon."
+        end if
       else
-        ' Prompt native Roku purchase
+        ' Prompt native Roku purchase as the first option for guests
         m.currentContentId = catalogKey
+        m.statusLabel.text = "This is premium content. Please Sign In or Purchase."
         m.channelStore.order = [{ code: m.rokuPaySKU, qty: 1 }]
         m.channelStore.command = "doOrder"
       end if
@@ -516,6 +550,14 @@ sub startPlayback()
   m.spinner.visible = true
   m.statusLabel.text = ""
   m.detailPanel.visible = false
+
+  ' RAF - Roku Ad Framework Scaffolding (Required for Certification)
+  ' adIface = Roku_Ads()
+  ' adIface.setAdUrl("YOUR_VAST_AD_URL_HERE")
+  ' adPods = adIface.getAds()
+  ' if adPods <> invalid and adPods.count() > 0
+  '   adIface.showAds(adPods)
+  ' end if
 
   content = CreateObject("roSGNode", "ContentNode")
   content.url = m.streamUrl

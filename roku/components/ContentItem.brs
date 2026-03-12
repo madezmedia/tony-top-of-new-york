@@ -14,9 +14,33 @@ sub onContentChange()
   durationLabel = m.top.findNode("durationLabel")
   newBadgeBg = m.top.findNode("newBadgeBg")
   newBadge = m.top.findNode("newBadge")
+  premiumBadgeBg = m.top.findNode("premiumBadgeBg")
+  premiumBadge = m.top.findNode("premiumBadge")
+  lockedOverlay = m.top.findNode("lockedOverlay")
+  lockedIcon = m.top.findNode("lockedIcon")
 
   poster.uri = item.HDPosterUrl
   titleLabel.text = item.title
+
+  ' Flags (new, premium, locked)
+  if meta <> invalid and meta <> ""
+    parts = meta.split("|")
+    if parts.count() > 3
+      flags = parts[3]
+      if flags.instr("new") >= 0
+        newBadge.visible = true
+        newBadgeBg.visible = true
+      end if
+      if flags.instr("premium") >= 0
+        premiumBadge.visible = true
+        premiumBadgeBg.visible = true
+      end if
+      if flags.instr("locked") >= 0
+        lockedOverlay.visible = true
+        lockedIcon.visible = true
+      end if
+    end if
+  end if
 
   ' Parse custom data from ShortDescriptionLine2 (format: "ep|duration|meta|flags")
   meta = item.ShortDescriptionLine2

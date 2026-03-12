@@ -33,10 +33,19 @@
       <Label id="comingSoonLabel" text="COMING SOON" font="font:SmallestBoldSystemFont" color="#E61025"
         width="240" horizAlign="center" translation="[0, 60]" visible="false" />
 
-      <!-- NEW badge for newly added content -->
+      <!-- NEW badge -->
       <Rectangle id="newBadgeBg" width="34" height="18" color="#E61025" translation="[200, 6]" visible="false" />
       <Label id="newBadge" text="NEW" font="font:SmallestBoldSystemFont" color="#FFFFFF"
         width="34" horizAlign="center" translation="[200, 7]" visible="false" />
+
+      <!-- PREMIUM / LOCKED indicators -->
+      <Rectangle id="premiumBadgeBg" width="60" height="18" color="#FFFFFF" translation="[6, 112]" visible="false" />
+      <Label id="premiumBadge" text="PREMIUM" font="font:SmallestBoldSystemFont" color="#000000"
+        width="60" horizAlign="center" translation="[6, 113]" visible="false" />
+        
+      <Rectangle id="lockedOverlay" width="240" height="136" color="#000000" opacity="0.4" visible="false" />
+      <Label id="lockedIcon" text="🔒" font="font:SmallBoldSystemFont" color="#FFFFFF"
+        width="240" horizAlign="center" translation="[0, 55]" visible="false" />
 
       <!-- Title label -->
       <Label id="titleLabel" text="" font="font:SmallestBoldSystemFont" color="#CCCCCC"
