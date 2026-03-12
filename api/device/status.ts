@@ -81,8 +81,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                               
       const customToken = `${header}.${payload}.${signature}`;
 
-      // Clean up the code since it's used
-      await supabase.from('device_codes').delete().eq('id', deviceCode.id);
+      // Note: We don't delete immediately to avoid a race condition where the TV polls again
+      // and gets a 404/invalid before it handles the success. 
+      // The code will naturally expire or be cleaned up by a cron later.
 
       return res.status(200).json({
         status: 'linked',

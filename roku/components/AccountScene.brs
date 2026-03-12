@@ -52,7 +52,8 @@ sub onAuthStatusChanged()
     m.statusLabel.text = "Waiting for activation..."
     m.pollTimer.control = "start"
     
-  else if status = "linked"
+  else if status = "linked" and m.codeLabel.text <> "SUCCESS!"
+    ? "[AccountScene] Success! Token received."
     m.pollTimer.control = "stop"
     m.spinner.visible = false
     m.codeLabel.text = "SUCCESS!"
