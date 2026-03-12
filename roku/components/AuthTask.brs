@@ -41,7 +41,7 @@ sub generateCode()
   ? "[AuthTask] Response: " ; response
   
   if response = 200
-    resStr = req.GetString()
+    resStr = req.GetToString()
     resObj = ParseJson(resStr)
     if resObj <> invalid and resObj.code <> invalid
       m.top.code = resObj.code
@@ -78,7 +78,7 @@ sub pollStatus()
   ? "[AuthTask] Poll Response: " ; response
   
   if response = 200
-    resStr = req.GetString()
+    resStr = req.GetToString()
     resObj = ParseJson(resStr)
     if resObj <> invalid and resObj.status <> invalid
       m.top.status = resObj.status

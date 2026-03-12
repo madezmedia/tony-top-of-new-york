@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!-- AccountScene.xml - Device Linking Screen -->
-<component name="AccountScene" extends="Rectangle">
+<component name="AccountScene" extends="Rectangle" focusable="true">
   <script type="text/brightscript" uri="pkg:/components/AccountScene.brs" />
 
   <interface>
