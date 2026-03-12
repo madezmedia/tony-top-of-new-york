@@ -10,14 +10,13 @@
 
   <children>
     <!-- Full background -->
-    <Rectangle id="background" width="1280" height="720" color="#030E17" />
+    <Rectangle id="background" width="1280" height="720" color="#020B13" />
 
     <!-- Roku Pay ChannelStore -->
     <ChannelStore id="channelStore" />
 
-    <!-- ============ HERO & CINEMATIC OVERLAYS ============ -->
+    <!-- ============ HERO & OVERLAYS ============ -->
 
-    <!-- Background trailer video (auto-plays muted like Netflix) -->
     <Video
       id="bgTrailer"
       width="1280"
@@ -30,7 +29,6 @@
       loop="true"
     />
 
-    <!-- Hero poster fallback (shown until trailer loads) -->
     <Poster
       id="heroPoster"
       width="1280"
@@ -39,62 +37,55 @@
       translation="[0, 0]"
     />
 
-    <!-- THE CINEMATIC OVERLAYS (Safe version using standard nodes) -->
-    <!-- Left-side vertical wash for readability -->
-    <Rectangle width="640" height="450" translation="[0, 0]" color="#030E17" opacity="0.6" />
-    
-    <!-- Bottom horizontal wash for RowList transition -->
-    <Rectangle width="1280" height="300" translation="[0, 150]" color="#030E17" opacity="0.95" />
-
-    <!-- Top bar gradient/wash for branding readability -->
-    <Rectangle width="1280" height="100" translation="[0, 0]" color="#030E17" opacity="0.4" />
+    <!-- Subtle overlays for readability -->
+    <Rectangle width="1280" height="200" translation="[0, 250]" color="#020B13" opacity="0.8" />
+    <Rectangle width="500" height="450" translation="[0, 0]" color="#020B13" opacity="0.4" />
 
     <!-- ============ QUADRANT 1: TOP LEFT (BRANDING) ============ -->
-    <Group id="brandingGroup" translation="[60, 40]">
+    <Group translation="[60, 40]">
       <Label id="heroTitle" text="T.O.N.Y." font="font:LargeBoldSystemFont" color="#DAAB2D" />
-      <Label id="heroSubtitle" text="TOP OF NEW YORK" font="font:SmallBoldSystemFont" color="#FFFFFF" translation="[2, 40]" />
-      <Rectangle width="60" height="3" color="#DAAB2D" translation="[2, 65]" />
+      <Label id="heroSubtitle" text="TOP OF NEW YORK" font="font:SmallBoldSystemFont" color="#FFFFFF" translation="[0, 40]" />
+      <Rectangle width="100" height="2" color="#DAAB2D" translation="[0, 65]" />
     </Group>
 
     <!-- ============ QUADRANT 2: TOP RIGHT (USER/ACCOUNT) ============ -->
-    <Group id="userGroup" translation="[1080, 40]">
-      <Rectangle id="accountBtnBg" width="140" height="44" color="#E61025" translation="[0, 0]" />
-      <Label id="accountBtnText" text="SIGN IN" font="font:SmallBoldSystemFont" color="#FFFFFF" 
+    <Group translation="[1080, 40]">
+      <Rectangle id="accountBtnBg" width="140" height="40" color="#E61025" translation="[0, 0]" />
+      <Label id="accountBtnText" text="SIGN IN" font="font:SmallestBoldSystemFont" color="#FFFFFF" 
         width="140" horizAlign="center" translation="[0, 10]" />
     </Group>
 
     <!-- ============ QUADRANT 3: MIDDLE LEFT (FOCUS DETAIL) ============ -->
-    <Group id="detailPanel" translation="[60, 160]" visible="true">
-      <Label id="detailTitle" text="CONCRETE JUNGLE" font="font:LargeBoldSystemFont" color="#FFFFFF" width="800" />
+    <Group id="detailPanel" translation="[60, 160]">
+      <Label id="detailTitle" text="CONCRETE JUNGLE" font="font:MediumBoldSystemFont" color="#FFFFFF" width="800" />
       
-      <Group translation="[0, 50]">
-        <!-- Rating badge -->
-        <Rectangle width="70" height="26" color="#E61025" />
+      <Group translation="[0, 40]">
+        <Rectangle width="60" height="22" color="#E61025" />
         <Label id="detailRating" text="TV-MA" font="font:SmallestBoldSystemFont" color="#FFFFFF"
-          width="70" horizAlign="center" translation="[0, 4]" />
+          width="60" horizAlign="center" translation="[0, 2]" />
         
-        <Label id="detailMeta" text="S1:E1 • 2h 12m • 2026" font="font:SmallBoldSystemFont" color="#DAAB2D" translation="[85, 2]" />
+        <Label id="detailMeta" text="S1:E1 • 2h 12m" font="font:SmallestBoldSystemFont" color="#DAAB2D" translation="[75, 2]" />
       </Group>
 
       <Label id="detailDescription"
-        text="Sample description for the cinematic experience."
-        font="font:SmallSystemFont" color="#CCCCCC"
-        translation="[0, 95]" width="650" maxLines="3" wrap="true" lineSpacing="4"
+        text=""
+        font="font:SmallSystemFont" color="#AAAAAA"
+        translation="[0, 80]" width="600" maxLines="3" wrap="true"
       />
 
-      <Label id="playHint" text="PRESS OK TO WATCH" font="font:SmallestBoldSystemFont" color="#DAAB2D" translation="[0, 180]" />
+      <Label id="playHint" text="OK to Watch  •  ★ Trailer" font="font:SmallestSystemFont" color="#555555" translation="[0, 145]" />
     </Group>
 
     <!-- ============ QUADRANT 4: BOTTOM (CONTENT) ============ -->
     <RowList
       id="contentRowList"
-      translation="[60, 470]"
+      translation="[60, 460]"
       itemComponentName="ContentItem"
       numRows="4"
-      itemSize="[1220, 240]"
-      rowItemSize="[[280, 200]]"
-      rowItemSpacing="[[20, 0]]"
-      itemSpacing="[0, 20]"
+      itemSize="[1200, 220]"
+      rowItemSize="[[260, 180]]"
+      rowItemSpacing="[[15, 0]]"
+      itemSpacing="[0, 15]"
       showRowLabel="[true]"
       rowLabelOffset="[[0, 10]]"
       rowLabelFont="font:SmallBoldSystemFont"
