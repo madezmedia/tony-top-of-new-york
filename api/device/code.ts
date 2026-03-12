@@ -30,9 +30,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   }
 
+  console.log('[api/device/code] Headers:', req.headers);
+  console.log('[api/device/code] Body:', req.body);
+
   const deviceId = req.body.deviceId || req.body.deviceid;
   if (!deviceId) {
-    console.warn('[api/device/code] Missing deviceId. Body:', req.body);
+    console.warn('[api/device/code] Missing deviceId parameter. Body was:', JSON.stringify(req.body));
     return res.status(400).json({ error: 'Missing deviceId parameter' });
   }
 

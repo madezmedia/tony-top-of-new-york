@@ -31,24 +31,25 @@ sub generateCode()
   req.InitClientCertificates()
   req.AddHeader("Content-Type", "application/json")
   req.RetainBodyOnError(true)
-  req.SetRequest("POST")
   
   body = {
     "deviceId": m.top.deviceId
   }
   
   json = FormatJson(body)
+  ? "[AuthTask] Body being sent: " ; json
+  
   response = req.PostFromString(json)
-  ? "[AuthTask] Response: " ; response
+  ? "[AuthTask] Response Code: " ; response
   
   if response = 200
     resStr = req.GetToString()
+    ? "[AuthTask] Response Body: " ; resStr
     resObj = ParseJson(resStr)
     if resObj <> invalid and resObj.code <> invalid
       m.top.code = resObj.code
       m.top.status = "pending"
     else
-      ? "[AuthTask] JSON Parse Error: " ; resStr
       m.top.errorMessage = "Invalid response from server."
       m.top.status = "error"
     end if
@@ -68,7 +69,6 @@ sub pollStatus()
   req.InitClientCertificates()
   req.AddHeader("Content-Type", "application/json")
   req.RetainBodyOnError(true)
-  req.SetRequest("POST")
   
   body = {
     "code": m.top.code,
@@ -77,7 +77,7 @@ sub pollStatus()
   
   json = FormatJson(body)
   response = req.PostFromString(json)
-  ? "[AuthTask] Poll Response: " ; response
+  ? "[AuthTask] Poll Response Code: " ; response
   
   if response = 200
     resStr = req.GetToString()
