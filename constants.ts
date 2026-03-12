@@ -20,13 +20,6 @@ export const CAST_MEMBERS: CastMember[] = [
     imageUrl: buildImageUrl('cast', 'michael-steven-paul', 'cast'),
   },
   {
-    id: 'michele-white',
-    name: 'Michele White',
-    role: "Phoenix 'Miss B' Beaumont",
-    bio: 'The Queen Pin of the Beaumont empire. Phoenix commands respect and fear in equal measure, running her organization with an iron will and a strategic mind that keeps everyone guessing.',
-    imageUrl: buildImageUrl('cast', 'michele-white', 'cast'),
-  },
-  {
     id: '3',
     name: 'Britton L. Carter',
     role: 'Billy Black',
@@ -64,18 +57,6 @@ export const CAST_MEMBERS: CastMember[] = [
 ];
 
 export const EPISODES: Episode[] = [
-  {
-    id: 's1e1',
-    number: 1,
-    title: 'Concrete Jungle',
-    slug: 's1e1-concrete-jungle',
-    isFree: false, // Paid - full season purchase required
-    status: 'available', // Episode 1 is available now
-    description: 'Michael Cortez returns to the Bronx after years away, only to find the streets he once knew have new kings—and old debts waiting to be collected.',
-    airDate: 'Oct 12, 2023',
-    duration: '48m',
-    thumbnailUrl: buildImageUrl('episodes', 's01e01-concrete-jungle', 'card'),
-  },
 ];
 
 export const NEWS_ITEMS: NewsItem[] = [
@@ -305,9 +286,9 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     characterName: 'PHEONIX BEAUMONT (Miss B)',
     alias: 'Miss B',
     actorName: 'Michele White',
-    group: 'main',
+    group: 'beaumont-family',
     order: 2,
-    isFeatured: true,
+    isFeatured: false,
     imageUrl: buildImageUrl('cast', 'michele-white', 'cast'),
     traits: ['Queen Pin', 'Strategic', 'Fearless'],
     bio: 'The matriarch of the Beaumont empire. Miss B runs her operations with an iron fist and a velvet glove.',
