@@ -82,7 +82,7 @@ sub pollStatus()
   response = req.PostFromString(json)
   ? "[AuthTask] Poll Response Code: " ; response
   
-  if response = 200
+  else if response = 200
     resStr = req.GetToString()
     resObj = ParseJson(resStr)
     if resObj <> invalid and resObj.status <> invalid
@@ -95,6 +95,15 @@ sub pollStatus()
     end if
   else if response = 404
       m.top.status = "invalid"
+  else if response = 500
+      resStr = req.GetToString()
+      resObj = ParseJson(resStr)
+      if resObj <> invalid and resObj.instruction <> invalid
+        m.top.errorMessage = resObj.instruction
+      else
+        m.top.errorMessage = "Server configuration error (500)"
+      end if
+      m.top.status = "error"
   else
       m.top.status = "error"
   end if
