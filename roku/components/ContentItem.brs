@@ -22,26 +22,6 @@ sub onContentChange()
   poster.uri = item.HDPosterUrl
   titleLabel.text = item.title
 
-  ' Flags (new, premium, locked)
-  if meta <> invalid and meta <> ""
-    parts = meta.split("|")
-    if parts.count() > 3
-      flags = parts[3]
-      if flags.instr("new") >= 0
-        newBadge.visible = true
-        newBadgeBg.visible = true
-      end if
-      if flags.instr("premium") >= 0
-        premiumBadge.visible = true
-        premiumBadgeBg.visible = true
-      end if
-      if flags.instr("locked") >= 0
-        lockedOverlay.visible = true
-        lockedIcon.visible = true
-      end if
-    end if
-  end if
-
   ' Parse custom data from ShortDescriptionLine2 (format: "ep|duration|meta|flags")
   meta = item.ShortDescriptionLine2
   if meta <> invalid and meta <> ""
@@ -66,12 +46,20 @@ sub onContentChange()
       subtitleLabel.text = parts[2]
     end if
 
-    ' Flags (new, coming_soon)
+    ' Flags (new, premium, locked)
     if parts.count() > 3
       flags = parts[3]
       if flags.instr("new") >= 0
         newBadge.visible = true
         newBadgeBg.visible = true
+      end if
+      if flags.instr("premium") >= 0
+        premiumBadge.visible = true
+        premiumBadgeBg.visible = true
+      end if
+      if flags.instr("locked") >= 0
+        lockedOverlay.visible = true
+        lockedIcon.visible = true
       end if
     end if
   end if
