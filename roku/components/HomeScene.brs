@@ -231,8 +231,16 @@ sub buildContentCatalog()
     rating: "TV-MA",
     meta: "Official Trailer • TV-MA",
     available: true,
+    isPremium: false,
     isNew: true
   }
+
+  ' Initialize defaults for any missing isPremium/isNew flags to prevent crashes
+  for each key in m.catalog
+    entry = m.catalog[key]
+    if entry.isPremium = invalid then entry.isPremium = false
+    if entry.isNew = invalid then entry.isNew = false
+  next
 
   m.catalog["episode-two"] = {
     title: "Blood Money",
@@ -406,11 +414,11 @@ sub addCatalogItem(row as object, catalogKey as string)
   item.id = catalogKey
   
   flags = ""
-  if entry.isNew then flags += "new,"
-  if entry.isPremium then flags += "premium,"
+  if entry.isNew <> invalid and entry.isNew then flags += "new,"
+  if entry.isPremium <> invalid and entry.isPremium then flags += "premium,"
   
   ' LOCK LOGIC: Lock if premium AND not logged in AND doesn't have Roku pass
-  if entry.isPremium and not m.isLoggedIn and not m.hasRokuPass
+  if entry.isPremium <> invalid and entry.isPremium and not m.isLoggedIn and not m.hasRokuPass
     flags += "locked,"
   end if
   
