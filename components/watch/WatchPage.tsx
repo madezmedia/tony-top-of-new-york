@@ -8,6 +8,7 @@ import { api, auth } from '../../lib/supabase';
 import { Button } from '../ui/Button';
 
 
+
 interface WatchPageProps {
   slug?: string;
 }
@@ -18,6 +19,7 @@ interface FilmData {
   title: string;
   priceCents: number;
   trailerUrl?: string;
+  muxPlaybackId?: string;
 }
 
 export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) => {
@@ -310,6 +312,7 @@ export const WatchPage: React.FC<WatchPageProps> = ({ slug = 'episode-one' }) =>
                 <WatchPlayer
                   slug={film.slug}
                   title={film.title}
+                  playbackId={film.muxPlaybackId}
                 />
               </div>
             ) : (

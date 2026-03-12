@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Look up film
     const { data: film, error: filmError } = await supabase
       .from('films')
-      .select('id, slug, title, price_cents, trailer_url')
+      .select('id, slug, title, price_cents, trailer_url, mux_playback_id')
       .eq('slug', slug)
       .single();
 
@@ -61,6 +61,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         title: film.title,
         priceCents: film.price_cents,
         trailerUrl: film.trailer_url,
+        muxPlaybackId: film.mux_playback_id,
       },
       entitlement: entitlement
         ? {
