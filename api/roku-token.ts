@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-import { generateVideoToken, generateThumbnailToken, computeExpiry } from '../lib/mux-jwt';
+import { generateVideoToken, generateThumbnailToken, computeExpiry } from '../lib/mux-jwt.js';
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL!,

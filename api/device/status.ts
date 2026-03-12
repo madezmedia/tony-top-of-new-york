@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
+import { createHmac } from 'crypto';
 
 const supabase = createClient(
   process.env.VITE_SUPABASE_URL!,
@@ -59,7 +60,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       // Generate a long-lived custom JWT for the TV
       // Using standard jsonwebtoken lib (we might need to ensure it's installed, or use WebCrypto API)
-      const crypto = require('crypto');
       
       // Simple HS256 JWT signature using crypto
       const header = Buffer.from(JSON.stringify({ alg: 'HS256', typ: 'JWT' })).toString('base64url');
@@ -70,7 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 365) // 1 year expiration for Roku TV
       })).toString('base64url');
       
-      const signature = crypto.createHmac('sha256', jwtSecret)
+      const signature = createHmac('sha256', jwtSecret)
                               .update(`${header}.${payload}`)
                               .digest('base64url');
                               
