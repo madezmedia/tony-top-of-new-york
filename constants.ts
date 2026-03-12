@@ -21,10 +21,10 @@ export const CAST_MEMBERS: CastMember[] = [
   },
   {
     id: '2',
-    name: 'Michelle White',
+    name: 'Michele White',
     role: "Phoenix 'Miss B' Beaumont",
     bio: 'The Queen Pin of the Beaumont empire. Phoenix commands respect and fear in equal measure, running her organization with an iron will and a strategic mind that keeps everyone guessing.',
-    imageUrl: buildImageUrl('cast', 'michelle-white', 'cast'),
+    imageUrl: buildImageUrl('cast', 'michele-white', 'cast'),
   },
   {
     id: '3',
@@ -326,7 +326,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     group: 'main',
     order: 2,
     isFeatured: true,
-    imageUrl: buildImageUrl('cast', 'IMG_0534_mle0qw', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'michele-white', 'cast'),
     traits: ['Queen Pin', 'Strategic', 'Fearless'],
     bio: 'The matriarch of the Beaumont empire. Miss B runs her operations with an iron fist and a velvet glove.',
   },
@@ -344,7 +344,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
   {
     id: 'billy-black',
     characterName: 'BILLY BLACK',
-    actorName: 'Britton Carter',
+    actorName: 'Britton L. Carter',
     group: 'main',
     order: 4,
     isFeatured: true,
@@ -362,17 +362,6 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     imageUrl: buildImageUrl('cast', 'raymond-broadwater', 'cast'),
     traits: ['Patriarch', 'Old School', 'Respected'],
     bio: 'The head of the Cortez family. His word is law, and his legacy is built on decades of power.',
-  },
-  {
-    id: 'marisol-cortez',
-    characterName: 'MARISOL CORTEZ',
-    actorName: 'Lynell Payano',
-    group: 'main',
-    order: 6,
-    isFeatured: true,
-    imageUrl: buildImageUrl('cast', 'lynell-payano', 'cast'),
-    traits: ['Matriarch', 'Protector', 'Fierce'],
-    bio: 'The heart of the Cortez family. She holds them together through every storm.',
   },
 
   // === THE BEAUMONT FAMILY ===

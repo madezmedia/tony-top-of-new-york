@@ -17,7 +17,7 @@ export const PlayerGrid: React.FC<PlayerGridProps> = ({
     <div
       role="listbox"
       aria-label="Select a featured cast member"
-      className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-4"
+      className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 max-w-4xl mx-auto"
     >
       {players.map((player) => {
         const isActive = player.id === activePlayerId;

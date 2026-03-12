@@ -8,6 +8,8 @@ export const LOCAL_IMAGES: Record<string, string> = {
   'cast/michael-steven-paul': 'michael-steven-paul.jpeg',
   'cast/shana-bookman': 'shana-bookman.jpeg',
   'cast/raymond-broadwater': 'raymond-broadwater.jpeg',
+  'cast/michele-white': 'michele-white.jpeg',
+  'cast/britton-carter': 'btton-l-carter.jpeg',
   'brand/tony-logo': 'tony-logo.jpg',
   // Add more local images as they are added to public/images/
 };

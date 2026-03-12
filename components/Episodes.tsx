@@ -33,49 +33,55 @@ export const Episodes: React.FC = () => {
         </a>
       </motion.div>
 
-      {/* CTA Banner */}
+      {/* Watch Now Preview Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: 0.1, duration: 0.5 }}
-        className="mb-10 bg-gradient-to-r from-primary-main/20 via-primary-main/5 to-black border border-primary-main/30 rounded-sm p-6 md:p-8 shadow-[0_0_30px_rgba(230,16,37,0.15)]"
+        className="mb-16 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
       >
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-start gap-4">
-            <div className="hidden sm:flex w-12 h-12 rounded-lg bg-primary-main/20 items-center justify-center flex-shrink-0">
-              <Tv className="text-primary-main" size={24} />
-            </div>
-            <div>
-              <h4 className="text-xl md:text-2xl font-display font-bold text-white mb-2">
-                Episode 1 Available Now • Own the Full Season for {priceDisplay}
-              </h4>
-              <div className="flex flex-wrap gap-4 text-sm text-neutral-textSecondary">
-                <span className="flex items-center gap-1.5">
-                  <Play size={14} className="text-primary-main" /> Direct Stream Powered by Mux
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Calendar size={14} className="text-primary-main" /> Episodes 2 & 3 in production
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Download size={14} className="text-primary-main" /> Uncensored 4K Access
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Tv size={14} className="text-primary-main" /> Future episodes included
-                </span>
-              </div>
-            </div>
+        {/* Video Preview Column */}
+        <div className="lg:col-span-7 relative aspect-video rounded-sm overflow-hidden border border-primary-main/30 shadow-[0_0_50px_rgba(230,16,37,0.2)] bg-black">
+          <iframe
+            src="https://player.mux.com/I3X2sr1TRI02p01fLABUS01v6BCzsUcbeLmBQm9OMjm6vU?metadata-video-title=Top+of+New+York+-+Preview&video-title=Top+of+New+York+-+Preview"
+            style={{ width: '100%', height: '100%', border: 'none' }}
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+            allowFullScreen
+          ></iframe>
+        </div>
+
+        {/* CTA Column */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="inline-block px-3 py-1 bg-primary-main/20 border border-primary-main/40 rounded-sm text-primary-main text-xs font-bold tracking-widest uppercase">
+            Special Preview
           </div>
-          <div className="flex items-center gap-4 md:gap-6">
-            <div className="text-center md:text-right">
-              <span className="text-3xl md:text-4xl font-bold text-primary-main">{priceDisplay}</span>
-              <p className="text-xs text-neutral-textSecondary mt-1">One-time purchase</p>
+          <h4 className="text-3xl md:text-4xl font-display font-bold text-white leading-tight">
+            Witness the beginning of the <span className="text-primary-main">Cortez Legacy</span>.
+          </h4>
+          <p className="text-neutral-textSecondary text-lg leading-relaxed">
+            Own the complete first season uncensored in 4K. Immediate access on all your devices including Roku, Web, and Mobile.
+          </p>
+          
+          <div className="pt-4 flex flex-col sm:flex-row items-center gap-6">
+            <div className="flex flex-col">
+              <span className="text-4xl font-bold text-white">{priceDisplay}</span>
+              <span className="text-xs text-neutral-muted uppercase tracking-wider">Full Season Pass</span>
             </div>
-            <a href="/watch">
-              <Button variant="primary" className="whitespace-nowrap">
-                Watch Now <ChevronRight size={18} />
+            <a href="/watch" className="w-full sm:w-auto">
+              <Button variant="primary" size="lg" className="w-full sm:w-auto group px-8">
+                Buy Now To Watch <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </a>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-neutral-border/30">
+            <div className="flex items-center gap-2 text-xs text-neutral-textSecondary">
+              <Play size={14} className="text-primary-main" /> Uncensored 4K
+            </div>
+            <div className="flex items-center gap-2 text-xs text-neutral-textSecondary">
+              <Tv size={14} className="text-primary-main" /> Roku App Ready
+            </div>
           </div>
         </div>
       </motion.div>
