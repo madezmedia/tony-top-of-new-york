@@ -586,7 +586,7 @@ sub startPlayback()
   else
     m.rokuAds.isPremium = false
   end if
-  m.rokuAds.callFunc("showPreroll")
+  m.rokuAds.control = "RUN"
 end sub
 
 sub onAdCompleted()
@@ -719,6 +719,19 @@ function onKeyEvent(key as string, press as boolean) as boolean
     m.streamUrl = m.catalog["trailer"].url
     stopBgTrailer()
     startPlayback()
+    return true
+  end if
+
+  ' Options (*) button - hidden logout function for testing Roku Pay & Ads
+  if key = "options" and not m.isPlaying
+    section = CreateObject("roRegistrySection", "auth")
+    section.Delete("access_token")
+    section.Flush()
+    m.hasRokuPass = false
+    m.isLoggedIn = false
+    checkLoginStatus()
+    populateRowList() ' refresh library visibility
+    m.statusLabel.text = "Developer Logout Successful. You are now a guest."
     return true
   end if
 

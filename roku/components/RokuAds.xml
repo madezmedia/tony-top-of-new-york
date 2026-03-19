@@ -5,8 +5,7 @@
   <interface>
     <field id="adUrl" type="string" value="" />
     <field id="adPlaying" type="boolean" value="false" />
-    <field id="adCompleted" type="boolean" value="false" />
+    <field id="adCompleted" type="boolean" value="false" alwaysNotify="true" />
     <field id="isPremium" type="boolean" value="false" />
-    <function name="showPreroll" />
   </interface>
 </component>
