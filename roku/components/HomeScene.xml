@@ -15,6 +15,9 @@
     <!-- Roku Pay ChannelStore -->
     <ChannelStore id="channelStore" />
 
+    <!-- Roku Ads Wrapper -->
+    <RokuAds id="rokuAds" />
+
     <!-- ============ HERO & OVERLAYS ============ -->
 
     <!-- Top-Right Quadrant Trailer -->

@@ -31,12 +31,17 @@ sub init()
 
   ' Roku Pay In-App Billing
   m.channelStore = m.top.findNode("channelStore")
+  m.channelStore.SetTestMode(true) ' ENABLE TEST MODE FOR DEVELOPMENT
   m.channelStore.observeField("purchases", "onGetPurchases")
   m.channelStore.observeField("orderStatus", "onOrderStatus")
   
-  m.rokuPaySKU = "tony_season_1_pass"
+  m.rokuPaySKU = "tony.season.1"
   m.hasRokuPass = false
   m.channelStore.command = "getPurchases"
+
+  ' Roku Ads (RAF) Initialization
+  m.rokuAds = m.top.findNode("rokuAds")
+  m.rokuAds.observeField("adCompleted", "onAdCompleted")
 
   m.isPlaying = false
   m.exitDialogShowing = false
@@ -544,12 +549,28 @@ end sub
 
 sub onDeepLink()
   contentId = m.top.deepLinkContentId
+  mediaType = m.top.deepLinkMediaType
+  
   if contentId <> invalid and contentId <> ""
-    m.currentContentId = contentId
-    if m.catalog.DoesExist(contentId) and m.catalog[contentId].available
-      m.streamUrl = m.catalog[contentId].url
-      stopBgTrailer()
-      startPlayback()
+    ' Handle generic episode/short-form deep links
+    if mediaType = "episode" or mediaType = "short-form" or mediaType = invalid
+      m.currentContentId = contentId
+      if m.catalog.DoesExist(contentId) and m.catalog[contentId].available
+        m.streamUrl = m.catalog[contentId].url
+        stopBgTrailer()
+        startPlayback()
+      end if
+      
+    ' Handle season/series level deep links
+    else if mediaType = "season" or mediaType = "series"
+      ' Focus on the specific content items in the catalog UI
+      if m.catalog.DoesExist(contentId)
+        updateDetailPanel(contentId)
+        m.detailPanel.visible = true
+      else
+        ' Default to episode-one behavior if not found
+        updateDetailPanel("episode-one")
+      end if
     end if
   end if
 end sub
@@ -560,13 +581,17 @@ sub startPlayback()
   m.statusLabel.text = ""
   m.detailPanel.visible = false
 
-  ' RAF - Roku Ad Framework Scaffolding (Required for Certification)
-  ' adIface = Roku_Ads()
-  ' adIface.setAdUrl("YOUR_VAST_AD_URL_HERE")
-  ' adPods = adIface.getAds()
-  ' if adPods <> invalid and adPods.count() > 0
-  '   adIface.showAds(adPods)
-  ' end if
+  ' RAF - Trigger pre-roll ads
+  if m.isLoggedIn or m.hasRokuPass then
+    m.rokuAds.isPremium = true
+  else
+    m.rokuAds.isPremium = false
+  end if
+  m.rokuAds.callFunc("showPreroll")
+end sub
+
+sub onAdCompleted()
+  if not m.rokuAds.adCompleted then return
 
   content = CreateObject("roSGNode", "ContentNode")
   content.url = m.streamUrl

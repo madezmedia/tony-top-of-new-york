@@ -1,7 +1,17 @@
+Library "Roku_Ads.brs"
+
 sub Main(args as dynamic)
   screen = CreateObject("roSGScreen")
   m.port = CreateObject("roMessagePort")
   screen.setMessagePort(m.port)
+  
+  ' App Info Context
+  m.global = screen.getGlobalNode()
+  m.global.addField("appInfo", "assocarray", true)
+  m.global.appInfo = {
+    id: "dev.tony.series",
+    name: "TONY - Top of New York"
+  }
 
   scene = screen.CreateScene("HomeScene")
   screen.show()
@@ -9,8 +19,8 @@ sub Main(args as dynamic)
   ' Deep linking support (required for certification)
   if args <> invalid
     if args.contentId <> invalid and args.mediaType <> invalid
-      scene.deepLinkContentId = args.contentId
       scene.deepLinkMediaType = args.mediaType
+      scene.deepLinkContentId = args.contentId
     end if
   end if
 

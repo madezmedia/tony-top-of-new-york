@@ -36,3 +36,9 @@ content_rating=TV-MA
 
 ## Confirm partner exit dialog
 confirm_partner_button=1
+
+## Roku Advertising Framework (RAF)
+bs_libs_required=roku_ads_lib
+
+## Roku Pay Certification
+mmfunc_identify=0
