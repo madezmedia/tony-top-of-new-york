@@ -31,7 +31,6 @@ sub init()
 
   ' Roku Pay In-App Billing
   m.channelStore = m.top.findNode("channelStore")
-  m.channelStore.SetTestMode(true) ' ENABLE TEST MODE FOR DEVELOPMENT
   m.channelStore.observeField("purchases", "onGetPurchases")
   m.channelStore.observeField("orderStatus", "onOrderStatus")
   
