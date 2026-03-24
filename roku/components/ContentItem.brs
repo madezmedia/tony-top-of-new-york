@@ -49,15 +49,15 @@ sub onContentChange()
     ' Flags (new, premium, locked)
     if parts.count() > 3
       flags = parts[3]
-      if flags.instr("new") >= 0
+      if InStr(1, flags, "new") > 0
         newBadge.visible = true
         newBadgeBg.visible = true
       end if
-      if flags.instr("premium") >= 0
+      if InStr(1, flags, "premium") > 0
         premiumBadge.visible = true
         premiumBadgeBg.visible = true
       end if
-      if flags.instr("locked") >= 0
+      if InStr(1, flags, "locked") > 0
         lockedOverlay.visible = true
         lockedIcon.visible = true
       end if

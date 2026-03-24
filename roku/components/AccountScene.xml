@@ -5,6 +5,8 @@
 
   <interface>
     <field id="authCompleted" type="bool" value="false" />
+    <field id="isLoggedIn" type="bool" value="false" />
+    <field id="logoutRequested" type="bool" value="false" />
   </interface>
 
   <!-- The task that polls the Vercel API -->
@@ -15,7 +17,8 @@
     <Rectangle id="background" width="1280" height="720" color="#030E17" />
     <Poster id="heroPoster" width="1280" height="720" uri="pkg:/images/splash-hd.png" opacity="0.1" />
 
-    <Group id="contentGroup" translation="[340, 120]">
+    <!-- Activation UI (Shown when NOT logged in) -->
+    <Group id="contentGroup" translation="[340, 120]" visible="true">
       <!-- Heading -->
       <Label text="ACTIVATE YOUR TV" font="font:LargeBoldSystemFont" color="#E61025" width="600" horizAlign="center" />
       <Rectangle width="100" height="3" color="#E61025" translation="[250, 50]" />
@@ -52,6 +55,34 @@
       <Rectangle id="legalBtnBg" width="220" height="40" color="#051521" translation="[190, 560]" opacity="0.6" />
       <Label id="legalBtnText" text="PRIVACY &amp; LEGAL" font="font:SmallestBoldSystemFont" color="#AAAAAA" 
              width="220" horizAlign="center" translation="[190, 570]" />
+    </Group>
+
+    <!-- Logged-in Account UI (Shown when logged in) -->
+    <Group id="loggedInGroup" translation="[340, 120]" visible="false">
+      <!-- Heading -->
+      <Label text="MY ACCOUNT" font="font:LargeBoldSystemFont" color="#E61025" width="600" horizAlign="center" />
+      <Rectangle width="100" height="3" color="#E61025" translation="[250, 50]" />
+
+      <Label text="Your device is successfully linked to your Top of New York account." 
+             font="font:MediumSystemFont" color="#FFFFFF" 
+             translation="[0, 100]" width="600" horizAlign="center" wrap="true" />
+
+      <Label text="Unlock premium episodes, trailers, and behind-the-scenes content across all your devices." 
+             font="font:SmallSystemFont" color="#AAAAAA" 
+             translation="[0, 180]" width="600" horizAlign="center" wrap="true" />
+
+      <!-- Account Info Area -->
+      <Rectangle width="400" height="100" color="#051521" translation="[100, 280]" />
+      <Label text="Account Status:" font="font:SmallBoldSystemFont" color="#AAAAAA" translation="[120, 300]" />
+      <Label text="Premium Access Active" font="font:SmallBoldSystemFont" color="#4ADE80" translation="[120, 330]" />
+
+      <!-- Logout Button - Professional Look -->
+      <Rectangle id="logoutBtnBg" width="300" height="60" color="#E61025" translation="[150, 450]" opacity="1.0" />
+      <Label text="LOG OUT" font="font:MediumBoldSystemFont" color="#FFFFFF" 
+             width="300" horizAlign="center" translation="[150, 465]" />
+      
+      <Label text="Press BACK to return to the catalog." font="font:SmallestSystemFont" color="#445566" 
+             translation="[0, 540]" width="600" horizAlign="center" />
     </Group>
 
     <!-- The actual Legal Scene overlay -->

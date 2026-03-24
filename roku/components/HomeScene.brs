@@ -28,6 +28,7 @@ sub init()
   m.accountBtnText = m.top.findNode("accountBtnText")
   m.accountScene = m.top.findNode("accountScene")
   m.accountScene.observeField("authCompleted", "onAuthCompleted")
+  m.accountScene.observeField("logoutRequested", "onLogoutCompleted")
 
   ' Roku Pay In-App Billing
   m.channelStore = m.top.findNode("channelStore")
@@ -108,6 +109,23 @@ sub onAuthCompleted()
     m.accountScene.visible = false
     checkLoginStatus()
     populateRowList() ' Refresh rows to show/hide Library and Continue Watching
+    m.contentRowList.setFocus(true)
+  end if
+end sub
+
+sub onLogoutCompleted()
+  if m.accountScene.logoutRequested
+    ? "[HomeScene] Logout detected from AccountScene."
+    m.accountScene.visible = false
+    m.accountScene.logoutRequested = false
+    m.isLoggedIn = false
+    m.accessToken = ""
+    m.hasRokuPass = false
+    
+    checkLoginStatus()
+    populateRowList() ' refresh library visibility
+    m.statusLabel.text = "You have been logged out."
+    m.accountBtnBg.opacity = 1.0
     m.contentRowList.setFocus(true)
   end if
 end sub
@@ -517,7 +535,7 @@ sub onItemSelected()
     entry = m.catalog[catalogKey]
     
     ' FREEMIUM LOGIC: Episode 1 & Trailers are free. Ep2+ require Auth Check or Roku Pass.
-    if entry.isPremium <> true or catalogKey = "episode-one" or catalogKey = "trailer" or catalogKey.instr("bts-") >= 0
+    if entry.isPremium <> true or catalogKey = "episode-one" or catalogKey = "trailer" or InStr(1, catalogKey, "bts-") > 0
       if entry.available and entry.url <> ""
         m.currentContentId = catalogKey
         m.streamUrl = entry.url
@@ -708,6 +726,7 @@ function onKeyEvent(key as string, press as boolean) as boolean
   end if
 
   if key = "OK" and m.accountBtnBg.opacity = 0.5
+    m.accountScene.isLoggedIn = m.isLoggedIn
     m.accountScene.visible = true
     m.accountScene.setFocus(true)
     return true

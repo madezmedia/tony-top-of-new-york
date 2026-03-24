@@ -7,12 +7,17 @@ sub init()
   m.legalScene = m.top.findNode("legalScene")
   m.legalBtnBg = m.top.findNode("legalBtnBg")
 
+  m.contentGroup = m.top.findNode("contentGroup")
+  m.loggedInGroup = m.top.findNode("loggedInGroup")
+  m.logoutBtnBg = m.top.findNode("logoutBtnBg")
+
   ' Generate a unique device ID (used for linking security)
   di = CreateObject("roDeviceInfo")
   m.deviceId = di.GetChannelClientId()
 
-  ' Observer for the background task
+  ' Observers
   m.authTask.observeField("status", "onAuthStatusChanged")
+  m.top.observeField("isLoggedIn", "onLoginStateChanged")
 
   ' Timer for polling
   m.pollTimer = CreateObject("roSGNode", "Timer")
@@ -20,8 +25,21 @@ sub init()
   m.pollTimer.repeat = true
   m.pollTimer.observeField("fire", "pollApi")
 
-  ' Start code generation
-  generateCode()
+  ' Initial state check
+  onLoginStateChanged()
+end sub
+
+sub onLoginStateChanged()
+  if m.top.isLoggedIn
+    m.contentGroup.visible = false
+    m.loggedInGroup.visible = true
+    m.pollTimer.control = "stop"
+    m.authTask.control = "STOP"
+  else
+    m.contentGroup.visible = true
+    m.loggedInGroup.visible = false
+    generateCode()
+  end if
 end sub
 
 sub generateCode()
@@ -106,6 +124,12 @@ function onKeyEvent(key as string, press as boolean) as boolean
     return true
   end if
 
+  if key = "OK" and m.top.isLoggedIn
+    ' Since there's only one button focused in loggedIn state, we just log out
+    handleLogout()
+    return true
+  end if
+
   if key = "back"
     if m.legalBtnBg.opacity = 0.5
       m.legalBtnBg.opacity = 1.0
@@ -119,3 +143,13 @@ function onKeyEvent(key as string, press as boolean) as boolean
   
   return true
 end function
+
+sub handleLogout()
+  ? "[AccountScene] Performing Logout..."
+  section = CreateObject("roRegistrySection", "auth")
+  section.Delete("access_token")
+  section.Flush()
+  
+  m.top.isLoggedIn = false
+  m.top.logoutRequested = true
+end sub
