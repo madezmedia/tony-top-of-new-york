@@ -1,0 +1,32 @@
+sub addcatalogitem(row as Object, catalogKey as String)
+  item = row.CreateChild("ContentNode")
+  entry = m.catalog[catalogKey]
+  item.title = entry.title
+  item.HDPosterUrl = entry.thumbnailUrl
+  item.id = catalogKey
+
+  flags = ""
+
+  ' Safe checks for invalid values
+  if entry.isNew <> invalid and entry.isNew then flags += "new,"
+  if entry.isPremium <> invalid and entry.isPremium then flags += "premium,"
+
+  ' LOCK LOGIC: Lock if premium AND not logged in AND doesn't have Roku pass
+  if entry.isPremium <> invalid and entry.isPremium and not m.isLoggedIn and not m.hasRokuPass then
+    flags += "locked,"
+  end if
+
+  ' Add badges if present
+  if entry.badge <> invalid then
+    flags += entry.badge + ","
+  end if
+
+  item.flags = flags
+
+  ' Store premium status for entitlement checks
+  if entry.isPremium <> invalid and entry.isPremium then
+    item.isPremium = true
+  else
+    item.isPremium = false
+  end if
+end sub

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <component name="RokuAds" extends="Task">
-  <script type="text/brightscript" uri="pkg:/components/RokuAds.brs" />
-  
   <interface>
-    <field id="adUrl" type="string" value="" />
+    <field id="adLoaded" type="boolean" value="false" />
     <field id="adPlaying" type="boolean" value="false" />
-    <field id="adCompleted" type="boolean" value="false" alwaysNotify="true" />
-    <field id="isPremium" type="boolean" value="false" />
+    <field id="adCompleted" type="boolean" value="false" />
+    <field id="adUrl" type="string" value="" />
+    <field id="adDuration" type="integer" value="0" />
   </interface>
+
+  <script type="text/brightscript" uri="RokuAds.brs" />
 </component>

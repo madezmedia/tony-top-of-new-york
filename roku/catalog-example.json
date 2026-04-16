@@ -1,0 +1,52 @@
+{
+  "trailer": {
+    "title": "TONY - Series Trailer",
+    "thumbnailUrl": "https://cdn.tonyseries.com/v1/images/thumbnails/trailer_thumb.jpg",
+    "url": "https://stream.tonyseries.com/trailer.m3u8",
+    "isNew": true,
+    "isPremium": false,
+    "badge": "free",
+    "duration": 180,
+    "description": "Watch the official series trailer"
+  },
+  "episode1": {
+    "title": "Episode 1: Pilot",
+    "thumbnailUrl": "https://cdn.tonyseries.com/v1/images/thumbnails/ep1_thumb.jpg",
+    "url": "https://stream.tonyseries.com/episode1.m3u8",
+    "isNew": false,
+    "isPremium": false,
+    "badge": "free",
+    "duration": 2400,
+    "description": "The beginning of TONY's journey"
+  },
+  "episode2": {
+    "title": "Episode 2: The Rise",
+    "thumbnailUrl": "https://cdn.tonyseries.com/v1/images/thumbnails/ep2_thumb.jpg",
+    "url": "https://stream.tonyseries.com/episode2.m3u8",
+    "isNew": false,
+    "isPremium": true,
+    "badge": "premium",
+    "duration": 2600,
+    "description": "TONY's rise to power"
+  },
+  "episode3": {
+    "title": "Episode 3: The Conflict",
+    "thumbnailUrl": "https://cdn.tonyseries.com/v1/images/thumbnails/ep3_thumb.jpg",
+    "url": "https://stream.tonyseries.com/episode3.m3u8",
+    "isNew": true,
+    "isPremium": true,
+    "badge": "premium",
+    "duration": 2500,
+    "description": "Conflict emerges"
+  },
+  "episode4": {
+    "title": "Episode 4: Resolution",
+    "thumbnailUrl": "https://cdn.tonyseries.com/v1/images/thumbnails/ep4_thumb.jpg",
+    "url": "https://stream.tonyseries.com/episode4.m3u8",
+    "isNew": true,
+    "isPremium": true,
+    "badge": "premium",
+    "duration": 2700,
+    "description": "The shocking conclusion"
+  }
+}

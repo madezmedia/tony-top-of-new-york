@@ -1,0 +1,12 @@
+<component name="RokuPay" extends="Task">
+  <interface>
+    <field id="purchaseInProgress" type="boolean" value="false" />
+    <field id="purchaseCompleted" type="boolean" value="false" />
+    <field id="purchaseError" type="string" value="" />
+    <field id="productId" type="string" value="" />
+    <field id="transactionId" type="string" value="" />
+    <field id="receipt" type="assocarray" value="" />
+  </interface>
+
+  <script type="text/brightscript" uri="RokuPay.brs" />
+</component>
