@@ -95,6 +95,13 @@ export interface QuickFact {
   value: string;
 }
 
+export interface GalleryImage {
+  id: string;
+  title: string;
+  caption?: string;
+  imageUrl: string;
+}
+
 // Re-export media types for convenience
 export type {
   MediaAsset,

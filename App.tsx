@@ -6,6 +6,7 @@ import { Players } from './components/Players';
 import { Episodes } from './components/Episodes';
 import { News } from './components/News';
 import { PressKit } from './components/PressKit';
+import { Gallery } from './components/Gallery';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { WatchPage } from './components/watch';
@@ -35,9 +36,6 @@ function useRoute() {
 
 function App() {
   const path = useRoute();
-
-  // Feature toggles via environment variables
-  const ENABLE_PRESS_KIT = process.env.VITE_ENABLE_PRESS_KIT === 'true';
 
   // Handle Legal routes
   if (path.startsWith('/privacy')) return <PrivacyPage />;
@@ -85,7 +83,8 @@ function App() {
         <Players />
         <Episodes />
         <News />
-        {ENABLE_PRESS_KIT && <PressKit />}
+        <Gallery />
+        <PressKit />
         <Contact />
       </main>
       

@@ -1,4 +1,4 @@
-import { CastMember, Episode, NavLink, NewsItem, PressAsset, PressContact, QuickFact, EnhancedCastMember, CastGroupInfo } from './types';
+import { CastMember, Episode, NavLink, NewsItem, PressAsset, PressContact, QuickFact, EnhancedCastMember, CastGroupInfo, GalleryImage } from './types';
 import { buildImageUrl } from './lib/media';
 
 export const NAV_LINKS: NavLink[] = [
@@ -6,8 +6,8 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Cast', href: '#cast' },
   { label: 'Episodes', href: '#episodes' },
   { label: 'News', href: '/news' },
-  // Press Kit hidden until assets are ready - restore by setting VITE_ENABLE_PRESS_KIT=true
-  // { label: 'Press Kit', href: '#presskit' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Press Kit', href: '#presskit' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -254,6 +254,58 @@ export const PRESS_ASSETS: PressAsset[] = [
     downloadUrl: '/assets/press/TONY_cast_bios.pdf',
     fileSize: '1.2 MB',
     format: 'PDF',
+  },
+];
+
+// BTS Gallery Images
+export const GALLERY_IMAGES: GalleryImage[] = [
+  {
+    id: 'bts-on-set-bronx',
+    title: 'On Set in the Bronx',
+    caption: 'The cast and crew on location in the heart of the Bronx.',
+    imageUrl: buildImageUrl('gallery', 'bts-on-set-bronx', 'card'),
+  },
+  {
+    id: 'bts-director-chair',
+    title: 'Behind the Camera',
+    caption: 'Creator Michael Steven-Paul directing a pivotal scene.',
+    imageUrl: buildImageUrl('gallery', 'bts-director-chair', 'card'),
+  },
+  {
+    id: 'bts-cast-rehearsal',
+    title: 'Cast Rehearsal',
+    caption: 'The ensemble cast running through a key dramatic sequence.',
+    imageUrl: buildImageUrl('gallery', 'bts-cast-rehearsal', 'card'),
+  },
+  {
+    id: 'bts-night-shoot',
+    title: 'Night Shoot',
+    caption: 'Capturing the gritty atmosphere of the Bronx after dark.',
+    imageUrl: buildImageUrl('gallery', 'bts-night-shoot', 'card'),
+  },
+  {
+    id: 'bts-makeup-trailer',
+    title: 'In the Makeup Chair',
+    caption: 'Transforming actors into the characters that bring the streets to life.',
+    imageUrl: buildImageUrl('gallery', 'bts-makeup-trailer', 'card'),
+  },
+  {
+    id: 'bts-stunt-setup',
+    title: 'Action Sequence Setup',
+    caption: 'Coordinating a high-stakes action sequence with the stunt team.',
+    imageUrl: buildImageUrl('gallery', 'bts-stunt-setup', 'card'),
+  },
+  {
+    id: 'bts-crew-huddle',
+    title: 'Crew Huddle',
+    caption: 'The production team planning the next shot.',
+    imageUrl: buildImageUrl('gallery', 'bts-crew-huddle', 'card'),
+  },
+  {
+    id: 'bts-wrap-day',
+    title: 'That\'s a Wrap',
+    caption: 'Celebrating the final day of shooting Season 1.',
+    imageUrl: buildImageUrl('gallery', 'bts-wrap-day', 'card'),
   },
 ];
 

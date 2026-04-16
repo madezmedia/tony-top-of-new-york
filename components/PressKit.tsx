@@ -7,6 +7,7 @@ import { AssetCard } from './press/AssetCard';
 import { QuickFacts } from './press/QuickFacts';
 import { CategoryTabs, CategoryFilter } from './press/CategoryTabs';
 import { ContactCard } from './press/ContactCard';
+import { PressGallery } from './press/PressGallery';
 import { PRESS_ASSETS, PRESS_CONTACTS, QUICK_FACTS } from '../constants';
 import { ANIMATION_PRESETS } from '../utils/animations';
 
@@ -42,6 +43,9 @@ export const PressKit: React.FC = () => {
 
       {/* Quick Facts */}
       <QuickFacts facts={QUICK_FACTS} />
+
+      {/* Photo Preview Gallery */}
+      <PressGallery />
 
       {/* Download All CTA */}
       <motion.div
