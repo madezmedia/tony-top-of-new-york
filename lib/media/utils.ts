@@ -1,8 +1,8 @@
 // Media Utility Functions for T.O.N.Y. Series
 // URL builders, variant generators, and helper functions
 
-import { MEDIA_CONFIG, IMAGE_PRESETS, VIDEO_PRESETS, ASSET_CATEGORIES } from './config';
-import type { ImagePreset, VideoPreset, AssetCategory, SocialPlatform, Resolution } from './types';
+import { MEDIA_CONFIG, IMAGE_PRESETS, VIDEO_PRESETS, ASSET_CATEGORIES, AssetCategory } from './config';
+import type { ImagePreset, VideoPreset, SocialPlatform, Resolution } from './types';
 import {
   buildCloudinaryUrl,
   buildCloudinaryPresetUrl,
@@ -38,21 +38,8 @@ export function buildImageUrl(
 ): string {
   const { cdn, placeholder, local } = MEDIA_CONFIG;
 
-  // Priority 1: Check for local image
-  if (local?.enabled) {
-    const localPath = getLocalImagePath(category, id);
-    if (localPath) {
-      return localPath;
-    }
-  }
-
-  // Priority 2: Use placeholder in development if enabled
-  if (placeholder.enabled) {
-    const { dimensions } = IMAGE_PRESETS[preset];
-    return `${placeholder.baseUrl}/seed/${id}/${dimensions.width}/${dimensions.height}`;
-  }
-
   // Use Cloudinary if configured and requested (or if no static CDN)
+  // In production, we favor Cloudinary to avoid local asset path issues
   const useCloudinary = options?.useCloudinary ?? isCloudinaryConfigured();
   if (useCloudinary && getCloudName()) {
     const publicId = `tony/${category}/${id}`;
@@ -64,6 +51,14 @@ export function buildImageUrl(
 
     // Use preset transforms
     return buildCloudinaryPresetUrl(publicId, preset);
+  }
+
+  // Priority 2: Check for local image (Development behavior)
+  if (local?.enabled) {
+    const localPath = getLocalImagePath(category, id);
+    if (localPath) {
+      return localPath;
+    }
   }
 
   // Fall back to static CDN
