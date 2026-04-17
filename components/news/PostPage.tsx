@@ -133,7 +133,7 @@ export const PostPage: React.FC<PostPageProps> = ({ slug }) => {
           </header>
 
           <div className="prose prose-invert prose-lg md:prose-xl max-w-none prose-headings:font-display prose-headings:font-bold prose-a:text-primary-main hover:prose-a:text-red-400 prose-img:rounded-xl">
-            <ReactMarkdown>{post.content}</ReactMarkdown>
+            <ReactMarkdown>{post.content.replace(/\\n/g, '\n')}</ReactMarkdown>
           </div>
         </motion.article>
       </main>

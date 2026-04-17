@@ -307,6 +307,13 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     caption: 'Celebrating the final day of shooting Season 1.',
     imageUrl: buildImageUrl('gallery', 'bts-wrap-day', 'card'),
   },
+  // New Promotional & BTS Stills
+  ...Array.from({ length: 24 }, (_, i) => ({
+    id: `tony-gallery-${String(i + 1).padStart(2, '0')}`,
+    title: `Bronx Scene Still ${i + 1}`,
+    caption: 'Exclusive behind-the-scenes look at the production of T.O.N.Y.',
+    imageUrl: buildImageUrl('gallery', `tony-gallery-${String(i + 1).padStart(2, '0')}`, 'card'),
+  })),
 ];
 
 // Enhanced Cast System
@@ -385,7 +392,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tatiana Honesty',
     group: 'beaumont-family',
     order: 1,
-    imageUrl: buildImageUrl('cast', 'IMG_0680_hpltyw', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'jenesis-beaumont', 'cast'),
   },
   {
     id: 'brandi-beaumont',
@@ -393,7 +400,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Bilae Harding',
     group: 'beaumont-family',
     order: 2,
-    imageUrl: buildImageUrl('cast', 'IMG_0731_dpyrai', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'brandi-beaumont', 'cast'),
   },
   {
     id: 'maxx-beaumont',
@@ -401,7 +408,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Dwight Williams',
     group: 'beaumont-family',
     order: 3,
-    imageUrl: buildImageUrl('cast', 'IMG_0685_nbmhae', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'maxx-beaumont', 'cast'),
   },
 
   // === THE CORTEZ FAMILY ===
@@ -411,7 +418,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Kimani Sanders',
     group: 'cortez-family',
     order: 1,
-    imageUrl: buildImageUrl('cast', 'IMG_0753_h1rx5x', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'chelsea-alvarez', 'cast'),
   },
   {
     id: 'ricardo-alvarez',
@@ -420,7 +427,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'John Garcia',
     group: 'cortez-family',
     order: 2,
-    imageUrl: buildImageUrl('cast', 'IMG_0687_pnjsyl', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'ricardo-alvarez', 'cast'),
   },
   {
     id: 'domingo',
@@ -429,7 +436,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Giodarni Vargas',
     group: 'cortez-family',
     order: 3,
-    imageUrl: buildImageUrl('cast', 'IMG_0741_fd4xdo', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'domingo', 'cast'),
   },
 
   // === LAW ENFORCEMENT & LEGAL ===
@@ -439,7 +446,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Liana Battise',
     group: 'law-enforcement',
     order: 1,
-    imageUrl: buildImageUrl('cast', 'IMG_0688_jpmgr1', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'captain-reigns', 'cast'),
   },
   {
     id: 'detective-chase',
@@ -447,7 +454,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Gilly Delgado',
     group: 'law-enforcement',
     order: 2,
-    imageUrl: buildImageUrl('cast', 'IMG_0739_ejbox0', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'detective-chase', 'cast'),
   },
   {
     id: 'detective-barnes',
@@ -465,7 +472,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Corrina Lynch',
     group: 'law-enforcement',
     order: 4,
-    imageUrl: buildImageUrl('cast', 'IMG_0539_ixv1h1', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'detective-waters', 'cast'),
   },
   {
     id: 'detective-kazaan',
@@ -473,7 +480,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Fallon Shaya',
     group: 'law-enforcement',
     order: 5,
-    imageUrl: buildImageUrl('cast', 'IMG_0763_aezs0t', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'detective-kazaan', 'cast'),
   },
   {
     id: 'levie-maxxi',
@@ -481,7 +488,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Anthony Weston Jr.',
     group: 'law-enforcement',
     order: 6,
-    imageUrl: buildImageUrl('cast', 'IMG_0774_t18co4', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'levie-maxxi', 'cast'),
   },
   {
     id: 'detective-cage',
@@ -489,7 +496,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Leroy Blocker',
     group: 'law-enforcement',
     order: 7,
-    imageUrl: buildImageUrl('cast', 'IMG_2221_fql8n8', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'detective-cage', 'cast'),
   },
   {
     id: 'detective-branson',
@@ -497,7 +504,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Alonzo Ward',
     group: 'law-enforcement',
     order: 8,
-    imageUrl: buildImageUrl('cast', 'IMG_0572_wznnbd', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'detective-branson', 'cast'),
   },
   {
     id: 'detective-jefferies',
@@ -505,7 +512,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Ginette Jean',
     group: 'law-enforcement',
     order: 9,
-    imageUrl: buildImageUrl('cast', 'IMG_0582_d1wfei', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'detective-jefferies', 'cast'),
   },
   {
     id: 'detective-cordell',
@@ -513,7 +520,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Sid Savage',
     group: 'law-enforcement',
     order: 10,
-    imageUrl: buildImageUrl('cast', 'IMG_2215_y8sgco', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'detective-cordell', 'cast'),
   },
   {
     id: 'da-laurent',
@@ -521,7 +528,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tracey Harris',
     group: 'law-enforcement',
     order: 11,
-    imageUrl: buildImageUrl('cast', 'IMG_0583_caml1j', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'da-laurent', 'cast'),
   },
   {
     id: 'da-crocket',
@@ -529,7 +536,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tahira Robinson',
     group: 'law-enforcement',
     order: 12,
-    imageUrl: buildImageUrl('cast', 'IMG_2213_m6kurj', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'da-crocket', 'cast'),
   },
   {
     id: 'ada-dorsey',
@@ -589,7 +596,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Yogi Garland',
     group: 'street',
     order: 1,
-    imageUrl: buildImageUrl('cast', 'IMG_2219_tkvihj', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'melonie-streetz', 'cast'),
   },
   {
     id: 'marvin-bishop',
@@ -597,7 +604,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Craig De Lano Cobb',
     group: 'street',
     order: 2,
-    imageUrl: buildImageUrl('cast', 'IMG_2222_i5mbkl', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'marvin-bishop', 'cast'),
   },
   {
     id: 'kat-calloway',
@@ -605,7 +612,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'ElMeleek Ekko Seven',
     group: 'street',
     order: 3,
-    imageUrl: buildImageUrl('cast', 'IMG_2220_xjsapa', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'kat-calloway', 'cast'),
   },
   {
     id: 'shaborn',
@@ -613,7 +620,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Tone Murk',
     group: 'street',
     order: 4,
-    imageUrl: buildImageUrl('cast', 'IMG_2221_fmwokj', 'cast', { useCloudinary: true }),
+    imageUrl: buildImageUrl('cast', 'shaborn', 'cast'),
   },
   {
     id: 'stixx',
@@ -785,4 +792,14 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     group: 'community',
     order: 9,
   },
+
+  // === SUPPORTING CAST (STUDIO PORTRAITS) ===
+  ...Array.from({ length: 28 }, (_, i) => ({
+    id: `supporting-cast-${i + 1}`,
+    characterName: `SUPPORTING CAST ${i + 1}`,
+    actorName: 'T.O.N.Y. Ensemble',
+    group: 'street' as const,
+    order: 100 + i,
+    imageUrl: buildImageUrl('cast', `tony-cast-${String(i + 1).padStart(2, '0')}`, 'cast'),
+  })),
 ];
