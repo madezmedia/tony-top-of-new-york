@@ -43,7 +43,7 @@ export const LOCAL_IMAGES: Record<string, string> = {
   'cast/shaborn': 'shaborn.jpeg',
 
   // Additional Cast Portraits (Photoroom)
-  ...Object.fromEntries(Array.from({ length: 28 }, (_, i) => [
+  ...Object.fromEntries(Array.from({ length: 30 }, (_, i) => [
     `cast/tony-cast-${String(i + 1).padStart(2, '0')}`,
     `tony_cast_${String(i + 1).padStart(2, '0')}.png`
   ])),
@@ -53,6 +53,27 @@ export const LOCAL_IMAGES: Record<string, string> = {
     `gallery/tony-gallery-${String(i + 1).padStart(2, '0')}`,
     `tony_gallery_${String(i + 1).padStart(2, '0')}.jpg`
   ])),
+
+  // Press Kit - Magazines
+  ...Object.fromEntries(Array.from({ length: 3 }, (_, i) => [
+    `press/magazine/tony-magazine-${String(i + 1).padStart(2, '0')}`,
+    `magazine/tony_magazine_${String(i + 1).padStart(2, '0')}.jpg`
+  ])),
+
+  // Press Kit - Posters
+  ...Object.fromEntries(Array.from({ length: 2 }, (_, i) => [
+    `press/posters/tony-poster-${String(i + 1).padStart(2, '0')}`,
+    `posters/tony_poster_${String(i + 1).padStart(2, '0')}.jpg`
+  ])),
+
+  // Press Kit - Text & Documents
+  ...Object.fromEntries(Array.from({ length: 12 }, (_, i) => [
+    `press/text/tony-press-${String(i + 1).padStart(2, '0')}`,
+    `text/tony_press_${String(i + 1).padStart(2, '0')}.jpg`
+  ])),
+
+  // Behind the Scenes
+  'bts/tony-bts-01': 'tony_bts_01.jpg',
 
   // News
   'news/casting-call-nc': 'casting-call-nc.png',

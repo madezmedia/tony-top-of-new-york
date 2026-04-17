@@ -13,19 +13,22 @@ cloudinary.config({
     api_secret: process.env.VITE_CLOUDINARY_API_SECRET
 });
 
-async function uploadFolder(localPath, cloudinaryFolder) {
-    console.log(`Scanning ${localPath} for images...`);
-    const files = fs.readdirSync(localPath);
+async function uploadRecursive(localPath, cloudinaryPath) {
+    const items = fs.readdirSync(localPath);
     
-    for (const file of files) {
-        if (file.match(/\.(jpe?g|png|webp|gif|JPG|JPEG)$/i)) {
-            const filePath = path.join(localPath, file);
-            const publicId = path.parse(file).name.replace(/_/g, '-'); // Filename with hyphens
+    for (const item of items) {
+        const fullLocalPath = path.join(localPath, item);
+        const stats = fs.statSync(fullLocalPath);
+        
+        if (stats.isDirectory()) {
+            await uploadRecursive(fullLocalPath, `${cloudinaryPath}/${item}`);
+        } else if (item.match(/\.(jpe?g|png|webp|gif|JPG|JPEG)$/i)) {
+            const publicId = path.parse(item).name.replace(/_/g, '-');
             
             try {
-                process.stdout.write(`Uploading ${file} to ${cloudinaryFolder}/${publicId}... `);
-                const result = await cloudinary.uploader.upload(filePath, {
-                    folder: cloudinaryFolder,
+                process.stdout.write(`Uploading ${item} to ${cloudinaryPath}/${publicId}... `);
+                await cloudinary.uploader.upload(fullLocalPath, {
+                    folder: cloudinaryPath,
                     public_id: publicId,
                     overwrite: true,
                     resource_type: "image"
@@ -39,16 +42,9 @@ async function uploadFolder(localPath, cloudinaryFolder) {
 }
 
 async function main() {
-    console.log('Starting T.O.N.Y. Cloudinary Migration...');
-    
+    console.log('Starting T.O.N.Y. Recursive Cloudinary Migration...');
     try {
-        const categories = fs.readdirSync('public/images').filter(f => 
-            fs.statSync(path.join('public/images', f)).isDirectory()
-        );
-        
-        for (const cat of categories) {
-            await uploadFolder(`public/images/${cat}`, `tony/${cat}`);
-        }
+        await uploadRecursive('public/images', 'tony');
         console.log('Migration Complete!');
     } catch (e) {
         console.error('Migration failed:', e);

@@ -11,51 +11,6 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Contact', href: '#contact' },
 ];
 
-export const CAST_MEMBERS: CastMember[] = [
-  {
-    id: '1',
-    name: 'Michael Steven-Paul',
-    role: "Michael 'El Bastardo' Cortez",
-    bio: 'The creator and lead of the series. Michael Cortez is a key player in the Bronx streets, navigating the treacherous collision between the Cortez family legacy and the Beaumont empire while protecting his own from the demons of his past.',
-    imageUrl: buildImageUrl('cast', 'michael-steven-paul', 'cast'),
-  },
-  {
-    id: '3',
-    name: 'Britton L. Carter',
-    role: 'Billy Black',
-    bio: 'The Street King with a history that runs deep with Michael. Billy Black moves with calculated precision, and his next play could shift the balance of power across the entire Bronx.',
-    imageUrl: buildImageUrl('cast', 'britton-carter', 'cast'),
-  },
-  {
-    id: '4',
-    name: 'Julian Dorsey',
-    role: 'Born',
-    bio: 'The muscle and the strategist. Born moves in silence but his impact is loud. Loyalty is his currency, but inflation is hitting the streets.',
-    imageUrl: buildImageUrl('cast', 'julian-dorsey', 'cast'),
-  },
-  {
-    id: '5',
-    name: 'Shana Bookman',
-    role: 'Rina',
-    bio: 'Caught in the crossfire between families, Rina holds secrets that could reshape alliances or destroy them. Her survival depends on who she trusts—and who trusts her.',
-    imageUrl: buildImageUrl('cast', 'shana-bookman', 'cast'),
-  },
-  {
-    id: '6',
-    name: 'Raymond Broadwater',
-    role: 'Enrique Cortez',
-    bio: 'The patriarch of the Cortez family. Enrique\'s legacy looms large over Michael, and the weight of family expectation is as heavy as any threat from the streets.',
-    imageUrl: buildImageUrl('cast', 'raymond-broadwater', 'cast'),
-  },
-  {
-    id: '7',
-    name: 'Jennifer Askew',
-    role: 'Diamond',
-    bio: 'Caught in the crossfire of the Bronx streets, Diamond shines bright amidst the chaos, navigating the gritty underworld with razor-sharp ambition.',
-    imageUrl: buildImageUrl('cast', 'jennifer-askew', 'cast'),
-  },
-];
-
 export const EPISODES: Episode[] = [
 ];
 
@@ -117,7 +72,7 @@ export const PRESS_ASSETS: PressAsset[] = [
     title: 'Cast Headshots Pack',
     category: 'photo',
     description: 'High-resolution headshots of all main cast members',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-09', 'card'),
+    thumbnailUrl: buildImageUrl('press', 'text/tony-press-01', 'card'),
     downloadUrl: '/assets/press/TONY_cast_headshots.zip',
     fileSize: '45 MB',
     format: 'ZIP (JPEG)',
@@ -128,7 +83,7 @@ export const PRESS_ASSETS: PressAsset[] = [
     title: 'Key Art & Posters',
     category: 'photo',
     description: 'Official poster artwork and key promotional images',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-10', 'card'),
+    thumbnailUrl: buildImageUrl('press', 'posters/tony-poster-01', 'card'),
     downloadUrl: '/assets/press/TONY_key_art.zip',
     fileSize: '32 MB',
     format: 'ZIP (PNG/JPEG)',
@@ -139,7 +94,7 @@ export const PRESS_ASSETS: PressAsset[] = [
     title: 'Behind-the-Scenes Gallery',
     category: 'photo',
     description: 'Exclusive on-set photos from production',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-11', 'card'),
+    thumbnailUrl: buildImageUrl('bts', 'tony-bts-01', 'card'),
     downloadUrl: '/assets/press/TONY_bts_gallery.zip',
     fileSize: '78 MB',
     format: 'ZIP (JPEG)',
@@ -156,6 +111,27 @@ export const PRESS_ASSETS: PressAsset[] = [
     format: 'ZIP (JPEG)',
     resolution: '3840x2160',
   },
+  // Magazine Covers
+  {
+    id: 'magazine-cover-01',
+    title: 'The Bronx Chronicle Cover',
+    category: 'photo',
+    description: 'Featured cover story on the creation of T.O.N.Y.',
+    thumbnailUrl: buildImageUrl('press', 'magazine/tony-magazine-01', 'card'),
+    downloadUrl: '#',
+    fileSize: '8 MB',
+    format: 'JPEG',
+  },
+  {
+    id: 'magazine-cover-02',
+    title: 'Street Impact Magazine',
+    category: 'photo',
+    description: 'Exclusive interview with Michael Steven-Paul',
+    thumbnailUrl: buildImageUrl('press', 'magazine/tony-magazine-02', 'card'),
+    downloadUrl: '#',
+    fileSize: '12 MB',
+    format: 'JPEG',
+  },
   // Videos
   {
     id: 'official-trailer',
@@ -169,30 +145,6 @@ export const PRESS_ASSETS: PressAsset[] = [
     resolution: '1920x1080',
     duration: '2:15',
   },
-  {
-    id: 'teaser',
-    title: 'Season Teaser',
-    category: 'video',
-    description: '30-second teaser for social media and broadcast',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-14', 'card'),
-    downloadUrl: '/assets/press/TONY_S01_teaser_1080p.mp4',
-    fileSize: '28 MB',
-    format: 'MP4 (H.264)',
-    resolution: '1920x1080',
-    duration: '0:30',
-  },
-  {
-    id: 'bts-featurette',
-    title: 'Making of T.O.N.Y.',
-    category: 'video',
-    description: 'Behind-the-scenes featurette with cast and crew interviews',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-15', 'card'),
-    downloadUrl: '/assets/press/TONY_making_of_1080p.mp4',
-    fileSize: '340 MB',
-    format: 'MP4 (H.264)',
-    resolution: '1920x1080',
-    duration: '8:45',
-  },
   // Logos
   {
     id: 'logo-primary',
@@ -204,23 +156,13 @@ export const PRESS_ASSETS: PressAsset[] = [
     fileSize: '2.5 MB',
     format: 'ZIP (SVG/PNG/EPS)',
   },
-  {
-    id: 'logo-variations',
-    title: 'Logo Variations',
-    category: 'logo',
-    description: 'Horizontal, vertical, and icon-only variations',
-    thumbnailUrl: buildImageUrl('brand', 'tony-logo', 'card'),
-    downloadUrl: '/assets/press/TONY_logo_variations.zip',
-    fileSize: '4.2 MB',
-    format: 'ZIP (SVG/PNG)',
-  },
   // Documents
   {
     id: 'press-release',
     title: 'Press Release',
     category: 'document',
     description: 'Official press release for Season 1 premiere',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-16', 'card'),
+    thumbnailUrl: buildImageUrl('press', 'text/tony-press-04', 'card'),
     downloadUrl: '/assets/press/TONY_press_release.pdf',
     fileSize: '245 KB',
     format: 'PDF',
@@ -230,29 +172,9 @@ export const PRESS_ASSETS: PressAsset[] = [
     title: 'Series Fact Sheet',
     category: 'document',
     description: 'One-page overview with key facts and figures',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-17', 'card'),
+    thumbnailUrl: buildImageUrl('press', 'text/tony-press-05', 'card'),
     downloadUrl: '/assets/press/TONY_fact_sheet.pdf',
     fileSize: '180 KB',
-    format: 'PDF',
-  },
-  {
-    id: 'episode-guide',
-    title: 'Episode Guide',
-    category: 'document',
-    description: 'Season 1 episode synopses and air dates',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-18', 'card'),
-    downloadUrl: '/assets/press/TONY_episode_guide.pdf',
-    fileSize: '520 KB',
-    format: 'PDF',
-  },
-  {
-    id: 'cast-bios',
-    title: 'Cast Bios',
-    category: 'document',
-    description: 'Detailed biographies of all main cast members',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-19', 'card'),
-    downloadUrl: '/assets/press/TONY_cast_bios.pdf',
-    fileSize: '1.2 MB',
     format: 'PDF',
   },
 ];
@@ -282,6 +204,12 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     title: 'Night Shoot',
     caption: 'Capturing the gritty atmosphere of the Bronx after dark.',
     imageUrl: buildImageUrl('gallery', 'tony-gallery-04', 'card'),
+  },
+  {
+    id: 'bts-set-01',
+    title: 'On-Set Action',
+    caption: 'Dynamic action capture from a key episode shoot.',
+    imageUrl: buildImageUrl('bts', 'tony-bts-01', 'card'),
   },
   {
     id: 'bts-makeup-trailer',
@@ -463,7 +391,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     group: 'law-enforcement',
     order: 1,
     isFeatured: true,
-    imageUrl: '/images/cast/detective-barnes.png',
+    imageUrl: buildImageUrl('cast', 'detective-barnes', 'cast'),
     bio: 'A sharp, no-nonsense detective on the front lines of the Bronx. Detective Barnes knows the streets as well as those who rule them.',
   },
   {
@@ -544,6 +472,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'DeMarcus Lassiter',
     group: 'law-enforcement',
     order: 13,
+    imageUrl: buildImageUrl('cast', 'tony-cast-29', 'cast'),
   },
   {
     id: 'investigator-falco',
@@ -551,6 +480,7 @@ export const ENHANCED_CAST: EnhancedCastMember[] = [
     actorName: 'Bunny Antoinette',
     group: 'law-enforcement',
     order: 14,
+    imageUrl: buildImageUrl('cast', 'tony-cast-30', 'cast'),
   },
   {
     id: 'usda-morgan',
