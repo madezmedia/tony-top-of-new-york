@@ -52,7 +52,7 @@ export const LOCAL_IMAGES: Record<string, string> = {
   ...Object.fromEntries(Array.from({ length: 24 }, (_, i) => [
     `gallery/tony-gallery-${String(i + 1).padStart(2, '0')}`,
     `tony_gallery_${String(i + 1).padStart(2, '0')}.jpg`
-  ])),
+  ]).filter(([key]) => key !== 'gallery/tony-gallery-11')),
 
   // Press Kit - Magazines
   ...Object.fromEntries(Array.from({ length: 3 }, (_, i) => [

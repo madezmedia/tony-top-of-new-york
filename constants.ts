@@ -193,7 +193,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     title: `Bronx Scene Still ${i + 1}`,
     caption: 'Exclusive behind-the-scenes look at the production of T.O.N.Y.',
     imageUrl: buildImageUrl('gallery', `tony-gallery-${String(i + 1).padStart(2, '0')}`, 'card'),
-  })),
+  })).filter(img => img.id !== 'tony-gallery-11'),
 ];
 
 // Enhanced Cast System
