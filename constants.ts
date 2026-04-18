@@ -105,7 +105,7 @@ export const PRESS_ASSETS: PressAsset[] = [
     title: 'Episode Stills',
     category: 'photo',
     description: 'Selected high-quality stills from Season 1 episodes',
-    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-12', 'card'),
+    thumbnailUrl: buildImageUrl('gallery', 'tony-gallery-10', 'card'),
     downloadUrl: '/assets/press/TONY_episode_stills.zip',
     fileSize: '56 MB',
     format: 'ZIP (JPEG)',
@@ -193,7 +193,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     title: `Bronx Scene Still ${i + 1}`,
     caption: 'Exclusive behind-the-scenes look at the production of T.O.N.Y.',
     imageUrl: buildImageUrl('gallery', `tony-gallery-${String(i + 1).padStart(2, '0')}`, 'card'),
-  })).filter(img => img.id !== 'tony-gallery-11'),
+  })).filter(img => img.id !== 'tony-gallery-11' && img.id !== 'tony-gallery-12'),
 ];
 
 // Enhanced Cast System
