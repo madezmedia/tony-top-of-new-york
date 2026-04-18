@@ -182,60 +182,12 @@ export const PRESS_ASSETS: PressAsset[] = [
 // BTS Gallery Images
 export const GALLERY_IMAGES: GalleryImage[] = [
   {
-    id: 'bts-on-set-bronx',
-    title: 'On Set in the Bronx',
-    caption: 'The cast and crew on location in the heart of the Bronx.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-01', 'card'),
-  },
-  {
-    id: 'bts-director-chair',
-    title: 'Behind the Camera',
-    caption: 'Creator Michael Steven-Paul directing a pivotal scene.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-02', 'card'),
-  },
-  {
-    id: 'bts-cast-rehearsal',
-    title: 'Cast Rehearsal',
-    caption: 'The ensemble cast running through a key dramatic sequence.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-03', 'card'),
-  },
-  {
-    id: 'bts-night-shoot',
-    title: 'Night Shoot',
-    caption: 'Capturing the gritty atmosphere of the Bronx after dark.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-04', 'card'),
-  },
-  {
     id: 'bts-set-01',
     title: 'On-Set Action',
     caption: 'Dynamic action capture from a key episode shoot.',
     imageUrl: buildImageUrl('bts', 'tony-bts-01', 'card'),
   },
-  {
-    id: 'bts-makeup-trailer',
-    title: 'In the Makeup Chair',
-    caption: 'Transforming actors into the characters that bring the streets to life.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-05', 'card'),
-  },
-  {
-    id: 'bts-stunt-setup',
-    title: 'Action Sequence Setup',
-    caption: 'Coordinating a high-stakes action sequence with the stunt team.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-06', 'card'),
-  },
-  {
-    id: 'bts-crew-huddle',
-    title: 'Crew Huddle',
-    caption: 'The production team planning the next shot.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-07', 'card'),
-  },
-  {
-    id: 'bts-wrap-day',
-    title: 'That\'s a Wrap',
-    caption: 'Celebrating the final day of shooting Season 1.',
-    imageUrl: buildImageUrl('gallery', 'tony-gallery-08', 'card'),
-  },
-  // New Promotional & BTS Stills
+  // Promotional & BTS Stills
   ...Array.from({ length: 24 }, (_, i) => ({
     id: `tony-gallery-${String(i + 1).padStart(2, '0')}`,
     title: `Bronx Scene Still ${i + 1}`,
