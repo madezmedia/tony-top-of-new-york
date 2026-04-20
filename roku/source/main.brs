@@ -5,6 +5,12 @@ sub Main(args as dynamic)
   m.port = CreateObject("roMessagePort")
   screen.setMessagePort(m.port)
   
+  ' Memory Monitor Initialization (Required for 2026 Certification)
+  m.memoryMonitor = CreateObject("roAppMemoryMonitor")
+  m.memoryMonitor.setMessagePort(m.port)
+  m.memoryMonitor.EnableChannelCrashStatus()
+  m.memoryMonitor.EnableMemoryLimitWarning(true)
+  
   ' App Info Context
   m.global = screen.getGlobalNode()
   m.global.addField("appInfo", "assocarray", true)
