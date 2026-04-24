@@ -20,6 +20,7 @@ import { AdminPage } from './components/admin/AdminPage';
 import { NewsPage } from './components/news/NewsPage';
 import { PostPage } from './components/news/PostPage';
 import CookieConsent from 'react-cookie-consent';
+import { Analytics } from '@vercel/analytics/react';
 
 // Simple client-side routing
 function useRoute() {
@@ -74,6 +75,7 @@ function App() {
   // Default: Home page
   return (
     <div className="min-h-screen bg-neutral-bg text-neutral-text font-sans antialiased selection:bg-primary-main/30 relative">
+      <Analytics />
       <div className="film-grain animate-noise"></div>
       <div className="vignette"></div>
       <Navbar />
